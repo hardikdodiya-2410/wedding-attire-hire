@@ -1,4 +1,3 @@
-
 <?php 
 require('top.php');
 
@@ -102,6 +101,11 @@ if(isset($_POST['submit'])){
 			$price=$resAttr['price'];
 			$qty=$val1['qty'];
 			$cart_total=$cart_total+($price*$qty);
+
+			$new_qty = $resAttr['qty'] - $qty;
+			mysqli_query($con, "UPDATE product_attributes SET qty='$new_qty' WHERE id='$key1'");
+
+			mysqli_query($con,"insert into `order_detail`(order_id,product_id,product_attr_id,qty,price) values('$order_id','$key','$key1','$qty','$price')");
 		}
 	}
 	$total_price=$cart_total;
@@ -129,26 +133,6 @@ if(isset($_POST['submit'])){
 	mysqli_query($con,"insert into `order`(user_id,address,city,pincode,payment_type,payment_status,order_status,added_on,total_price,txnid,coupon_id,coupon_code,coupon_value) values('$uid','$address','$city','$pincode','$payment_type','$payment_status','$order_status','$added_on','$total_price','$txnid','$coupon_id','$coupon_code','$coupon_value')");
 	
 	$order_id=mysqli_insert_id($con);
-
-	foreach($_SESSION['cart'] as $key=>$val){
-
-		foreach($val as $key1=>$val1){
-			$resAttr=mysqli_fetch_assoc(mysqli_query($con,"select * from product_attributes where product_attributes.id='$key1'"));
-			$price=$resAttr['price'];
-			$qty=$val1['qty'];
-			$cart_total=$cart_total+($price*$qty);
-	// prx($qty);
-		mysqli_query($con,"insert into `order_detail`(order_id,product_id,product_attr_id,qty,price) values('$order_id','$key','$key','$qty','$price')");
-	
-		
-		}
-
-		// // $productArr=get_product($con,'','',$key);
-		// $price=$productArr[0]['price'];
-		// $qty=$val['qty'];
-		
-		// mysqli_query($con,"insert into `order_detail`(order_id,product_id,qty,price) values('$order_id','$key','$qty','$price')");
-	}
 
 	
 	if($payment_type=='Payu'){
