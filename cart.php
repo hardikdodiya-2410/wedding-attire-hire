@@ -1,10 +1,10 @@
 <?php 
 require('top.php');
 
-if(!isset($_SESSION['USER_LOGIN'])){
-    header('location:login.php');
-    die();
-}
+// if(!isset($_SESSION['USER_LOGIN'])){
+//     header('location:login.php');
+//     exit;
+// }
 // unset($_SESSION['cart']);
 // if(isset($_SESSION['cart'])){
 //     $cart_item=count($_SESSION['cart']);
