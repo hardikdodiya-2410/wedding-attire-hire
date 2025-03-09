@@ -2,7 +2,7 @@
 require('connection.inc.php');
 require('functions.inc.php');
 require('add_to_cart.inc.php');
-
+header('Content-Type: application/json');
 $pid=get_safe_value($con,$_POST['pid']);
 $qty=get_safe_value($con,$_POST['qty']);
 $type=get_safe_value($con,$_POST['type']);
@@ -12,6 +12,10 @@ if(isset($_POST['sid']) && isset($_POST['cid'])){
 	$sub_sql='';
 	$sid=get_safe_value($con,$_POST['sid']);
 	$cid=get_safe_value($con,$_POST['cid']);
+	
+	// Debugging output
+	error_log("SID: $sid, CID: $cid");
+
 	if($sid>0){
 		$sub_sql.=" and size_id=$sid ";
 	}
@@ -23,17 +27,20 @@ if(isset($_POST['sid']) && isset($_POST['cid'])){
 	
 }
 
-$productSoldQtyByProductId=productSoldQtyByProductId($con,$pid,$attr_id);
 $productQty=productQty($con,$pid,$attr_id);
 
-$pending_qty=$productQty-$productSoldQtyByProductId;
+$pending_qty=$productQty;
 
-if($qty > $pending_qty && $type!='remove'){
-	echo "not_avaliable";
+if($pending_qty==0 && $type!='remove'){
+	echo json_encode(['status' => 'not_avaliable', 'productQty' => $productQty]);
 	die();
 }
 
-
+// Check if the requested quantity exceeds the available quantity
+if($qty > $pending_qty && $type != 'remove'){
+	echo json_encode(['status' => 'max_qty_reached', 'productQty' => $productQty]);
+	die();
+}
 
 $obj=new add_to_cart();
 
@@ -42,7 +49,6 @@ if($type=='add'){
 }
 
 if($type=='remove'){
-
 	$obj->removeProduct($pid,$attr_id);
 }
 

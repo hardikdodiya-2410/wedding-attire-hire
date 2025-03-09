@@ -1,4 +1,5 @@
 <?php
+
 function pr($arr){
 	echo '<pre>';
 	print_r($arr);
@@ -105,7 +106,19 @@ function getProductAttr($con,$pid){
 	return $row['id'];
 }
 function sentInvoice($con,$order_id){
-	$res=mysqli_query($con,"select distinct(order_detail.id) ,order_detail.*,product.name,product.image from order_detail,product ,`order` where order_detail.order_id='$order_id' and order_detail.product_id=product.id");
+	$res=mysqli_query($con,"SELECT DISTINCT(order_detail.id), 
+       order_detail.*, 
+       product.name, 
+       product.image, 
+       color_master.color, 
+       size_master.size
+FROM order_detail
+JOIN product_attributes ON order_detail.product_attr_id = product_attributes.id
+JOIN product ON product_attributes.product_id = product.id
+JOIN color_master ON product_attributes.color_id = color_master.id
+JOIN size_master ON product_attributes.size_id = size_master.id
+JOIN `order` ON order_detail.order_id = `order`.id
+WHERE order_detail.order_id = '$order_id';");
 
 	$user_order=mysqli_fetch_assoc(mysqli_query($con,"select `order`.*, users.name,users.email  from `order`,users where users.id=`order`.user_id and `order`.id='$order_id'"));
 
@@ -378,7 +391,7 @@ function sentInvoice($con,$order_id){
 		.purchase_heading p {
 		  margin: 0;
 		  color: #85878E;
-		  font-size: 12px;
+		  font-size: 16px;
 		}
 		
 		.purchase_footer {
@@ -411,9 +424,10 @@ function sentInvoice($con,$order_id){
 		}
 		
 		.email-wrapper {
-		  width: 100%;
-		  margin: 0;
-		  padding: 0;
+		
+		     width: 100%; 
+        text-align: center; 
+        padding: 20px; 
 		  -premailer-width: 100%;
 		  -premailer-cellpadding: 0;
 		  -premailer-cellspacing: 0;
@@ -449,13 +463,12 @@ function sentInvoice($con,$order_id){
 		/* Body ------------------------------ */
 		
 		.email-body {
-		  width: 100%;
-		  margin: 0;
-		  padding: 0;
-		  -premailer-width: 100%;
-		  -premailer-cellpadding: 0;
-		  -premailer-cellspacing: 0;
-		  background-color: #FFFFFF;
+		  background-color: #ffffff; 
+        width: 570px; 
+        margin: 0 auto; 
+        padding: 20px; 
+        border-radius: 8px; 
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 		}
 		
 		.email-body_inner {
@@ -563,7 +576,7 @@ function sentInvoice($con,$order_id){
 						<td class="content-cell">
 						  <div class="f-fallback">
 							<h1>Hi '.$user_order['name'].',</h1>
-							<p>Thanks for using ourwebsite. This is an invoice for your recent purchase.</p>
+							<p>Thanks for using our website. This is an invoice for your recent purchase.</p>
 							<table class="attributes" width="100%" cellpadding="0" cellspacing="0" role="presentation">
 							  <tr>
 								<td class="attributes_content">
@@ -595,26 +608,38 @@ function sentInvoice($con,$order_id){
 								<td colspan="2">
 								  <table class="purchase_content" width="100%" cellpadding="0" cellspacing="0">
 									<tr>
-									  <th class="purchase_heading" align="left">
+									  <th class="purchase_heading" align="left" style="text-align: left; font-size: 16px;">
 										<p class="f-fallback">Description</p>
 									  </th>
-									  <th class="purchase_heading" align="right">
+									  <th class="purchase_heading" align="right" style="text-align: right; font-size: 16px;">
 										<p class="f-fallback">Amount</p>
 									  </th>
 									</tr>
 									Invoice Details';
 									while($row=mysqli_fetch_assoc($res)){
-										$total_price=$total_price+($row['qty']*$row['price']);
-										$pp=$row['qty']*$row['price'];
+										$total_price += ($row['qty'] * $row['price']);
+										$pp = $row['qty'] * $row['price'];
 								
-										$html.='<tr>
-										  <td width="80%" class="purchase_item"><span class="f-fallback">'.$row['name'].'</span></td>
-											 <td class="align-right" width="20%" class="purchase_item"><span class="f-fallback">'.$pp.'</span></td>
+										$html .= '<tr>
+										  <td width="60%" class="purchase_item">
+										  <label class="f-fallback purchase_total purchase_total--label">Product-Name:</label>
+										  <span class="f-fallback">'.$row['name'].'</span><br>
+										  <label class="f-fallback purchase_total purchase_total--label">Color:</label>
+										  <span class="f-fallback" style="color:'.$row['color'].'">'.$row['color'].'</span><br>
+										  <label class="f-fallback purchase_total purchase_total--label">Size:</label>
+										  <span class="f-fallback">'.$row['size'].'</span><br>
+										  <label class="f-fallback purchase_total purchase_total--label">Quantity:</label>
+										  <span class="f-fallback">'.$row['qty'].'</span>
+							
+										  </td>
+									
+										<td class="align-right" width="40%" class="purchase_item"><span class="f-fallback">'.$pp.'</span></td>
 										</tr>';
 									}
 									
-									if($coupon_value!=''){								
-										$html.=' <td width="80%" class="purchase_footer" valign="middle">
+									if($coupon_value != ''){								
+										$html .= ' <tr>
+										<td width="80%" class="purchase_footer" valign="middle">
 										<p class="f-fallback purchase_total purchase_total--label">Coupon Value</p>
 									  </td>
 									  <td width="20%" class="purchase_footer" valign="middle">
@@ -622,8 +647,8 @@ function sentInvoice($con,$order_id){
 									  </td>
 									</tr>';
 									}
-									$total_price=$total_price-$coupon_value;
-									$html.='<tr>
+									$total_price -= $coupon_value;
+									$html .= '<tr>
 									  <td width="80%" class="purchase_footer" valign="middle">
 										<p class="f-fallback purchase_total purchase_total--label">Total</p>
 									  </td>

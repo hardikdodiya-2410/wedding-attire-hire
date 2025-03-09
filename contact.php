@@ -5,6 +5,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
+// Load Composer's autoloader
 require 'vendor/autoload.php';
 error_reporting(0);
 $name=$_POST['name'];

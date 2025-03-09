@@ -1,17 +1,13 @@
 <?php 
 require('top.php');
+if(!isset($_SESSION['USER_LOGIN'])){
+?>
+<script>
+    window.location.href='login.php';
+</script>
+<?php
+}
 
-// if(!isset($_SESSION['USER_LOGIN'])){
-//     header('location:login.php');
-//     exit;
-// }
-// unset($_SESSION['cart']);
-// if(isset($_SESSION['cart'])){
-//     $cart_item=count($_SESSION['cart']);
-// }else{
-//     $cart_item=0;
-// }
-// prx($cart_item);
 ?>
 
 <div class="ht__bradcaump__area" >
@@ -137,28 +133,27 @@ if(isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
 <?php require('footer.php')?>        
 
 <script>
-function manage_cart_update(pid,type,size_id,color_id){
-    if(type=='update'){
-        var qty=jQuery("#"+pid+"qty").val();
-    }else{
-        var qty=0;
-    }
+function manage_cart_update(pid, type, size_id, color_id) {
+    var qty = (type === 'update') ? jQuery("#" + pid + "qty").val() : 0;
     jQuery.ajax({
-        url:'manage_cart.php',
-        type:'post',
-        data:{
-            pid:pid,
-            qty:qty,
-            type:type,
-            sid:size_id,
-            cid:color_id
+        url: 'manage_cart.php',
+        type: 'post',
+        data: {
+            pid: pid,
+            qty: qty,
+            type: type,
+            sid: size_id,
+            cid: color_id
         },
-        success:function(result){
+        success: function(result) {
             console.log(result);
-            if(result.trim() ==='not_avaliable'){
+            if (result.status === 'not_avaliable') {
                 alert('Quantity not available');
-            }else{
-                window.location.href='cart.php';
+            } else if (result.status === 'max_qty_reached') {
+                alert('Maximum quantity reached');
+                jQuery("#" + pid + "qty").val(result.productQty);
+            } else {
+                window.location.href = 'cart.php';
             }
         }
     });

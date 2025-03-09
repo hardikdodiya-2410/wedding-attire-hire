@@ -103,7 +103,15 @@ $resAttr=mysqli_query($con,"select product_attributes.*,color_master.color,size_
         .thumbnails img:hover, .thumbnails img.active {
             border: 2px solid #000;
         }
-      
+        #color_attr:hover, #color_attr.active {
+            border: 2px solid #000;
+        }
+      #color_attr{
+      border-radius: 50%;
+      }
+      #color_attr:active{
+        border-color: #000;
+      }
     
     </style>
    
@@ -203,24 +211,19 @@ $resAttr=mysqli_query($con,"select product_attributes.*,color_master.color,size_
                                     <div class="sin__desc">
                                         <?php
                                        $getProductAttr=getProductAttr($con,$get_product['0']['id']);
-										
+									
                                        $productSoldQtyByProductId=productSoldQtyByProductId($con,$get_product['0']['id'],$getProductAttr);
-                                       
-                                       $pending_qty=$get_product['0']['qty']-$productSoldQtyByProductId;
-                                       
-                                     
-?>
-
-
-<?php
-                         
+                                    
+                                       $pending_qty = $get_product['0'] ['qty']- $productSoldQtyByProductId;
+                                      // $pending_qty = max(0, $pending_qty);
+                  
                                      if($is_color>0){?>
                                     <div class="sin__desc align--left">
 										<p><span>color:</span></p>
 										<ul class="pro__color">
 											<?php 
 											foreach($colorArr as $key=>$val){
-												echo "<li style='background:".$val[0]." none repeat scroll 0 0'><a href='javascript:void(0)' onclick=loadAttr('".$key."','".$get_product['0']['id']."','color')>".$val[0]."</a></li>";
+												echo "<li style='background:".$val[0]." none repeat scroll 0 0'id='color_attr'><a href='javascript:void(0)'  onclick=loadAttr('".$key."','".$get_product['0']['id']."','color')>".$val[0]."</a></li>";
 											}
 											?>
 											
@@ -250,7 +253,7 @@ $resAttr=mysqli_query($con,"select product_attributes.*,color_master.color,size_
 									
 									<div class="sin__desc align--left <?php echo $isQtyHide?>" id="cart_qty">
                                         <p><span>Qty:</span> 
-										<select id="qty"  class="select__size">
+										<select id="qty"  class="select__size ">
 											<?php
 											for($i=1;$i<=$pending_qty;$i++){
 												echo "<option>$i</option>";
@@ -272,7 +275,9 @@ $resAttr=mysqli_query($con,"select product_attributes.*,color_master.color,size_
                                     </div>
                                     <div id="is_cart_box_show" class="<?php echo $is_cart_box_show?>">
                                     <div class="contact-btn"style="margin-top: 15px;     padding: 10px 15px 10px;">
-                                    <a class="fr__btn" name="add_to_cart"href="javascript:void(0)" onclick="manage_cart('<?php echo $get_product['0']['id']?>','add')">Add to cart</a>
+                               
+                                        <a class="fr__btn" name="add_to_cart"href="javascript:void(0)" onclick="manage_cart('<?php echo $get_product['0']['id']?>','add')">Add to cart</a>
+                                       
                                     <?php if(isset($_SESSION['USER_LOGIN'])){
                     ?>
                                     <a class="fr__btn" name="add_to_cart"href="javascript:void(0)" onclick="manage_cart('<?php echo $get_product['0']['id']?>','add','yes')">Buy now</a>

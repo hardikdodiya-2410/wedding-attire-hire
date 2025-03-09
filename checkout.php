@@ -94,21 +94,6 @@ if(isset($_POST['submit'])){
 	$pincode=get_safe_value($con,$_POST['pincode']);
 	$payment_type=get_safe_value($con,$_POST['payment_type']);
 	$cart_total=0;
-
-	foreach($_SESSION['cart'] as $key=>$val){
-		foreach($val as $key1=>$val1){
-			$resAttr=mysqli_fetch_assoc(mysqli_query($con,"select * from product_attributes where product_attributes.id='$key1'"));
-			$price=$resAttr['price'];
-			$qty=$val1['qty'];
-			$cart_total=$cart_total+($price*$qty);
-
-			$new_qty = $resAttr['qty'] - $qty;
-			mysqli_query($con, "UPDATE product_attributes SET qty='$new_qty' WHERE id='$key1'");
-
-			mysqli_query($con,"insert into `order_detail`(order_id,product_id,product_attr_id,qty,price) values('$order_id','$key','$key1','$qty','$price')");
-		}
-	}
-	$total_price=$cart_total;
 	$payment_status='pending';
 	if($payment_type=='COD'){
 		$payment_status='success';
@@ -116,29 +101,67 @@ if(isset($_POST['submit'])){
 	$order_status='1';
 	$added_on=date('Y-m-d h:i:s');
 	$txnid = substr(hash('sha256', mt_rand() . microtime()), 0, 20);
-	if(isset($_SESSION['COUPON_ID'])){
-		$coupon_id=$_SESSION['COUPON_ID'];
-		$coupon_code=$_SESSION['COUPON_CODE'];
-		$coupon_value=$_SESSION['COUPON_VALUE'];
-		$total_price=$total_price-$coupon_value;
-		unset($_SESSION['COUPON_ID']);
-		unset($_SESSION['COUPON_CODE']);
-		unset($_SESSION['COUPON_VALUE']);
-	}else{
-		$coupon_id='';
-		$coupon_code='';
-		$coupon_value='';	
-	}	
-	
-	mysqli_query($con,"insert into `order`(user_id,address,city,pincode,payment_type,payment_status,order_status,added_on,total_price,txnid,coupon_id,coupon_code,coupon_value) values('$uid','$address','$city','$pincode','$payment_type','$payment_status','$order_status','$added_on','$total_price','$txnid','$coupon_id','$coupon_code','$coupon_value')");
-	
-	$order_id=mysqli_insert_id($con);
 
-	
-	if($payment_type=='Payu'){
+	// Calculate the total price of the cart
+	foreach($_SESSION['cart'] as $key=>$val){
+		foreach($val as $key1=>$val1){
+			$resAttr=mysqli_fetch_assoc(mysqli_query($con,"select * from product_attributes where product_attributes.id='$key1'"));
+			$price=$resAttr['price'];
+			$qty=$val1['qty'];
+			$cart_total += ($price * $qty); // Update cart total
+		}
+	}
+	$total_price = $cart_total; // Set total price
+
+	// Check if the order with the same transaction ID already exists
+	$order_check_query = mysqli_query($con, "SELECT id FROM `order` WHERE txnid='$txnid'");
+	if (mysqli_num_rows($order_check_query) == 0) {
+		if(isset($_SESSION['COUPON_ID'])){
+			$coupon_id=$_SESSION['COUPON_ID'];
+			$coupon_code=$_SESSION['COUPON_CODE'];
+			$coupon_value=$_SESSION['COUPON_VALUE'];
+			$total_price=$total_price-$coupon_value; // Apply coupon value
+			unset($_SESSION['COUPON_ID']);
+			unset($_SESSION['COUPON_CODE']);
+			unset($_SESSION['COUPON_VALUE']);
+		}else{
+			$coupon_id='';
+			$coupon_code='';
+			$coupon_value='';	
+		}
+
+		// Insert into the order table and get the order_id
+		mysqli_query($con,"insert into `order`(user_id,address,city,pincode,payment_type,payment_status,order_status,added_on,total_price,txnid,coupon_id,coupon_code,coupon_value) values('$uid','$address','$city','$pincode','$payment_type','$payment_status','$order_status','$added_on','$total_price','$txnid','$coupon_id','$coupon_code','$coupon_value')");
 		
-		$userArr=mysqli_fetch_assoc(mysqli_query($con,"select * from users where id='$uid'"));
+		$order_id = mysqli_insert_id($con); // Retrieve the last inserted order_id
+
+		foreach($_SESSION['cart'] as $key=>$val){
+			foreach($val as $key1=>$val1){
 		
+				$resAttr=mysqli_fetch_assoc(mysqli_query($con,"select * from product_attributes where product_attributes.id='$key1'"));
+				$price=$resAttr['price'];
+				$qty=$val1['qty'];
+
+				// Check if the product is out of stock
+				if ($resAttr['qty'] < $qty) {
+					echo "<script>alert('Some items in your cart are out of stock. Please update your cart.');</script>";
+					echo "<script>window.location.href='cart.php';</script>";
+					exit;
+				}
+
+				// Decrement the product quantity
+				$new_qty = $resAttr['qty'] - $qty;
+				mysqli_query($con, "UPDATE product_attributes SET qty='$new_qty' WHERE id='$key1'");
+
+				// Insert into order_detail table using the retrieved order_id
+				mysqli_query($con,"insert into `order_detail`(order_id,product_id,product_attr_id,qty,price) values('$order_id','$key','$key1','$qty','$price')");
+			}
+		}
+		
+		if($payment_type=='Payu'){
+			
+			$userArr=mysqli_fetch_assoc(mysqli_query($con,"select * from users where id='$uid'"));
+			
 $MERCHANT_KEY = "XvF2Ju"; 
 $SALT = "f7atLzhhPvHsHUM1SsF3W8filpzaTQ7Y";
 $hash_string = '';
@@ -195,17 +218,20 @@ $formHtml ='<form method="post" name="payuForm" id="payuForm" action="'.$action.
 echo $formHtml;
 echo '<script>document.getElementById("payuForm").submit();</script>';
 unset($_SESSION['cart']);	
-	}else{	
-	sentInvoice($con,$order_id);
-	
-		?>
-		<script>
-			window.location.href='thank_you.php';
-		</script>
-		<?php
-		unset($_SESSION['cart']);	
-	}	
-	
+		}else{	
+			sentInvoice($con,$order_id);
+		
+			?>
+			<script>
+				window.location.href='thank_you.php';
+			</script>
+			<?php
+			unset($_SESSION['cart']);	
+		}	
+	} else {
+		// Handle the case where the order already exists
+		echo "<script>alert('Order already processed.');</script>";
+	}
 }
 ?>
 
@@ -330,30 +356,35 @@ where product_attributes.id='$key1'"));
 								$price=$productArr[0]['price'];
 								$image=$productArr[0]['image'];
 								$qty=$val1['qty'];
-								$cart_total=$cart_total+($price*$qty);
+								$cart_total += ($price * $qty);
 								?>
 								<div class="single-item">
                                     <div class="single-item__thumb">
                                         <img src="<?php echo PRODUCT_MULTIPLE_IMAGE_SITE_PATH.$image?>"  />
                                     </div>
                                     <div class="single-item__content">
-                                        <a href="#"><?php echo $pname?></a>
-										<!-- <span class="price"><?php echo $qty?></span> -->
-                                        <span class="price"><i class="fa fa-inr"></i><?php echo $price*$qty?></span>
+										<label>Name:</label>
+                                        <a href="#"><?php echo $pname?></a><br>
+										<label>Quantity:</label>
+										<a href="#"><?php echo $qty?></a><br>
+                                        <label>Price:</label>
+                                        <a href="#"><i class="fa fa-inr"></i><?php echo $price*$qty?></a><br>	
+										<label>Color:</label>
 										<?php
                                                     if(isset($resAttr['color']) && $resAttr['color']!=''){
                                                        
-                                                        echo "<span style='font-weight:600;color:".$resAttr['color']."'class='product-name'>".$resAttr['color']."</span>";
+                                                        echo "<a href='#' style='font-weight:600;color:".$resAttr['color']."'class='product-name'>".$resAttr['color']."</a>";
                                                     }
+													?><br>
+													<label>Size:</label>
+													<?php
                                                     if(isset($resAttr['size']) && $resAttr['size']!=''){
 
-                                                        echo "<span class='product-name'> ".$resAttr['size']."</span>";
+                                                        echo "<a class='product-name'> ".$resAttr['size']."</a>";
                                                     }
                                                    ?>
 									</div>
-                                    <div class="single-item__remove">
-                                        <a href="javascript:void(0)" onclick="manage_cart_update('<?php echo $key?>','remove','<?php $resAttr['size_id']?>','<?php $resAttr['color_id']?>')"><i class="icon-trash icons"></i></a>
-                                    </div>
+                               
                                 </div>
 								<?php }} ?>
                             </div>
