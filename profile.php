@@ -139,8 +139,17 @@ if(!isset($_SESSION['USER_LOGIN'])){
 			}if(new_password==''){
 				jQuery('#new_password_error').html('Please enter password');
 				is_error='yes';
-			}if(confirm_new_password==''){
+			}
+			else if(!isValidPassword(new_password)) {
+				jQuery('#new_password_error').html('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character');
+				is_error='yes';
+			}
+			
+			if(confirm_new_password==''){
 				jQuery('#confirm_new_password_error').html('Please enter password');
+				is_error='yes';
+			}else if(!isValidPassword(confirm_new_password)) {
+				jQuery('#confirm_new_password_error').html('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character');
 				is_error='yes';
 			}
 			
@@ -166,5 +175,10 @@ if(!isset($_SESSION['USER_LOGIN'])){
 			}
 			
 		}
+		function isValidPassword(password) {
+    var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+}
 		</script>
+
 <?php require('footer.php')?>        

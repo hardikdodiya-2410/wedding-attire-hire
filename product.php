@@ -212,11 +212,11 @@ $resAttr=mysqli_query($con,"select product_attributes.*,color_master.color,size_
                                         <?php
                                        $getProductAttr=getProductAttr($con,$get_product['0']['id']);
 									
-                                       $productSoldQtyByProductId=productSoldQtyByProductId($con,$get_product['0']['id'],$getProductAttr);
+                                      // $productSoldQtyByProductId=productSoldQtyByProductId($con,$get_product['0']['id'],$getProductAttr);
                                     
-                                       $pending_qty = $get_product['0'] ['qty']- $productSoldQtyByProductId;
+                                       $pending_qty = $get_product['0'] ['qty'];
                                       // $pending_qty = max(0, $pending_qty);
-                  
+              //
                                      if($is_color>0){?>
                                     <div class="sin__desc align--left">
 										<p><span>color:</span></p>
@@ -255,6 +255,7 @@ $resAttr=mysqli_query($con,"select product_attributes.*,color_master.color,size_
                                         <p><span>Qty:</span> 
 										<select id="qty"  class="select__size ">
 											<?php
+                                            
 											for($i=1;$i<=$pending_qty;$i++){
 												echo "<option>$i</option>";
 											}
@@ -265,8 +266,8 @@ $resAttr=mysqli_query($con,"select product_attributes.*,color_master.color,size_
                                     </div>
 									<span style="color: red; margin-left: 10px; font-size: 20px; font-weight: 600;"><div id="cart_attr_msg"></div></span>
 									
-                                    	
-									
+                                   
+				
                                     <div class="sin__desc align--left" style="    padding-left:15px;">
                                         <p><span>Categories:</span></p>
                                         <ul class="pro__cat__list">
@@ -524,5 +525,6 @@ ob_flush();?>
 let is_color='<?php echo $is_color?>';
 			let is_size='<?php echo $is_size?>';
 			let pid='<?php echo $product_id?>';
+
 </script>
     
