@@ -105,8 +105,7 @@ li.cat_hover{
                                     <div class="h4">Book your Outfit</div>
                                 </div>
                                 <div class="desc">
-                                   Book your look for 3, 5, 7 or 10 days. Outfit will be altered to your size and dry cleaned before delivery.
-                                </div>
+                                Book your look for a minimum of 3 days. The outfit will be altered to your size and dry-cleaned before delivery.</div>
                             </div>
                         </div>
                         <div class="col-md-3 col-xs-6">
