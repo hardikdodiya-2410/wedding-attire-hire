@@ -776,6 +776,7 @@ function manage_cart(pid, type, is_checkout) {
                 alert('Quantity not available');
             } else {
                 jQuery('#cart_count').html(result);
+                window.location.href = 'cart.php';
                 if (is_checkout) {
                     window.location.href = 'checkout.php';
                 }

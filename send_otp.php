@@ -14,7 +14,16 @@ if($type=='email'){
 	
 	$otp=rand(1111,9999);
 	$_SESSION['EMAIL_OTP']=$otp;
-	$html="$otp is your otp";
+	$html = "
+    <div style='font-family: Arial, sans-serif; text-align: center; padding: 20px; background-color: #f4f4f4; border-radius: 10px; width: 80%; margin: auto;'>
+        <h2 style='color: #333;'>Your OTP for Verification</h2>
+        <p style='font-size: 18px; color: #555;'>Use the following One-Time Password (OTP) to complete your process. This OTP is valid for <strong>10 minutes</strong>.</p>
+        <div style='font-size: 22px; font-weight: bold; color: #d9534f; padding: 10px; border: 2px dashed #d9534f; display: inline-block; margin-top: 10px;'>
+            $otp
+        </div>
+        <p style='font-size: 14px; color: #777; margin-top: 20px;'>If you did not request this OTP, please ignore this message.</p>
+    </div>
+";
 	
 	include('smtp/PHPMailerAutoload.php');
 	$mail=new PHPMailer(true);

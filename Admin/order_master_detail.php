@@ -3,23 +3,55 @@ require('top.inc.php');
 isAdmin();
 $order_id=get_safe_value($con,$_GET['id']);
 
+
 if(isset($_POST['update_order_status'])){
+    // Get current order status
+    $current_status = mysqli_fetch_assoc(mysqli_query($con, "SELECT order_status FROM `order` WHERE id='$order_id'"));
+    
+    // If the order is already canceled (assuming '6' represents 'Cancel'), prevent update
+    if($current_status['order_status'] == '6'){
+        echo "<script>alert('Order status cannot be changed once set to Cancel!')</script>";
+        return;
+    }
+
 	$update_order_status=$_POST['update_order_status'];
 	
-	$update_sql='';
-	if($update_order_status==3){
-		$length=$_POST['length'];
-		$breadth=$_POST['breadth'];
-		$height=$_POST['height'];
-		$weight=$_POST['weight'];
-		
-		$update_sql=",length='$length',breadth='$breadth',height='$height',weight='$weight' ";
-		
-	}
+	// Get current order status
+	$current_status = mysqli_fetch_assoc(mysqli_query($con, "SELECT order_status FROM `order` WHERE id='$order_id'"));
 	
-	if($update_order_status=='5'){
+	// Check if trying to set status to 5 (complete)
+	if($update_order_status == '5'){
+		// Only allow if current status is 3 (shipped)
+		if($current_status['order_status'] != '3'){
+			echo "<script>alert('Order must be shipped (status 3) before marking as complete!')</script>";
+			return;
+		}
 		mysqli_query($con,"update `order` set order_status='$update_order_status',payment_status='Success' where id='$order_id'");
-	}else{
+		
+		// Get order details for this order
+		$order_details = mysqli_query($con, "SELECT product_id, product_attr_id, qty FROM order_detail WHERE order_id='$order_id'");
+		
+		// Update quantity for each product in the order
+		while($row = mysqli_fetch_assoc($order_details)) {
+			$product_id = $row['product_id'];
+			$product_attr_id = $row['product_attr_id'];
+			$qty = $row['qty'];
+			
+			// Update the product quantity in product_attributes table
+			mysqli_query($con, "UPDATE product_attributes SET qty = qty + $qty 
+				WHERE product_id='$product_id' AND id='$product_attr_id'");
+		}
+	} else {
+		$update_sql='';
+		if($update_order_status==3){
+			$length=$_POST['length'];
+			$breadth=$_POST['breadth'];
+			$height=$_POST['height'];
+			$weight=$_POST['weight'];
+			
+			$update_sql=",length='$length',breadth='$breadth',height='$height',weight='$weight' ";
+		}
+		
 		mysqli_query($con,"update `order` set order_status='$update_order_status' $update_sql where id='$order_id'");
 	}
 	
@@ -31,12 +63,15 @@ if(isset($_POST['update_order_status'])){
 	}
 	
 	if($update_order_status==4){
+		
+		
 		$ship_order=mysqli_fetch_assoc(mysqli_query($con,"select ship_order_id from `order` where id='$order_id'"));
 		if($ship_order['ship_order_id']>0){
 			$token=validShipRocketToken($con);
 			cancelShipRocketOrder($token,$ship_order['ship_order_id']);
 		}
 	}
+
 	
 }?>
 <div class="content pb-0">
@@ -56,6 +91,7 @@ if(isset($_POST['update_order_status'])){
 										<th class="product-thumbnail">Product Image</th>
 										<th class="product-name">Qty</th>
 										<th class="product-price">Price</th>
+										<th class="product-price">Rental Days</th>	
 										<th class="product-price">Total Price</th>
 									</tr>
 								</thead>
@@ -71,21 +107,22 @@ if(isset($_POST['update_order_status'])){
 									$city=$userInfo['city'];
 									$pincode=$userInfo['pincode'];
 									
-									$total_price=$total_price+($row['qty']*$row['price']);
+									$total_price=$total_price+($row['qty']*$row['price']*$row['rental_days']);
 									?>
 									<tr>
 										<td class="product-name"><?php echo $row['name']?></td>
 										<td class="product-name"> <img src="<?php echo PRODUCT_MULTIPLE_IMAGE_SITE_PATH.$row['image']?>"></td>
 										<td class="product-name"><?php echo $row['qty']?></td>
 										<td class="product-name"><?php echo $row['price']?></td>
-										<td class="product-name"><?php echo $row['qty']*$row['price']?></td>
+										<td class="product-name"><?php echo $row['rental_days']?></td>
+										<td class="product-name"><?php echo $row['qty']*$row['price']*$row['rental_days']?></td>
 										
 									</tr>
 									<?php } 
 									
 									 ?>
 									<tr>
-										<td colspan="3"></td>
+										<td colspan="4"></td>
 										<td class="product-name">Total Price</td>
 										<td class="product-name"><?php 
 												echo $total_price;
@@ -102,16 +139,33 @@ if(isset($_POST['update_order_status'])){
 							<?php 
 							$order_status_arr=mysqli_fetch_assoc(mysqli_query($con,"select order_status.name,order_status.id as order_status from order_status,`order` where `order`.id='$order_id' and `order`.order_status=order_status.id"));
 							echo $order_status_arr['name'];
-							?>
-							
+							$order_status=$order_status_arr['order_status'];
+							if ($order_status != '5'){ 
+								?>
 							<div>
+							
 								<form method="post">
 									<select class="form-control" name="update_order_status" id="update_order_status" required onchange="select_status()">
 										<option value="">Select Status</option>
 										<?php
+										$current_status = mysqli_fetch_assoc(mysqli_query($con,"select order_status from `order` where id='$order_id'"))['order_status'];
+										
 										$res=mysqli_query($con,"select * from order_status");
 										while($row=mysqli_fetch_assoc($res)){
-											echo "<option value=".$row['id'].">".$row['name']."</option>";
+											// If current status is not shipped (status != 3)
+											// Only show Pending (1) and Processing (2) and Shipped (3)
+											if($current_status != 3) {
+												if($row['id'] <= 3) {
+													echo "<option value=".$row['id'].">".$row['name']."</option>";
+												}
+											} 
+											// If order is shipped (status == 3)
+											// Only show Cancel (4) and Complete (5)
+											else {
+												if($row['id'] > 3) {
+													echo "<option value=".$row['id'].">".$row['name']."</option>";
+												}
+											}
 										}
 										?>
 									</select>
@@ -128,7 +182,9 @@ if(isset($_POST['update_order_status'])){
 									
 									<input type="submit" class="form-control"/>
 								</form>
+							
 							</div>
+							<?php } ?>
 						</div>
 				   </div>
 				</div>
@@ -139,11 +195,18 @@ if(isset($_POST['update_order_status'])){
 </div>
 <script>
 function select_status(){
-	var update_order_status=jQuery('#update_order_status').val();
-	if(update_order_status==3){
+	var update_order_status = jQuery('#update_order_status').val();
+	if(update_order_status == 3){
 		jQuery('#shipped_box').show();
+	} else {
+		jQuery('#shipped_box').hide();
 	}
 }
+
+// Add this when page loads to handle current selection
+jQuery(document).ready(function(){
+	select_status();
+});
 </script>
 <?php
 require('footer.inc.php');

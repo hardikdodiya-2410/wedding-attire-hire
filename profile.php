@@ -106,26 +106,36 @@ if(!isset($_SESSION['USER_LOGIN'])){
             </div>
         </section>
 		<script>
-		function update_profile(){
-			jQuery('.field_error').html('');
-			var name=jQuery('#name').val();
-			if(name==''){
-				jQuery('#name_error').html('Please enter your name');
-			}else{
-				jQuery('#btn_submit').html('Please wait...');
-				jQuery('#btn_submit').attr('disabled',true);
-				jQuery.ajax({
-					url:'update_profile.php',
-					type:'post',
-					data:'name='+name,
-					success:function(result){
-						jQuery('#name_error').html(result);
-						jQuery('#btn_submit').html('Update');
-						jQuery('#btn_submit').attr('disabled',false);
-					}
-				})
-			}
-		}
+	function update_profile(){
+    jQuery('.field_error').html('');
+    var name = jQuery('#name').val();
+
+    if(name == ''){
+        jQuery('#name_error').html('Please enter your name');
+    } else if(name.length > 7) {
+        jQuery('#name_error').html('Name cannot exceed 7 characters');
+    } else {
+        jQuery('#btn_submit').html('Please wait...');
+        jQuery('#btn_submit').attr('disabled', true);
+
+        jQuery.ajax({
+            url: 'update_profile.php',
+            type: 'post',
+            data: { name: name },
+            success: function(result){
+                if(result.trim() == "Your name updated successfully"){
+                    //location.reload(); // Reload the page after successful update
+					window.location.href='profile.php';
+                } else {
+                    jQuery('#name_error').html(result);
+                }
+                jQuery('#btn_submit').html('Update');
+                jQuery('#btn_submit').attr('disabled', false);
+            }
+        });
+    }
+}
+
 		
 		function update_password(){
 			jQuery('.field_error').html('');

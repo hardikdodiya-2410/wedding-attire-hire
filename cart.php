@@ -100,8 +100,7 @@ if(!isset($_SESSION['USER_LOGIN'])){
 												</td>
 												
                                                 <td>
-                                                    <span>Rental Dates:</span><br>
-                                                    <span><?php echo $rent_from?> to <?php echo $rent_to?></span><br>
+                                                    
                                                     <?php
                                                     // Calculate number of rental days
                                                     $date1 = new DateTime($rent_from);
@@ -110,7 +109,14 @@ if(!isset($_SESSION['USER_LOGIN'])){
                                                     $days = $interval->days + 1; // Add 1 to include both start and end dates
                                                     $days = $days-2;
                                                     ?>
-                                                    <span>(<?php echo $days?> days)</span>
+                                                    <?php
+											if(isset($val1['rent_from']) && isset($val1['rent_to'])){
+												echo "	<label>From:</label> <a class='product-name'>".date('d M Y', strtotime($val1['rent_from']))."</a><br>";
+												echo "	<label>To:</label> <a class='product-name'>".date('d M Y', strtotime($val1['rent_to']))."</a><br>";
+												}
+										?>
+                                        <label>Total Days:</label>
+                                        <a href="#"><?php echo $days?></a><br>
                                                 </td>
                                                 <td class="product-subtotal"><i class="fa fa-inr"></i><?php echo $qty*$price*$days?></td>
 												<td class="product-remove">

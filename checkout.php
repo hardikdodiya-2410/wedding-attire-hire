@@ -411,7 +411,6 @@ unset($_SESSION['cart']);
 											if(isset($val1['rent_from']) && isset($val1['rent_to'])){
 												echo "	<label>From:</label> <a class='product-name'>".date('d M Y', strtotime($val1['rent_from']))."</a><br>";
 												echo "	<label>To:</label> <a class='product-name'>".date('d M Y', strtotime($val1['rent_to']))."</a><br>";
-												
 												}
 										?>
                                         <label>Total Days:</label>

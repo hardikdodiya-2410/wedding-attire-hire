@@ -44,6 +44,7 @@ if($coupon_value==''){
 												<th class="product-thumbnail">Product Image</th>
                                                 <th class="product-name">Qty</th>
                                                 <th class="product-price">Price</th>
+                                                <th class="product-price">Rental Days</th>
                                                 <th class="product-price">Total Price</th>
                                             </tr>
                                         </thead>
@@ -57,7 +58,7 @@ if($coupon_value==''){
                                            
 											while($row=mysqli_fetch_assoc($res)){
                                           
-											$total_price=$total_price+($row['qty']*$row['price']);  
+											$total_price=$total_price+($row['qty']*$row['price']*$row['rental_days']);  
 											?>
                                             
                                             <tr>
@@ -65,7 +66,8 @@ if($coupon_value==''){
                                                 <td class="product-name"> <img src="<?php echo PRODUCT_MULTIPLE_IMAGE_SITE_PATH.$row['image']?>"></td>
 												<td class="product-name"><?php echo $row['qty']?></td>
 												<td class="product-name"><?php echo $row['price']?></td>
-												<td class="product-name"><?php echo $row['qty']*$row['price']?></td>
+                                                <td class="product-name"><?php echo $row['rental_days']?> days</td>
+												<td class="product-name"><?php echo $row['qty']*$row['price']*$row['rental_days']?></td>
                                                 
                                             </tr>
                                             
@@ -73,14 +75,14 @@ if($coupon_value==''){
 											if($coupon_value!=''){
 											?>
 											<tr>
-												<td colspan="3"></td>
+												<td colspan="4"></td>
 												<td class="product-name">Coupon Value</td>
 												<td class="product-name"><?php echo $coupon_value?></td>
                                                 
                                             </tr>
 											<?php } ?>
 											<tr>
-												<td colspan="3"></td>
+												<td colspan="4"></td>
 												<td class="product-name">Total Price</td>
 												<td class="product-name">
 												<?php 
