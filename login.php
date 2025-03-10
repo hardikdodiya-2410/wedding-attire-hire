@@ -43,9 +43,23 @@ if(isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN']=='yes'){
 									</div>
 									<div class="single-contact-form">
 										<div class="contact-box name">
-											<input type="password" name="login_password" id="login_password" placeholder="Your Password*" style="width:100%">
+											<input type="password" name="login_password" id="login_password" placeholder="Your Password*" style="width:100%" onclick="showpassword()">
 										</div>
 										<span class="field_error" id="login_password_error"></span>
+										<div class="show_password">
+										<input type="checkbox" onclick="showpassword()">
+										<label for="show_password">Show Password</label>
+										</div>
+										<script>
+											function showpassword(){
+				var password=document.getElementById('login_password');
+				if(password.type=='password'){
+					password.type='text';
+				}else{
+					password.type='password';
+				}
+			}
+										</script>
 									</div>
 									
 									<div class="contact-btn">
@@ -105,6 +119,10 @@ if(isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN']=='yes'){
 											<input type="password" name="password" id="password" placeholder="Your Password*" style="width:100%">
 										</div>
 										<span class="field_error" id="password_error"></span>
+										<div class="show_password">
+										<input type="checkbox" onclick="show_password()">
+										<label for="show_password">Show Password</label>
+										</div>
 									</div>
 									
 									<div class="contact-btn">
@@ -124,7 +142,14 @@ if(isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN']=='yes'){
 		<input type="hidden" id="is_email_verified"/>
 		
 		<script>
-			
+			function show_password(){
+				var password=document.getElementById('password');
+				if(password.type=='password'){
+					password.type='text';
+				}else{
+					password.type='password';
+				}
+			}
 function user_register(){
 	jQuery('.field_error').html('');
 	var name=jQuery("#name").val();

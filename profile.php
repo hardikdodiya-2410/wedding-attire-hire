@@ -69,14 +69,14 @@ if(!isset($_SESSION['USER_LOGIN'])){
 									<div class="single-contact-form">
 										<label class="password_label">Current Password</label>
 										<div class="contact-box name">
-											<input type="password" name="current_password" id="current_password" style="width:100%">
+											<input type="password" name="current_password" id="current_password" style="width:100%" >
 										</div>
 										<span class="field_error" id="current_password_error"></span>
 									</div>
 									<div class="single-contact-form">
 										<label class="password_label">New Password</label>
 										<div class="contact-box name">
-											<input type="password" name="new_password" id="new_password" style="width:100%">
+											<input type="password" name="new_password" id="new_password" style="width:100%" >
 										</div>
 										<span class="field_error" id="new_password_error"></span>
 									</div>
@@ -87,7 +87,26 @@ if(!isset($_SESSION['USER_LOGIN'])){
 										</div>
 										<span class="field_error" id="confirm_new_password_error"></span>
 									</div>
-									
+								<div class="show_password">
+										<input type="checkbox" onclick="show_password()">
+										<label for="show_password">Show Password</label>
+										</div>
+										<script>
+										function show_password(){
+					var current_password=document.getElementById('current_password');
+				var new_password=document.getElementById('new_password');
+				var confirm_new_password=document.getElementById('confirm_new_password');
+				if(current_password.type=='password'){
+					current_password.type='text';
+					new_password.type='text';
+					confirm_new_password.type='text';
+				}else{
+					current_password.type='password';
+					new_password.type='password';
+					confirm_new_password.type='password';
+				}
+			}
+			</script>
 									<div class="contact-btn">
 										<button type="button" class="fv-btn" onclick="update_password()" id="btn_update_password">Update</button>
 										
