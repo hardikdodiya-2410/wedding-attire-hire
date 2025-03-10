@@ -74,6 +74,9 @@ $resAttr=mysqli_query($con,"select product_attributes.*,color_master.color,size_
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <style>
         .product-container {
             display: flex;
@@ -103,15 +106,117 @@ $resAttr=mysqli_query($con,"select product_attributes.*,color_master.color,size_
         .thumbnails img:hover, .thumbnails img.active {
             border: 2px solid #000;
         }
-        #color_attr:hover, #color_attr.active {
-            border: 2px solid #000;
-        }
-      #color_attr{
-      border-radius: 50%;
-      }
-      #color_attr:active{
-        border-color: #000;
-      }
+        /* General Styling */
+input[type="date"] {
+    width: 160px;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+}
+
+/* On Focus */
+input[type="date"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Read-only Date Field */
+input[type="date"][readonly] {
+    background-color: #f2f2f2;
+    color: #666;
+    cursor: not-allowed;
+}
+
+/* Mobile-Friendly Adjustments */
+@media (max-width: 600px) {
+    input[type="date"] {
+        width: 100%;
+        font-size: 16px;
+        padding: 10px;
+    }
+}
+/* Style for the select dropdown */
+select {
+    width: 100px;
+    padding: 8px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+}
+
+/* Add hover effect */
+select:hover {
+    border-color: #007bff;
+}
+
+/* Style for the select dropdown when focused */
+select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Style for options inside the select dropdown */
+option {
+    font-size: 14px;
+    background-color: #fff;
+    padding: 10px;
+}
+
+/* Style for selected option */
+option:checked {
+    background-color: #007bff;
+    color: #fff;
+}
+/* Style for the color list container */
+.pro__color {
+    display: flex;
+    gap: 10px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Style for each color option */
+.pro__color li {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-left: 10px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.2s ease-in-out, border-color 0.3s ease;
+}
+
+/* Hover effect */
+.pro__color li:hover {
+    transform: scale(1.1);
+    border-color: #000;
+}
+
+/* Active/selected color */
+.pro__color li.active {
+    border: 2px solid #ff0000; /* Change to your preferred highlight color */
+}
+
+/* Style for the anchor inside color options */
+.pro__color li a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-indent: -9999px; /* Hide text */
+}
+
+
     
     </style>
    
@@ -214,8 +319,9 @@ $resAttr=mysqli_query($con,"select product_attributes.*,color_master.color,size_
 									
                                       // $productSoldQtyByProductId=productSoldQtyByProductId($con,$get_product['0']['id'],$getProductAttr);
                                     
-                                       $pending_qty = $get_product['0'] ['qty'];
+                                       $pending_qty = intval($get_product['0']['qty']);
                                       // $pending_qty = max(0, $pending_qty);
+
               //
                                      if($is_color>0){?>
                                     <div class="sin__desc align--left">
@@ -253,20 +359,45 @@ $resAttr=mysqli_query($con,"select product_attributes.*,color_master.color,size_
 									
 									<div class="sin__desc align--left <?php echo $isQtyHide?>" id="cart_qty">
                                         <p><span>Qty:</span> 
-										<select id="qty"  class="select__size ">
+										<select id="qty" class="select__size" onchange="showDatePicker()">
+
 											<?php
-                                            
-											for($i=1;$i<=$pending_qty;$i++){
-												echo "<option>$i</option>";
+											// Get the pending quantity
+											$pending_qty = intval($get_product['0']['qty']);
+											
+											// Display quantity options from 1 to pending_qty
+											if($pending_qty > 0){
+                                                echo "<option value='0'>Qty</option>";
+												for($i=1; $i<=$pending_qty; $i++){
+													echo "<option value='".$i."'>".$i."</option>";
+												}
 											}
 											?>
 										</select>
 										</p>
 										
                                     </div>
-									<span style="color: red; margin-left: 10px; font-size: 20px; font-weight: 600;"><div id="cart_attr_msg"></div></span>
-									
-                                   
+
+<!-- Add date picker div -->
+<div id="date_picker_div" style="display:none; margin: 15px 0;">
+    <div class="sin__desc align--left">
+        <div>
+            <p style="margin: 0;"><span>Rental Period (Minimum 3 days):</span></p>
+            <div>
+            <p><span>From:</span></p>
+                <input type="date" id="rent_from_date" min="<?php echo date('Y-m-d'); ?>" style="width: 150px; padding: 5px;">
+                
+                <p><span>To:</span></p>
+                <input type="date" id="rent_to_date" min="<?php echo date('Y-m-d'); ?>" style="width: 150px; padding: 5px;">
+            </div>
+        </div>
+        
+    </div>
+</div>
+                               
+<span id="cart_attr_wrapper" style="color: red; margin-left: 10px; font-size: 20px; font-weight: 600; display: none;">
+    <div id="cart_attr_msg"></div>
+</span>
 				
                                     <div class="sin__desc align--left" style="    padding-left:15px;">
                                         <p><span>Categories:</span></p>
@@ -463,11 +594,8 @@ echo date('d M Y',$added_on);
 									</div>
                                     <div class="fr__product__inner"style="width: 270px;height: 108px;">
                                         <h4><a href="product.php?id=<?php echo $list['id']?>"><?php echo $list['name']?></a></h4>
-                                        <ul class="fr__pro__prize">
-                                            <li class="old__prize"><i class="fa fa-inr"></i>
-                                            <li><?php echo $list['price']?></li>
-                                        </ul>
-                                        <a href="product.php?id=<?php echo $list['id']?>" class="btn" style="border:solid 2px #777; background: none; color:#777; padding:5px 10px ; display: block; text-align: center; clear: both; width: 50%; margin-top: 7px; font-weight: 600; font-family=Maven+Pro; border-radius:0px;}
+                                       <br>
+                                       <a href="product.php?id=<?php echo $list['id']?>" class="btn" style="border:solid 2px #777; background: none; color:#777; padding:5px 10px ; display: block; text-align: center; clear: both; width: 50%; margin-top: 7px; font-weight: 600; font-family=Maven+Pro; border-radius:0px;}
 ">Rent Now</a>
                                     </div>
                                 </div>
@@ -522,9 +650,138 @@ echo date('d M Y',$added_on);
 ob_flush();?>
 
 <script>
+function checkCartMessage() {
+    let cartMsg = document.getElementById("cart_attr_msg").innerHTML.trim();
+    let wrapper = document.getElementById("cart_attr_wrapper");
+
+    if (cartMsg === "") {
+        wrapper.style.display = "none";
+    } else {
+        wrapper.style.display = "inline"; // or "block" if needed
+    }
+}
+
+// Run the function whenever the message updates
+setInterval(checkCartMessage, 500); // Checks every 500ms
+</script>
+
+
+<script>
 let is_color='<?php echo $is_color?>';
 			let is_size='<?php echo $is_size?>';
 			let pid='<?php echo $product_id?>';
 
+</script>
+    
+<script>
+// Show date inputs when quantity is selected
+function showDatePicker() {
+    let selectedQty = jQuery('#qty').val();
+    if (selectedQty != '' && parseInt(selectedQty) > 0) {
+        jQuery('#date_picker_div').show();
+    } else {
+        jQuery('#date_picker_div').hide();
+    }
+}
+
+// Add event listeners for date changes
+document.getElementById('rent_from_date').addEventListener('change', function() {
+    document.getElementById('rent_to_date').min = this.value;
+    validateDates();
+    calculateRentalPrice();
+});
+
+document.getElementById('rent_to_date').addEventListener('change', function() {
+    validateDates();
+    calculateRentalPrice();
+});
+
+function validateDates() {
+    let fromDate = new Date(document.getElementById('rent_from_date').value);
+    let toDate = new Date(document.getElementById('rent_to_date').value);
+    
+    if (fromDate && toDate && !isNaN(fromDate) && !isNaN(toDate)) {
+        let diffTime = Math.abs(toDate - fromDate);
+        let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+        
+        if (diffDays < 3) {
+            document.getElementById('cart_attr_msg').innerHTML = 'Please select at least 3 days rental period';
+            return false;
+        } else {
+            document.getElementById('cart_attr_msg').innerHTML = '';
+            return true;
+        }
+    }
+    return false;
+}
+
+function calculateRentalPrice() {
+    let fromDate = new Date(document.getElementById('rent_from_date').value);
+    let toDate = new Date(document.getElementById('rent_to_date').value);
+    
+    if (fromDate && toDate && !isNaN(fromDate) && !isNaN(toDate)) {
+        let days = Math.floor((toDate - fromDate) / (1000 * 60 * 60 * 24)) + 1;
+        let basePrice = <?php echo $get_product['0']['price'] ?>;
+        let totalPrice = basePrice * days;
+        
+        if (days > 0) {
+            $('#rent-amount-calculated-show').text(totalPrice);
+        }
+    }
+}
+
+// Update manage_cart function to include dates
+function manage_cart(pid, type, is_checkout) {
+    let qty = jQuery('#qty').val();
+    let rent_from = jQuery('#rent_from_date').val();
+    let rent_to = jQuery('#rent_to_date').val();
+    
+    if (!rent_from || !rent_to) {
+        document.getElementById('cart_attr_msg').innerHTML = 'Please select rental dates';
+        return;
+    }
+
+    // Validate minimum rental period
+    if (!validateDates()) {
+        return;
+    }
+
+    // Calculate number of days
+    let fromDate = new Date(rent_from);
+    let toDate = new Date(rent_to);
+    let diffTime = Math.abs(toDate - fromDate);
+    let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+    // Validate dates
+    if (fromDate > toDate) {
+        alert('Return date must be after rental date');
+        return;
+    }
+
+    jQuery.ajax({
+        url: 'manage_cart.php',
+        type: 'post',
+        data: {
+            pid: pid,
+            qty: qty,
+            type: type,
+            rent_from: rent_from,
+            rent_to: rent_to,
+            rental_days: diffDays,
+            cid: jQuery('#cid').val(),
+            sid: jQuery('#sid').val()
+        },
+        success: function(result) {
+            if (result.status == 'not_available') {
+                alert('Quantity not available');
+            } else {
+                jQuery('#cart_count').html(result);
+                if (is_checkout) {
+                    window.location.href = 'checkout.php';
+                }
+            }
+        }
+    });
+}
 </script>
     

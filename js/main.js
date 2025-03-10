@@ -446,14 +446,15 @@ function manage_cart(pid,type,is_checkout){
     }
     else
     {
-         var qty=jQuery("#qty").val();
-      // var qty=1;
+        var qty=jQuery("#qty").val();
     }
     let cid=jQuery('#cid').val();
     let sid=jQuery('#sid').val();
+    let rent_from = jQuery('#rent_from_date').val();
+    let rent_to = jQuery('#rent_to_date').val();
+    
     if(type=='add')
     {
-
         if(is_color!=0 && cid==''){
             jQuery('#cart_attr_msg').html('Please select color');
             is_error='yes';
@@ -462,28 +463,36 @@ function manage_cart(pid,type,is_checkout){
             jQuery('#cart_attr_msg').html('Please select size');
             is_error='yes';
         }
+        if(qty > 0 && (!rent_from || !rent_to)){
+            jQuery('#cart_attr_msg').html('Please select rental period');
+            is_error='yes';
+        }
     }
+    
     if(is_error==''){
-	
-		jQuery.ajax({
-			url:'manage_cart.php',
-			type:'post',
-			data:'pid='+pid+'&qty='+qty+'&type='+type+'&cid='+cid+'&sid='+sid,
-			success:function(result){
-			console.log(result);
-				if(result.status=='not_avaliable'){
-					alert('Qty not available');	
-				} else if(result.status=='max_qty_reached'){
+        jQuery.ajax({
+            url:'manage_cart.php',
+            type:'post',
+            data:'pid='+pid+'&qty='+qty+'&type='+type+'&cid='+cid+'&sid='+sid+'&rent_from='+rent_from+'&rent_to='+rent_to,
+            success:function(result){
+                console.log(result);
+                if(result.status=='not_avaliable'){
+                    alert('Qty not available');	
+                } else if(result.status=='max_qty_reached'){
                     alert('Maximum quantity reached');
                 } else {
-					jQuery('.htc__qua').html(result);
-					if(is_checkout=='yes'){
-						window.location.href='checkout.php';
-					}
-				}
-			}	
-		});	
-	}
+                    jQuery('.htc__qua').html(result);
+                
+                    if(is_checkout=='yes'){
+                        window.location.href='checkout.php';
+                    }
+                    else if(type=='add') {
+                        window.location.href='cart.php';
+                    }
+                }
+            }   
+        }); 
+    }
 }
 
 function loadAttr(c_s_id,pid,type){
@@ -517,7 +526,6 @@ function showQty(){
         jQuery('#cart_qty').removeClass('hide');
         jQuery('#cart_attr_msg').html('');
 		 let sid=jQuery('#size_attr').val();
-        
 		jQuery('#sid').val(sid);
 		 getAttrDetails(pid);
 	}
@@ -541,12 +549,7 @@ function getAttrDetails(pid){
             var qty=result.qty;
             
             if(qty > 0){
-                var html='';
-                for(i=1; i<=qty; i++){
-                    html=html+"<option>"+i+"</option>";
-                }
                 jQuery('#cart_qty').show();
-                jQuery('#qty').html(html);
                 jQuery('#is_cart_box_show').removeClass('hide');
                 jQuery('#cart_attr_msg').html('');
                 jQuery('#cart_qty').removeClass('hide');
@@ -577,6 +580,22 @@ function wishlist_manage(pid,type){
 			}
 		}	
 	});	
+}
+
+function showDatePicker() {
+    jQuery('#date_picker_div').show();
+    
+    jQuery('#rent_dates').daterangepicker({
+        minDate: moment().add(1, 'days'),
+        startDate: moment().add(1, 'days'),
+        endDate: moment().add(7, 'days'),
+        locale: {
+            format: 'YYYY-MM-DD'
+        }
+    }, function(start, end) {
+        jQuery('#rent_from_date').val(start.format('YYYY-MM-DD'));
+        jQuery('#rent_to_date').val(end.format('YYYY-MM-DD'));
+    });
 }
 
 

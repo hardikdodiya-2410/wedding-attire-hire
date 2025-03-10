@@ -1,7 +1,9 @@
 <?php
 class add_to_cart{
-	function addProduct($pid,$qty,$attr_id){
+	function addProduct($pid,$qty,$attr_id,$rent_from='',$rent_to=''){
 		$_SESSION['cart'][$pid][$attr_id]['qty']=$qty;
+		$_SESSION['cart'][$pid][$attr_id]['rent_from']=$rent_from;
+		$_SESSION['cart'][$pid][$attr_id]['rent_to']=$rent_to;
 	}
 	
 	function updateProduct($pid,$qty,$attr_id){

@@ -604,6 +604,7 @@ WHERE order_detail.order_id = '$order_id';");
 								  <h3 class="align-right">'.$user_order['added_on'].'.</h3>
 								</td>
 							  </tr>
+							  
 							  <tr>
 								<td colspan="2">
 								  <table class="purchase_content" width="100%" cellpadding="0" cellspacing="0">
@@ -617,7 +618,7 @@ WHERE order_detail.order_id = '$order_id';");
 									</tr>
 									Invoice Details';
 									while($row=mysqli_fetch_assoc($res)){
-										$total_price += ($row['qty'] * $row['price']);
+										$total_price += ($row['qty'] * $row['price']*$row['rental_days']);
 										$pp = $row['qty'] * $row['price'];
 								
 										$html .= '<tr>
@@ -634,7 +635,21 @@ WHERE order_detail.order_id = '$order_id';");
 										  </td>
 									
 										<td class="align-right" width="40%" class="purchase_item"><span class="f-fallback">'.$pp.'</span></td>
-										</tr>';
+										</tr>
+										<tr>
+								<td colspan="2">
+									<label class="f-fallback purchase_total purchase_total--label">Rental Dates</label>
+									<br>
+									<span class="f-fallback">From:</span>
+									<span class="f-fallback">'.$row['rent_from'].'</span>
+									<br>
+									<span class="f-fallback">To:</span>
+									<span class="f-fallback">'.$row['rent_to'].'</span>
+									<br>
+									<span class="f-fallback">Total Rental Days:</span>
+									<span class="f-fallback">'.$row['rental_days'].'</span>
+								</td>
+							  </tr>';
 									}
 									
 									if($coupon_value != ''){								

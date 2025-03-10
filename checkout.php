@@ -105,10 +105,28 @@ if(isset($_POST['submit'])){
 	// Calculate the total price of the cart
 	foreach($_SESSION['cart'] as $key=>$val){
 		foreach($val as $key1=>$val1){
-			$resAttr=mysqli_fetch_assoc(mysqli_query($con,"select * from product_attributes where product_attributes.id='$key1'"));
+			$resAttr=mysqli_fetch_assoc(mysqli_query($con,"select product_attributes.*,color_master.color,size_master.size from product_attributes 
+left join color_master on product_attributes.color_id=color_master.id and color_master.status=1 
+left join size_master on product_attributes.size_id=size_master.id and size_master.status=1
+where product_attributes.id='$key1'"));
 			$price=$resAttr['price'];
 			$qty=$val1['qty'];
-			$cart_total += ($price * $qty); // Update cart total
+		
+			// Calculate rental days
+			$rental_days = 0;
+			if(isset($val1['rent_from']) && isset($val1['rent_to'])){
+				$date1 = new DateTime($val1['rent_from']);
+				$date2 = new DateTime($val1['rent_to']);
+				$interval = $date1->diff($date2);
+				$rental_days = $interval->days + 1; // Adding 1 to include both start and end dates
+				$rental_days = $rental_days-2; // Adjust days as per your requirement
+			}
+		
+			// Calculate item total with rental days
+			$item_total = $price * $qty * $rental_days;
+			$cart_total += $item_total;
+		
+		
 		}
 	}
 	$total_price = $cart_total; // Set total price
@@ -137,10 +155,18 @@ if(isset($_POST['submit'])){
 
 		foreach($_SESSION['cart'] as $key=>$val){
 			foreach($val as $key1=>$val1){
-		
 				$resAttr=mysqli_fetch_assoc(mysqli_query($con,"select * from product_attributes where product_attributes.id='$key1'"));
 				$price=$resAttr['price'];
 				$qty=$val1['qty'];
+				$rent_from = $val1['rent_from'];
+				$rent_to = $val1['rent_to'];
+				if(isset($val1['rent_from']) && isset($val1['rent_to'])){
+					$date1 = new DateTime($val1['rent_from']);
+					$date2 = new DateTime($val1['rent_to']);
+					$interval = $date1->diff($date2);
+					$rental_days = $interval->days + 1; // Adding 1 to include both start and end dates
+					$rental_days = $rental_days-2; // Adjust days as per your requirement
+				
 
 				// Check if the product is out of stock
 				if ($resAttr['qty'] < $qty) {
@@ -153,9 +179,11 @@ if(isset($_POST['submit'])){
 				$new_qty = $resAttr['qty'] - $qty;
 				mysqli_query($con, "UPDATE product_attributes SET qty='$new_qty' WHERE id='$key1'");
 
-				// Insert into order_detail table using the retrieved order_id
-				mysqli_query($con,"insert into `order_detail`(order_id,product_id,product_attr_id,qty,price) values('$order_id','$key','$key1','$qty','$price')");
+				// Insert into order_detail with rental dates
+				mysqli_query($con,"insert into `order_detail`(order_id,product_id,product_attr_id,qty,price,rent_from,rent_to,rental_days) 
+					values('$order_id','$key','$key1','$qty','$price','$rent_from','$rent_to','$rental_days')");
 			}
+		}
 		}
 		
 		if($payment_type=='Payu'){
@@ -338,27 +366,37 @@ unset($_SESSION['cart']);
                             <h5 class="order-details__title">Your Order</h5>
                             <div class="order-details__item">
                                 <?php
-								$total_price=0;
-								foreach($_SESSION['cart'] as $key=>$val){
-							 foreach($val as $key1=>$val1){
+                                $total_price=0;
+                                $cart_total=0; // Initialize cart_total
+                                foreach($_SESSION['cart'] as $key=>$val){
+                                    foreach($val as $key1=>$val1){
+                                        $resAttr=mysqli_fetch_assoc(mysqli_query($con,"select product_attributes.*,color_master.color,size_master.size from product_attributes 
+                                            left join color_master on product_attributes.color_id=color_master.id and color_master.status=1 
+                                            left join size_master on product_attributes.size_id=size_master.id and size_master.status=1
+                                            where product_attributes.id='$key1'"));
 
-
-									$resAttr=mysqli_fetch_assoc(mysqli_query($con,"select product_attributes.*,color_master.color,size_master.size from product_attributes 
-left join color_master on product_attributes.color_id=color_master.id and color_master.status=1 
-left join size_master on product_attributes.size_id=size_master.id and size_master.status=1
-where product_attributes.id='$key1'"));
-// prx($resAttr);
-
-							$productArr=get_product($con,'','',$key,'','','','',$key1);
-					
-								$pname=$productArr[0]['name'];
-								$mrp=$productArr[0]['mrp'];
-								$price=$productArr[0]['price'];
-								$image=$productArr[0]['image'];
-								$qty=$val1['qty'];
-								$cart_total += ($price * $qty);
-								?>
-								<div class="single-item">
+                                        $productArr=get_product($con,'','',$key,'','','','',$key1);
+                                        $pname=$productArr[0]['name'];
+                                        $mrp=$productArr[0]['mrp'];
+                                        $price=$productArr[0]['price'];
+                                        $image=$productArr[0]['image'];
+                                        $qty=$val1['qty'];
+                                        
+                                        // Calculate rental days
+                                        $rental_days = 0;
+                                        if(isset($val1['rent_from']) && isset($val1['rent_to'])){
+                                            $date1 = new DateTime($val1['rent_from']);
+                                            $date2 = new DateTime($val1['rent_to']);
+                                            $interval = $date1->diff($date2);
+                                            $rental_days = $interval->days + 1; // Adding 1 to include both start and end dates
+                                            $rental_days = $rental_days-2; // Adjust days as per your requirement
+                                        }
+                                        
+                                        // Calculate item total with rental days
+                                        $item_total = $price * $qty * $rental_days;
+                                        $cart_total += $item_total;
+                                ?>
+                                <div class="single-item">
                                     <div class="single-item__thumb">
                                         <img src="<?php echo PRODUCT_MULTIPLE_IMAGE_SITE_PATH.$image?>"  />
                                     </div>
@@ -367,8 +405,19 @@ where product_attributes.id='$key1'"));
                                         <a href="#"><?php echo $pname?></a><br>
 										<label>Quantity:</label>
 										<a href="#"><?php echo $qty?></a><br>
-                                        <label>Price:</label>
-                                        <a href="#"><i class="fa fa-inr"></i><?php echo $price*$qty?></a><br>	
+                                        <label>Price Per Day:</label>
+                                        <a href="#"><i class="fa fa-inr"></i><?php echo $price?></a><br>
+										<?php
+											if(isset($val1['rent_from']) && isset($val1['rent_to'])){
+												echo "	<label>From:</label> <a class='product-name'>".date('d M Y', strtotime($val1['rent_from']))."</a><br>";
+												echo "	<label>To:</label> <a class='product-name'>".date('d M Y', strtotime($val1['rent_to']))."</a><br>";
+												
+												}
+										?>
+                                        <label>Total Days:</label>
+                                        <a href="#"><?php echo $rental_days?></a><br>
+                                        <label>Total Amount:</label>
+                                        <a href="#"><i class="fa fa-inr"></i><?php echo $item_total?></a><br>
 										<label>Color:</label>
 										<?php
                                                     if(isset($resAttr['color']) && $resAttr['color']!=''){
@@ -383,6 +432,9 @@ where product_attributes.id='$key1'"));
                                                         echo "<a class='product-name'> ".$resAttr['size']."</a>";
                                                     }
                                                    ?>
+												   <br>
+									
+										
 									</div>
                                
                                 </div>
@@ -448,5 +500,12 @@ if(isset($_SESSION['COUPON_ID'])){
 	unset($_SESSION['COUPON_CODE']);
 	unset($_SESSION['COUPON_VALUE']);
 }
+
+// After successful order completion, clear the rental dates from session
+if($payment_type=='COD'){
+    unset($_SESSION['cart_rent_from']);
+    unset($_SESSION['cart_rent_to']);
+}
+
 require('footer.php');
 ?>        

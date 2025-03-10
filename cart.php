@@ -1,5 +1,7 @@
 <?php 
 require('top.php');
+// unset($_SESSION['cart']);
+
 if(!isset($_SESSION['USER_LOGIN'])){
 ?>
 <script>
@@ -7,7 +9,6 @@ if(!isset($_SESSION['USER_LOGIN'])){
 </script>
 <?php
 }
-
 ?>
 
 <div class="ht__bradcaump__area" >
@@ -41,6 +42,7 @@ if(!isset($_SESSION['USER_LOGIN'])){
                                             <th class="product-name">name of products</th>
                                             <th class="product-price">Price</th>
                                             <th class="product-quantity">Quantity</th>
+                                            <th class="product-subtotal">Rental Dates</th>
                                             <th class="product-subtotal">Total</th>
                                             <th class="product-remove">Remove</th>
                                         </tr>
@@ -64,6 +66,8 @@ if(!isset($_SESSION['USER_LOGIN'])){
 											$price=$productArr[0]['price'];
 											$image=$productArr[0]['image'];
 											$qty=$val1['qty'];
+                                            $rent_from = $val1['rent_from'];
+                                            $rent_to = $val1['rent_to'];
 											?>
 											<tr>
 												<td class="product-thumbnail"><a href="#"><img src="<?php echo PRODUCT_MULTIPLE_IMAGE_SITE_PATH.$image?>"> </a></td>
@@ -86,12 +90,29 @@ if(!isset($_SESSION['USER_LOGIN'])){
 														<li><?php echo $price?></li>
 													</ul>
 												</td>
+                                          
+                                                   
+                                       
 												<td class="product-price"><i class="fa fa-inr"></i><span class="amount"><?php echo $price?></span></td>
 												<td class="product-quantity"><input type="number" min="1" id="<?php echo $key?>qty" value="<?php echo $qty?>" style="text-align:center;" />
                                                 <br>
 												<br/><a href="javascript:void(0)" onclick="manage_cart_update('<?php echo $key?>','update','<?php echo $resAttr['size_id']?>','<?php echo $resAttr['color_id']?>')" class="btn" style="padding: 5px; background: #f5efef; margin-top: 5px; color: rgb(33, 33, 33); box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26); text-transform: capitalize; font-family: 'Poppins', sans-serif;">update</a>
 												</td>
-												<td class="product-subtotal"><i class="fa fa-inr"></i><?php echo $qty*$price?></td>
+												
+                                                <td>
+                                                    <span>Rental Dates:</span><br>
+                                                    <span><?php echo $rent_from?> to <?php echo $rent_to?></span><br>
+                                                    <?php
+                                                    // Calculate number of rental days
+                                                    $date1 = new DateTime($rent_from);
+                                                    $date2 = new DateTime($rent_to);
+                                                    $interval = $date1->diff($date2);
+                                                    $days = $interval->days + 1; // Add 1 to include both start and end dates
+                                                    $days = $days-2;
+                                                    ?>
+                                                    <span>(<?php echo $days?> days)</span>
+                                                </td>
+                                                <td class="product-subtotal"><i class="fa fa-inr"></i><?php echo $qty*$price*$days?></td>
 												<td class="product-remove">
 													<a href="javascript:void(0)" onclick="manage_cart_update('<?php echo $key?>','remove','<?php echo $resAttr['size_id']?>','<?php echo $resAttr['color_id']?>')"><i class="icon-trash icons"></i></a>
 												</td>

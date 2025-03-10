@@ -51,7 +51,7 @@ if(isset ($_POST["insert"]))
         }
         else
         {
-            echo "<script> alert('Message sent successfully!') </script>";
+           
             
             
             // Create a new PHPMailer instance
@@ -75,21 +75,60 @@ if(isset ($_POST["insert"]))
                 $mail->isHTML(true);
                 $mail->Subject = 'Feedback from '.$name;
                 $mail->Body    = '
-                <html>
-                <head>
-                    <title>User Feedback</title>
-                </head>
-                <body>
-                    <h2>Feedback from: ' . $name . '</h2>
-                    <div style="margin: 20px 0; padding: 15px; background-color: #f8f9fa; border-radius: 5px;">
-                        <p style="font-size: 16px;">' . nl2br(htmlspecialchars($comment)) . '</p>
-                    </div>
-                    <p style="color: #666;">Email: ' . $email . '</p>
-                </body>
-                </html>';
+                <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Acknowledgment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 500px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .message-box {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 5px solid #007bff;
+            border-radius: 5px;
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        p {
+            font-size: 16px;
+            color: #555;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dear '.$name.',</h1>
+        <div class="message-box">
+            <p>Thank you for your valuable feedback. We appreciate your time and effort in sharing your thoughts with us.</p>
+        </div>
+        <p>Best regards,</p>
+        <p>The Wedding Attire Hire Team</p>
+    </div>
+</body>
+</html>
+';
             
                 $mail->send();
-                echo "Email sent successfully.";
+       
             } catch (Exception $e) {
                 echo "Failed to send email. Mailer Error: {$mail->ErrorInfo}";
             }

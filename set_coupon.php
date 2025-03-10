@@ -18,7 +18,20 @@ foreach($_SESSION['cart'] as $key=>$val){
 		$resAttr=mysqli_fetch_assoc(mysqli_query($con,"select * from product_attributes where product_attributes.id='$key1'"));
 		$price=$resAttr['price'];
 		$qty=$val1['qty'];
-		$cart_total=$cart_total+($price*$qty);
+		
+		// Calculate rental days
+		$rental_days = 0;
+		if(isset($val1['rent_from']) && isset($val1['rent_to'])){
+			$date1 = new DateTime($val1['rent_from']);
+			$date2 = new DateTime($val1['rent_to']);
+			$interval = $date1->diff($date2);
+			$rental_days = $interval->days + 1; // Adding 1 to include both start and end dates
+			$rental_days = $rental_days-2; // Adjust days as per your requirement
+		}
+		
+		// Calculate item total with rental days
+		$item_total = $price * $qty * $rental_days;
+		$cart_total += $item_total;
 	}
 }
 if($count>0){

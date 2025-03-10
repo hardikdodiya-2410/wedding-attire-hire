@@ -7,6 +7,10 @@ $pid=get_safe_value($con,$_POST['pid']);
 $qty=get_safe_value($con,$_POST['qty']);
 $type=get_safe_value($con,$_POST['type']);
 
+// Add these lines to handle rental dates
+$rent_from = isset($_POST['rent_from']) ? get_safe_value($con, $_POST['rent_from']) : '';
+$rent_to = isset($_POST['rent_to']) ? get_safe_value($con, $_POST['rent_to']) : '';
+
 $attr_id=0;
 if(isset($_POST['sid']) && isset($_POST['cid'])){
 	$sub_sql='';
@@ -32,7 +36,7 @@ $productQty=productQty($con,$pid,$attr_id);
 $pending_qty=$productQty;
 
 if($pending_qty==0 && $type!='remove'){
-	echo json_encode(['status' => 'not_avaliable', 'productQty' => $productQty]);
+	echo json_encode(['status' => 'not_available']);
 	die();
 }
 
@@ -45,7 +49,8 @@ if($qty > $pending_qty && $type != 'remove'){
 $obj=new add_to_cart();
 
 if($type=='add'){
-	$obj->addProduct($pid,$qty,$attr_id);
+	// Pass rental dates to addProduct method
+	$obj->addProduct($pid, $qty, $attr_id, $rent_from, $rent_to);
 }
 
 if($type=='remove'){
@@ -56,5 +61,10 @@ if($type=='update'){
 	$obj->updateProduct($pid,$qty,$attr_id);
 }
 
-echo $obj->totalProduct();
+echo json_encode([
+	'status' => 'success',
+	'cart_count' => $obj->totalProduct(),
+	'rent_from' => $rent_from,
+	'rent_to' => $rent_to
+]);
 ?>
