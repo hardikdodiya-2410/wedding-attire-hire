@@ -1918,6 +1918,7 @@ select.ht__select {
     align-items: center;
     display: flex;
     margin-top: 21px;
+    margin-left: 20px;
 }
 .pro__color li a {
     /* background: #000 none repeat scroll 0 0; */
@@ -2058,8 +2059,8 @@ select.ht__select {
     font-family: sans-serif;
 }
 select.select__size {
-    border: 1px solid #afafaf;
-    color: #afafaf;
+    border: 1px solid #000000;
+    color: #000000;
     height: 20px;
     margin-left: 10px;
     width: 60px;

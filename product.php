@@ -111,10 +111,11 @@ input[type="date"] {
     width: 160px;
     padding: 8px;
     font-size: 14px;
-    border: 1px solid #ccc;
+    border: 1px solid #000000;
+    color: #000000;
     border-radius: 5px;
     background-color: #fff;
-    color: #333;
+ 
     cursor: pointer;
     outline: none;
     transition: all 0.3s ease-in-out;
@@ -122,8 +123,9 @@ input[type="date"] {
 
 /* On Focus */
 input[type="date"]:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    border: 1px solid #000000;
+    color: #000000;
+
 }
 
 /* Read-only Date Field */
@@ -146,24 +148,27 @@ select {
     width: 100px;
     padding: 8px;
     font-size: 16px;
-    border: 2px solid #ccc;
+    border: 2px solid black;
     border-radius: 5px;
     background-color: #fff;
     cursor: pointer;
     outline: none;
     transition: border-color 0.3s ease-in-out;
 }
+select.select__size {
+    border: 1px solid #000000;
+    color: #000000;
+    height: 20px;
+    margin-left: 10px;
+    width: 60px;
+    padding: 0 4px;
+    font-size: 15px;
+}
 
 /* Add hover effect */
-select:hover {
-    border-color: #007bff;
-}
+
 
 /* Style for the select dropdown when focused */
-select:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
 
 /* Style for options inside the select dropdown */
 option {
@@ -174,7 +179,7 @@ option {
 
 /* Style for selected option */
 option:checked {
-    background-color: #007bff;
+    background-color:rgb(0, 0, 0);
     color: #fff;
 }
 /* Style for the color list container */
@@ -216,7 +221,79 @@ option:checked {
     text-indent: -9999px; /* Hide text */
 }
 
+/* Default styles for large screens (laptop/desktop) */
+.product-det {
+    background: #f9f9f9;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    position: relative;
+}
+.main-image img {
+    width: 100%;
+    height: auto;
+}
+.thumbnails img {
+    width: 70px;
+    cursor: pointer;
+}
 
+/* Tablet (medium screens) */
+@media (max-width:991px) {
+    .col-md-3, .col-md-6, .col-md-9 {
+        width: 100%;
+        padding: 0 5px;
+    }
+    .main-image img {
+        width: 100%;
+        height: auto;
+    }
+    .thumbnails img {
+        width: 60px;
+    }
+    
+}
+
+/* Mobile (small screens) */
+@media (max-width: 991px) {
+    .htc__product__details__top .row {
+        display: flex;
+        flex-direction: column;
+    }
+   
+    .product-det {
+        padding: 10px;
+        width: 100%;
+    }
+
+    .main-image img {
+        width: 100%;
+        height: auto;
+    }
+
+    .thumbnails {
+        display: flex;
+        gap: 5px;
+        overflow-x: auto;
+    }
+
+    .product-price {
+        text-align: left;
+        font-size: 20px;
+    }
+
+    .fr__btn {
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    #date_picker_div input[type="date"] {
+        width: 100%;
+    }
+}
+.sin__desc {
+    margin-left: 10px;
+}
     
     </style>
    
@@ -408,12 +485,11 @@ option:checked {
                                     <div id="is_cart_box_show" class="<?php echo $is_cart_box_show?>">
                                     <div class="contact-btn"style="margin-top: 15px;     padding: 10px 15px 10px;">
                                
-                                        <a class="fr__btn" name="add_to_cart"href="javascript:void(0)" onclick="manage_cart('<?php echo $get_product['0']['id']?>','add')">Add to cart</a>
-                                       
-                                    <?php if(isset($_SESSION['USER_LOGIN'])){
-                    ?>
-                                    <a class="fr__btn" name="add_to_cart"href="javascript:void(0)" onclick="manage_cart('<?php echo $get_product['0']['id']?>','add','yes')">Buy now</a>
-                                  <?php } ?>
+                                        <!-- <a class="fr__btn" name="add_to_cart"href="javascript:void(0)" onclick="manage_cart('<?php echo $get_product['0']['id']?>','add')">Add to cart</a>
+                                        -->
+                
+                                    <a class="fr__btn" name="add_to_cart"href="javascript:void(0)" onclick="manage_cart('<?php echo $get_product['0']['id']?>','add','yes')">Rent Now</a>
+                              
                                 </div>
                       
                                     <p id="field_error" class="field_error"></p>
@@ -730,16 +806,19 @@ function calculateRentalPrice() {
     }
 }
 
+       
 // Update manage_cart function to include dates
 function manage_cart(pid, type, is_checkout) {
     let qty = jQuery('#qty').val();
     let rent_from = jQuery('#rent_from_date').val();
     let rent_to = jQuery('#rent_to_date').val();
+       
+        if(!rent_from || !rent_to) {
+                document.getElementById('cart_attr_msg').innerHTML = 'Please select rental dates';
+                return;
+        }
     
-    if (!rent_from || !rent_to) {
-        document.getElementById('cart_attr_msg').innerHTML = 'Please select rental dates';
-        return;
-    }
+   
 
     // Validate minimum rental period
     if (!validateDates()) {

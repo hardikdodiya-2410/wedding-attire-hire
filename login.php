@@ -9,6 +9,10 @@ if(isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN']=='yes'){
 }
 ?>
 <!-- Start Bradcaump area -->
+ <html>
+	<head>
+		
+	</head>
 <div class="ht__bradcaump__area" >
     <div class="container" style="widht:100%; padding:20px;background-color:#f5f5f5;margin-bottom:20px;margin-top:20px;">
                         <div class="col-xs-5">
@@ -43,7 +47,7 @@ if(isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN']=='yes'){
 									</div>
 									<div class="single-contact-form">
 										<div class="contact-box name">
-											<input type="password" name="login_password" id="login_password" placeholder="Your Password*" style="width:100%" onclick="showpassword()">
+											<input type="password" name="login_password" id="login_password" placeholder="Your Password*" style="width:100%">
 										</div>
 										<span class="field_error" id="login_password_error"></span>
 										<div class="show_password">
@@ -51,7 +55,7 @@ if(isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN']=='yes'){
 										<label for="show_password">Show Password</label>
 										</div>
 										<script>
-											function showpassword(){
+									function showpassword(){
 				var password=document.getElementById('login_password');
 				if(password.type=='password'){
 					password.type='text';
@@ -87,7 +91,7 @@ if(isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN']=='yes'){
 								<form id="register-form" method="post">
 									<div class="single-contact-form">
 										<div class="contact-box name">
-											<input type="text" name="name" id="name" placeholder="Your Name*" style="width:100%">
+											<input type="text" name="name" id="name" placeholder="Your Name*" maxlength="7"style="width:100%">
 										</div>
 										<span class="field_error" id="name_error"></span>
 									</div>
@@ -126,7 +130,7 @@ if(isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN']=='yes'){
 									</div>
 									
 									<div class="contact-btn">
-										<button type="button" class="fv-btn" onclick="user_register()"disabled id="btn_register">Register</button>
+										<button type="button" class="fv-btn" onclick="user_register()" disabled id="btn_register">Register</button>
 									</div>
 								</form>
 								<div class="form-output register_msg">
@@ -142,6 +146,11 @@ if(isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN']=='yes'){
 		<input type="hidden" id="is_email_verified"/>
 		
 		<script>
+			 const button = document.getElementById('btn_register');
+        button.addEventListener('click', function() {
+            alert('Please enter your details.');
+        });
+
 			function show_password(){
 				var password=document.getElementById('password');
 				if(password.type=='password'){
@@ -166,6 +175,10 @@ function user_register(){
 	} else if(name.length > 7) {
 		jQuery('#name_error').html('Name cannot be longer than 7 characters');
 		is_error='yes';
+	}
+	else
+	{
+		jQuery('#name_error').html(' ');
 	}
 	
 	// Email validation
@@ -209,7 +222,7 @@ function user_register(){
 					jQuery('#mobile_error').html('Mobile number already present');
 				}
 				if(result.insert){
-					jQuery('.register_msg p').html('Thank you for registeration');
+					alert('Thank you for registeration');
 					window.location.reload();
 				}
 			}	
@@ -312,7 +325,8 @@ function user_login(){
 							jQuery('.email_verify_otp').hide();
 							jQuery('#email_otp_result').html('Email id verified');
 							jQuery('#is_email_verified').val('1');
-							jQuery('#btn_register').attr('disabled',false);
+							 jQuery('#btn_register').attr('disabled',false);
+							
 						}else{
 							jQuery('#email_error').html('Please enter valid OTP');
 						}
