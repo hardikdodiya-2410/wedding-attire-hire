@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 10, 2025 at 04:32 PM
+-- Generation Time: Mar 11, 2025 at 06:53 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -121,7 +121,10 @@ INSERT INTO `contact_us` (`id`, `name`, `email`, `mobile`, `comment`, `added_on`
 (21, 'jay', 'jay709604@gmail.com', '7096049904', 'fghgfh', '10-03-2025 01:07:08'),
 (22, 'jay', 'jay709604@gmail.com', '7096049904', 'gnggng', '10-03-2025 01:08:46'),
 (23, 'jay', 'jay709604@gmail.com', '7096049904', 'gnggng', '10-03-2025 01:11:04'),
-(24, 'vinay', 'vinaydodiya22@gmail.com', '9537413107', 'this website is perfect for rent colth ', '10-03-2025 08:27:13');
+(24, 'vinay', 'vinaydodiya22@gmail.com', '9537413107', 'this website is perfect for rent colth ', '10-03-2025 08:27:13'),
+(25, 'Dodiya', 'aadidodiya02@gmail.com', '7285092142', 'good', '10-03-2025 09:35:20'),
+(26, 'jeet', 'pjeet200@gmail.com', '1234567891', 'this website is perfect to rent cloth ', '11-03-2025 03:43:36'),
+(27, 'Nirav', 'ssccs.project@gmail.com', '8866981290', 'Good UI/UX.', '11-03-2025 04:06:45');
 
 -- --------------------------------------------------------
 
@@ -213,7 +216,12 @@ INSERT INTO `order` (`id`, `user_id`, `address`, `city`, `pincode`, `payment_typ
 (30, 1, '32/A BALA JABBAR NI WADI TALAJA Talaja (M)', 'Bhavnagar', 364140, 'COD', 285, 'Success', 5, 10, 10, 10, 10, '00006aefcf0e5e126010', '', 779443812, 775898576, '', '2025-03-10 06:29:32', 1, 'first%5', 15),
 (31, 1, '32/A BALA JABBAR NI WADI TALAJA Talaja (M)', 'Bhavnagar', 364140, 'COD', 380, 'Success', 5, 101, 101, 10, 10, 'bc4ce0cdb08b63d183b9', '', 779494328, 775949008, '', '2025-03-10 07:49:35', 1, 'first%5', 20),
 (32, 1, '32/A BALA JABBAR NI WADI TALAJA Talaja (M)', 'Bhavnagar', 364140, 'COD', 1100, 'Success', 5, 10, 10, 10, 10, 'af2f42d4156b71e79842', '', 779500519, 775955203, '', '2025-03-10 07:59:48', 0, '', 0),
-(33, 4, 'shree pc parmar Chatra lay', 'Bhavngar', 364140, 'COD', 200, 'success', 1, 0, 0, 0, 0, '45a7ddeba4d7cd0e8d04', '', 0, 0, '', '2025-03-10 08:06:47', 0, '', 0);
+(33, 4, 'shree pc parmar Chatra lay', 'Bhavngar', 364140, 'COD', 200, 'success', 1, 0, 0, 0, 0, '45a7ddeba4d7cd0e8d04', '', 0, 0, '', '2025-03-10 08:06:47', 0, '', 0),
+(34, 9, 'Bhavnagar-364001', 'Bhavnagar', 364001, 'COD', 600, 'success', 1, 0, 0, 0, 0, '3363255bd72471878ef0', '', 0, 0, '', '2025-03-10 09:34:32', 0, '', 0),
+(35, 10, 'Bhavnagar-364001', 'Bhavnagar', 364001, 'COD', 5130, 'success', 1, 0, 0, 0, 0, 'd507d3b6ca2175de4b2c', '', 0, 0, '', '2025-03-10 09:40:43', 1, 'first%5', 270),
+(36, 11, 'NILKANTH HIGHER SECONDARY SCHOOL  TALAJA', 'Bhavnagar', 364140, 'COD', 380, 'Success', 5, 10, 101, 101, 10, '294b01a888c7155211b9', '', 780151651, 776605495, '', '2025-03-11 03:40:09', 1, 'first%5', 20),
+(37, 12, 'Bhavnagar', 'Bhavnagar', 364001, 'COD', 200, 'Success', 5, 10, 20, 101, 20, 'ede045b11d8d74efb366', '', 780167154, 776620974, '', '2025-03-11 03:57:56', 0, '', 0),
+(38, 13, 'Bhavnagar-364001', 'Bhavnagar', 364001, 'COD', 2000, 'success', 1, 0, 0, 0, 0, 'ffa9550827577045d66c', '', 0, 0, '', '2025-03-11 04:57:26', 0, '', 0);
 
 -- --------------------------------------------------------
 
@@ -272,7 +280,12 @@ INSERT INTO `order_detail` (`id`, `order_id`, `product_id`, `product_attr_id`, `
 (32, 31, 2, 3, 1, '2025-03-11', '2025-03-14', 2, 200),
 (33, 32, 7, 11, 1, '2025-03-11', '2025-03-14', 2, 100),
 (34, 32, 6, 10, 1, '2025-03-11', '2025-03-21', 9, 100),
-(35, 33, 7, 11, 1, '2025-03-11', '2025-03-14', 2, 100);
+(35, 33, 7, 11, 1, '2025-03-11', '2025-03-14', 2, 100),
+(36, 34, 6, 10, 1, '2025-03-13', '2025-03-20', 6, 100),
+(37, 35, 1, 2, 1, '2025-03-12', '2025-03-31', 18, 300),
+(38, 36, 1, 1, 1, '2025-03-11', '2025-03-14', 2, 200),
+(39, 37, 1, 1, 1, '2025-03-13', '2025-03-15', 1, 200),
+(40, 38, 1, 1, 1, '2025-03-15', '2025-03-26', 10, 200);
 
 -- --------------------------------------------------------
 
@@ -349,11 +362,11 @@ CREATE TABLE `product_attributes` (
 --
 
 INSERT INTO `product_attributes` (`id`, `product_id`, `size_id`, `color_id`, `mrp`, `price`, `qty`) VALUES
-(1, 1, 1, 2, 100, 200, 1),
-(2, 1, 2, 1, 200, 300, 1),
+(1, 1, 1, 2, 100, 200, 0),
+(2, 1, 2, 1, 200, 300, 0),
 (3, 2, 3, 2, 100, 200, 1),
 (4, 2, 4, 1, 200, 300, 1),
-(10, 6, 1, 1, 100, 100, 1),
+(10, 6, 1, 1, 100, 100, 0),
 (11, 7, 1, 1, 100, 100, 0);
 
 -- --------------------------------------------------------
@@ -403,7 +416,8 @@ CREATE TABLE `product_review` (
 --
 
 INSERT INTO `product_review` (`id`, `product_id`, `user_id`, `rating`, `review`, `status`, `added_on`) VALUES
-(1, 6, 1, 'Very Good', 'this product is very good', 1, '2025-03-08 10:05:58');
+(1, 6, 1, 'Very Good', 'this product is very good', 1, '2025-03-08 10:05:58'),
+(2, 6, 9, 'Very Good', 'product is neet and clean', 1, '2025-03-10 05:06:08');
 
 -- --------------------------------------------------------
 
@@ -487,7 +501,7 @@ INSERT INTO `sub_categories` (`id`, `categories_id`, `sub_categories`, `status`)
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `name` varchar(7) NOT NULL,
   `password` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `mobile` varchar(10) NOT NULL,
@@ -501,7 +515,12 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `password`, `email`, `mobile`, `added_on`) VALUES
 (2, 'bhavik', 'Bhavik@123', 'gohilbhavik182@gmail.com', '9157503526', '2025-03-07 12:42:31'),
 (3, 'jay', 'hardik', 'jay709604@gmail.com', '7096049904', '2025-03-10 08:00:55'),
-(8, 'Hardik', 'Hardik@123', 'vinaydodiya22@gmail.com', '7285008403', '2025-03-10 08:35:13');
+(8, 'Hardik', 'Hardik@123', 'vinaydodiya22@gmail.com', '7285008403', '2025-03-10 08:35:13'),
+(9, 'Dodiya', 'Hardik@123', 'aadidodiya02@gmail.com', '7285092142', '2025-03-10 09:31:10'),
+(10, 'AKSHIT', '24141012@Aa', 'akshitkava999@gmail.com', '9099881309', '2025-03-10 09:38:48'),
+(11, 'jeet', 'Jeet@123', 'pjeet200@gmail.com', '1234567891', '2025-03-11 03:38:34'),
+(12, 'Nirav', 'Nirav@123', 'ssccs.project@gmail.com', '8866981290', '2025-03-11 03:52:00'),
+(13, 'HARDIK', 'Hardik@123', 'hardikdodiya2410@gmail.com', '7285008409', '2025-03-11 04:45:34');
 
 -- --------------------------------------------------------
 
@@ -521,7 +540,8 @@ CREATE TABLE `wishlist` (
 --
 
 INSERT INTO `wishlist` (`id`, `user_id`, `product_id`, `added_on`) VALUES
-(112, 30, 2, '2025-03-03 12:20:41');
+(112, 30, 2, '2025-03-03 12:20:41'),
+(119, 9, 6, '2025-03-10 05:03:23');
 
 --
 -- Indexes for dumped tables
@@ -649,7 +669,7 @@ ALTER TABLE `color_master`
 -- AUTO_INCREMENT for table `contact_us`
 --
 ALTER TABLE `contact_us`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `coupon_master`
@@ -661,13 +681,13 @@ ALTER TABLE `coupon_master`
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `order_detail`
 --
 ALTER TABLE `order_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -691,7 +711,7 @@ ALTER TABLE `product_images`
 -- AUTO_INCREMENT for table `product_review`
 --
 ALTER TABLE `product_review`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `shiprocket_token`
@@ -715,13 +735,13 @@ ALTER TABLE `sub_categories`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `wishlist`
 --
 ALTER TABLE `wishlist`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
