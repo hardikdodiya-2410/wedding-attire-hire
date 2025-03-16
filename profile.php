@@ -76,14 +76,14 @@ if(!isset($_SESSION['USER_LOGIN'])){
 									<div class="single-contact-form">
 										<label class="password_label">New Password</label>
 										<div class="contact-box name">
-											<input type="password" name="new_password" id="new_password" style="width:100%" >
+											<input type="password" name="new_password" id="new_password" minlength="8" style="width:100%" >
 										</div>
 										<span class="field_error" id="new_password_error"></span>
 									</div>
 									<div class="single-contact-form">
 										<label class="password_label">Confirm New Password</label>
 										<div class="contact-box name">
-											<input type="password" name="confirm_new_password" id="confirm_new_password" style="width:100%">
+											<input type="password" name="confirm_new_password" id="confirm_new_password" minlength="8"  style="width:100%">
 										</div>
 										<span class="field_error" id="confirm_new_password_error"></span>
 									</div>
@@ -156,57 +156,90 @@ if(!isset($_SESSION['USER_LOGIN'])){
 }
 
 		
-		function update_password(){
-			jQuery('.field_error').html('');
-			var current_password=jQuery('#current_password').val();
-			var new_password=jQuery('#new_password').val();
-			var confirm_new_password=jQuery('#confirm_new_password').val();
-			var is_error='';
-			if(current_password==''){
-				jQuery('#current_password_error').html('Please enter password');
-				is_error='yes';
-			}if(new_password==''){
-				jQuery('#new_password_error').html('Please enter password');
-				is_error='yes';
-			}
-			else if(!isValidPassword(new_password)) {
-				jQuery('#new_password_error').html('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character');
-				is_error='yes';
-			}
-			
-			if(confirm_new_password==''){
-				jQuery('#confirm_new_password_error').html('Please enter password');
-				is_error='yes';
-			}else if(!isValidPassword(confirm_new_password)) {
-				jQuery('#confirm_new_password_error').html('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character');
-				is_error='yes';
-			}
-			
-			if(new_password!='' && confirm_new_password!='' && new_password!=confirm_new_password){
-				jQuery('#confirm_new_password_error').html('Please enter same password');
-				is_error='yes';
-			}
-			
-			if(is_error==''){
-				jQuery('#btn_update_password').html('Please wait...');
-				jQuery('#btn_update_password').attr('disabled',true);
-				jQuery.ajax({
-					url:'update_password.php',
-					type:'post',
-					data:'current_password='+current_password+'&new_password='+new_password,
-					success:function(result){
-						jQuery('#current_password_error').html(result);
-						jQuery('#btn_update_password').html('Update');
-						jQuery('#btn_update_password').attr('disabled',false);
-						jQuery('#frmPassword')[0].reset();
-					}
-				})
-			}
-			
-		}
 		function isValidPassword(password) {
-    var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return passwordRegex.test(password);
+    // Check if password is exactly 8 characters
+    if (password.length !== 8) {
+        return {
+            isValid: false,
+            errors: ["Password must be exactly 8 characters long"]
+        };
+    }
+
+    var hasUpperCase = /[A-Z]/.test(password);
+    var hasLowerCase = /[a-z]/.test(password);
+    var hasNumbers = /\d/.test(password);
+    var hasSpecialChar = /[@$!%*?&]/.test(password);
+    
+    var errors = [];
+    
+    if (!hasUpperCase) {
+        errors.push("Password must contain at least one uppercase letter");
+    }
+    if (!hasLowerCase) {
+        errors.push("Password must contain at least one lowercase letter");
+    }
+    if (!hasNumbers) {
+        errors.push("Password must contain at least one number");
+    }
+    if (!hasSpecialChar) {
+        errors.push("Password must contain at least one special character (@$!%*?&)");
+    }
+    
+    return {
+        isValid: errors.length === 0,
+        errors: errors
+    };
+}
+
+function update_password(){
+    jQuery('.field_error').html('');
+    var current_password = jQuery('#current_password').val();
+    var new_password = jQuery('#new_password').val();
+    var confirm_new_password = jQuery('#confirm_new_password').val();
+    var is_error = '';
+
+    // Current password validation
+    if(current_password == ''){
+        jQuery('#current_password_error').html('Please enter current password');
+        is_error = 'yes';
+    }
+
+    // New password validation
+    if(new_password == ''){
+        jQuery('#new_password_error').html('Please enter new password');
+        is_error = 'yes';
+    } else {
+        var passwordCheck = isValidPassword(new_password);
+        if(!passwordCheck.isValid) {
+            jQuery('#new_password_error').html(passwordCheck.errors.join('<br>'));
+            is_error = 'yes';
+        }
+    }
+    
+    // Confirm password validation
+    if(confirm_new_password == ''){
+        jQuery('#confirm_new_password_error').html('Please enter confirm password');
+        is_error = 'yes';
+    } else if(new_password != confirm_new_password){
+        jQuery('#confirm_new_password_error').html('New password and confirm password do not match');
+        is_error = 'yes';
+    }
+    
+    if(is_error == ''){
+        jQuery('#btn_update_password').html('Please wait...');
+        jQuery('#btn_update_password').attr('disabled', true);
+        jQuery.ajax({
+            url: 'update_password.php',
+            type: 'post',
+            data: 'current_password='+current_password+'&new_password='+new_password,
+            success: function(result){
+                jQuery('#current_password_error').html(result);
+                jQuery('#btn_update_password').html('Update');
+                jQuery('#btn_update_password').attr('disabled', false);
+                jQuery('#frmPassword')[0].reset();
+            }
+        });
+    }
 }
 		</script>
 

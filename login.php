@@ -47,7 +47,7 @@ if(isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN']=='yes'){
 									</div>
 									<div class="single-contact-form">
 										<div class="contact-box name">
-											<input type="password" name="login_password" id="login_password" placeholder="Your Password*" style="width:100%">
+											<input type="password" name="login_password" id="login_password" placeholder="Your Password*" minlength="8" style="width:100%">
 										</div>
 										<span class="field_error" id="login_password_error"></span>
 										<div class="show_password">
@@ -97,12 +97,12 @@ if(isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN']=='yes'){
 									</div>
 									<div class="single-contact-form">
 										<div class="contact-box name">
-											<input type="text" name="email" id="email" placeholder="Your Email*" style="width:45%">
+											<input type="text" name="email" id="email" placeholder="Your Email*" style="width:45%" required>
 											
 											
 											<button type="button" class="fv-btn email_sent_otp height_60px" onclick="email_sent_otp()">Send OTP</button>
 											
-											<input type="text" id="email_otp" placeholder="OTP" style="width:45%" class="email_verify_otp">
+											<input type="text" id="email_otp" placeholder="OTP" style="width:45%"   maxlength="4"  maxlength="4"class="email_verify_otp">
 											
 											
 											<button type="button" class="fv-btn email_verify_otp height_60px" onclick="email_verify_otp()">Verify OTP</button>
@@ -120,7 +120,7 @@ if(isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN']=='yes'){
 									</div>
 									<div class="single-contact-form">
 										<div class="contact-box name">
-											<input type="password" name="password" id="password" placeholder="Your Password*" style="width:100%">
+											<input type="password" name="password" id="password" placeholder="Your Password*"  minlength="8" style="width:100%">
 										</div>
 										<span class="field_error" id="password_error"></span>
 										<div class="show_password">
@@ -128,9 +128,9 @@ if(isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN']=='yes'){
 										<label for="show_password">Show Password</label>
 										</div>
 									</div>
-									
+							
 									<div class="contact-btn">
-										<button type="button" class="fv-btn" onclick="user_register()" disabled id="btn_register">Register</button>
+										<button type="button" class="fv-btn" onclick="user_register()"  id="btn_register">Register</button>
 									</div>
 								</form>
 								<div class="form-output register_msg">
@@ -146,10 +146,10 @@ if(isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN']=='yes'){
 		<input type="hidden" id="is_email_verified"/>
 		
 		<script>
-			 const button = document.getElementById('btn_register');
-        button.addEventListener('click', function() {
-            alert('Please enter your details.');
-        });
+		// 	 const button = document.getElementById('btn_register');
+        // button.addEventListener('click', function() {
+        //     alert('Please enter your details.');
+        // });
 
 			function show_password(){
 				var password=document.getElementById('password');
@@ -165,6 +165,7 @@ function user_register(){
 	var email=jQuery("#email").val();
 	var mobile=jQuery("#mobile").val();
 	var password=jQuery("#password").val();
+	var is_email_verified=jQuery("#is_email_verified").val();
 	
 	var is_error='';
 	
@@ -203,16 +204,19 @@ function user_register(){
 	if(password==""){
 		jQuery('#password_error').html('Please enter password');
 		is_error='yes';
-	} else if(!isValidPassword(password)) {
-		jQuery('#password_error').html('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character');
-		is_error='yes';
+	} else {
+		var passwordCheck = isValidPassword(password);
+		if(!passwordCheck.isValid) {
+			jQuery('#password_error').html(passwordCheck.errors.join('<br>'));
+			is_error='yes';
+		}
 	}
 
 	if(is_error==''){
 		jQuery.ajax({
 			url:'register_submit.php',
 			type:'post',
-			data:'name='+name+'&email='+email+'&mobile='+mobile+'&password='+password,
+			data:'name='+name+'&email='+email+'&mobile='+mobile+'&password='+password+'&is_email_verified='+is_email_verified,
 			success:function(result){
 				console.log(result);
 				if(result.email_present){
@@ -220,6 +224,10 @@ function user_register(){
 				}
 				if(result.mobile_present){
 					jQuery('#mobile_error').html('Mobile number already present');
+				}
+				if(result.email_not_verified)
+				{
+					jQuery('#email_error').html('Email id not verified');
 				}
 				if(result.insert){
 					alert('Thank you for registeration');
@@ -242,8 +250,37 @@ function isValidMobile(mobile) {
 }
 
 function isValidPassword(password) {
-    var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return passwordRegex.test(password);
+	if (password.length !== 8) {
+        return {
+            isValid: false,
+            errors: ["Password must be exactly 8 characters long"]
+        };
+    }
+    var hasUpperCase = /[A-Z]/.test(password);
+    var hasLowerCase = /[a-z]/.test(password);
+    var hasNumbers = /\d/.test(password);
+    var hasSpecialChar = /[@$!%*?&]/.test(password);
+   
+    
+    var errors = [];
+
+    if (!hasUpperCase) {
+        errors.push("Password must contain at least one uppercase letter");
+    }
+    if (!hasLowerCase) {
+        errors.push("Password must contain at least one lowercase letter");
+    }
+    if (!hasNumbers) {
+        errors.push("Password must contain at least one number");
+    }
+    if (!hasSpecialChar) {
+        errors.push("Password must contain at least one special character (@$!%*?&)");
+    }
+    
+    return {
+        isValid: errors.length === 0,
+        errors: errors
+    };
 }
 
 function user_login(){
@@ -325,7 +362,9 @@ function user_login(){
 							jQuery('.email_verify_otp').hide();
 							jQuery('#email_otp_result').html('Email id verified');
 							jQuery('#is_email_verified').val('1');
-							 jQuery('#btn_register').attr('disabled',false);
+
+							//  jQuery('#btn_register').attr('disabled',false);
+
 							
 						}else{
 							jQuery('#email_error').html('Please enter valid OTP');

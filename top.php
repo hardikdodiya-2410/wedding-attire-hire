@@ -9,8 +9,10 @@ while($row=mysqli_fetch_assoc($cat_res)){
 }
 $obj=new add_to_cart();
 
-$totalProduct=$obj->totalProduct();
+
+$totalProduct=0;
 if(isset($_SESSION['USER_LOGIN'])){
+    $totalProduct=$obj->totalProduct();
     $uid=$_SESSION['USER_ID'];
         if(isset($_GET['w_id']))
         {

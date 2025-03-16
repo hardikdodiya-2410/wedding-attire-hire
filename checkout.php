@@ -344,7 +344,7 @@ unset($_SESSION['cart']);
 											<div class="paymentinfo">
 														<div class="single-method">
 															COD <input type="radio" name="payment_type" value="COD" required/>
-															Payu <input type="radio" name="payment_type" value="Payu" required/>
+												
 														</div>
 														<div class="single-method">
 														

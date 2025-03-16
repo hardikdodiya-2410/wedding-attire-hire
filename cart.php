@@ -10,6 +10,7 @@ if(!isset($_SESSION['USER_LOGIN'])){
     window.location.href='login.php';
 </script>
 <?php
+
 }
 ?>
 

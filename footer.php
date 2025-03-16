@@ -6,12 +6,11 @@
                 <div class="container">
                     <div class="row">
                         <!-- Start Single Footer Widget -->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="col-md-4 col-sm-6 col-xs-12">
                             <div class="footer">
                                 <h2 class="title__line--2">ABOUT US</h2>
                                 <div class="ft__details">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim</p>
-                                    <div class="ft__social__link">
+                                    <p>Welcome to Wedding Attire Hire – India's leading premium fashion rental service designed to make your big day unforgettable. We specialize in offering a stunning collection of designer wedding outfits for men and women, ensuring style, affordability, and sustainability.</p><div class="ft__social__link">
                                         <ul class="social__link">
                                             <li><a href="#"><i class="icon-social-twitter icons"></i></a></li>
 
@@ -29,7 +28,7 @@
                         </div>
                         <!-- End Single Footer Widget -->
                         <!-- Start Single Footer Widget -->
-                        <div class="col-md-2 col-sm-6 col-xs-12 xmt-40">
+                        <div class="col-md-3 col-sm-6 col-xs-12 xmt-40">
                             <div class="footer">
                                 <h2 class="title__line--2">information</h2>
                                 <div class="ft__inner">
@@ -45,7 +44,7 @@
                         </div>
                         <!-- End Single Footer Widget -->
                         <!-- Start Single Footer Widget -->
-                        <div class="col-md-2 col-sm-6 col-xs-12 xmt-40 smt-40">
+                        <div class="col-md-3 col-sm-6 col-xs-12 xmt-40 smt-40">
                             <div class="footer">
                                 <h2 class="title__line--2">my account</h2>
                                 <div class="ft__inner">
@@ -77,20 +76,7 @@
                         </div>
                         <!-- End Single Footer Widget -->
                         <!-- Start Single Footer Widget -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 xmt-40 smt-40">
-                            <div class="footer">
-                                <h2 class="title__line--2">NEWSLETTER </h2>
-                                <div class="ft__inner">
-                                    <div class="news__input">
-                                        <input type="text" placeholder="Your Mail*">
-                                        <div class="send__btn">
-                                            <a class="fr__btn" href="#">Send Mail</a>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
+                        
                         <!-- End Single Footer Widget -->
                     </div>
                 </div>
@@ -102,7 +88,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="copyright__inner">
-                                <p>Copyright© <a href="index.php">Wedding Attire Hire </a> 2024. All right reserved.</p>
+                                <p>Copyright© <a href="index.php">Wedding Attire Hire </a> 2025. All right reserved.</p>
                                
                             </div>
                         </div>

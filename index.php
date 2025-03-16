@@ -38,6 +38,38 @@ li.cat_hover{
     color: #7e7e7e;
     font-size: 13px;
 }
+select#style-select {
+    background: none;
+    border: 0;
+ outline: none;
+    /* color: #fff; */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 5px;
+background-color: rgba(0, 0, 0, 0.5);
+color: white;
+    height: 100%;
+    width: 65%;
+    font-weight: bold;
+}
+/* .slider__container.slider--one.bg__cat--3 {
+    background-image: url('banner_1.webp'); /* Image path */
+    background-size: cover;  /* Ensures the image covers the entire area */
+    background-position: center;  /* Centers the image */
+    background-repeat: no-repeat;  /* Prevents image repetition */
+    height: 100vh;  /* Full viewport height (adjust as needed) */
+    width: 100%;  /* Full width */
+} */
+.single__slide {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;  /* Full viewport height */
+    width: 100%;    /* Full width */
+}
+
+
                 </style>
 </head>
 <body>
@@ -45,33 +77,45 @@ li.cat_hover{
 
         <!-- Start Slider Area -->
         <div class="slider__container slider--one bg__cat--3">
-            <div class="slide__container slider__activation__wrap owl-carousel">
-             
-                <div class="single__slide animation__style01 slider__fixed--height"  style=" background: white;" >
-                    <div class="container">
-                        <div class="row align-items__center">
-                            <div class="col-md-7 col-sm-7 col-xs-12 col-lg-6">
-                                <div class="slide">
-                                    <div class="slider__inner">
-                                        <h2 style="  font-weight: bold;  font-family: 'Caveat', serif;">Collection</h2>
-                                        <h1 style="font-size: 40px;  font-weight: bold;">Different Is beautiful</h1>
-                                        <div class="cr__btn">
-                                            <a href="cart.php">Rent Now</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-10 col-sm-6 col-xs-12 col-md-6">
-                                <div class="slide__thumb">
-                                <img src="images/slider/fornt-img/banner.jpg" alt="slider images" style="height:400px; width:700px">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <div class="slide__container slider__activation__wrap owl-carousel">
+        
+        <!-- Slide 1 -->
+        <div class="single__slide animation__style01 slider__fixed--height" 
+             style="background-image: url('banner_1.webp');">
+            <div class="container">
+                <div class="row align-items__center">
+                    <div class="col-md-5 p-top-10 col-xs-6" style="margin-top: 200px;"></div>
                 </div>
-                <!-- End Single Slide -->
             </div>
         </div>
+
+        <!-- Slide 2 -->
+        <div class="single__slide animation__style01 slider__fixed--height" 
+             style="background-image: url('banner_2.jpg');">
+            <div class="container">
+                <div class="row align-items__center">
+                    <div class="col-md-5 p-top-10 col-xs-6" style="margin-top: 200px;"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $(".slider__activation__wrap").owlCarousel({
+            items: 1,           // One slide at a time
+            loop: true,         // Infinite loop
+            autoplay: true,     // Auto slide enabled
+            autoplayTimeout: 5000,  // 5 seconds delay
+            animateOut: 'fadeOut',  // Smooth fade effect
+            dots: true,         // Show navigation dots
+            nav: false          // Hide navigation arrows
+        });
+    });
+</script>
+
+
         <!-- Start Slider Area -->
         <div class="page-content">
                 <div class="container">

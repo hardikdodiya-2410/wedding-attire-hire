@@ -7,6 +7,10 @@ header('Content-type: application/json');
 	$mobile=get_safe_value($con,$_POST['mobile']);
 	$password=get_safe_value($con,$_POST['password']);
 	date_default_timezone_set('Asia/Kolkata');
+	$is_email_verified = get_safe_value($con, $_POST['is_email_verified']); // New Check
+date_default_timezone_set('Asia/Kolkata');
+
+// Email Verification Check
 
 	$check_user=mysqli_num_rows(mysqli_query($con,"select * from users where email='$email'"));
 	$check_mobile=mysqli_num_rows(mysqli_query($con,"select * from users where mobile='$mobile'"));
@@ -18,8 +22,13 @@ header('Content-type: application/json');
 		echo json_encode(["mobile_present" => true, "status" => 200, "message" => "mobile_present"]);
 		die();
 	}
-	$added_on=date('Y-m-d h:i:s');
+	if ($is_email_verified != '1') {
+		echo json_encode(["email_not_verified" => true, "status" => 200, "message" => "Please verify your email before registration."]);
+		die();
+	}
 	
+	$added_on=date('Y-m-d h:i:s');
+
 	mysqli_query($con,"insert into users(name,email,mobile,password,added_on) values('$name','$email','$mobile','$password','$added_on')");
 
 	echo json_encode(["insert" => true, "status" => 200, "message" => "insert"]);
