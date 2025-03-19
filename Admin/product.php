@@ -72,7 +72,7 @@ $res=mysqli_query($con,$sql);
 							   <td><?php echo $row['name']?></td>
 							   <td><img src="../media/product_images/<?php echo $row['image']?>"/></td>
 				
-							<br>
+						
 							<!-- <?php
 							$productSoldQtyByProductId=productSoldQtyByProductId($con,$row['id']);
 							$pending_qty=$row['qty']-$productSoldQtyByProductId;

@@ -34,6 +34,14 @@ if(isset($_GET['sort'])){
 if($cat_id>0)
 {
     $get_product=get_product($con,'',$cat_id,'','',$sort_order,'',$sub_categories);
+    $products_per_page = 3;
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $offset = ($page - 1) * $products_per_page;
+    $total_products = count($get_product);
+    $total_pages = ceil($total_products / $products_per_page);
+    
+    // Get products for current page
+    $get_product = array_slice($get_product, $offset, $products_per_page);
 }
 
 else{
@@ -75,7 +83,33 @@ if(isset($_GET['sort'])){
 
 ?>
 
+<head>
+    <style>
+.pagination{
+display: flex;
+justify-content: center;
+}
+.pagination>.active>a,.pagination>.active>span,.pagination>.active>a:hover,.pagination>.active>span:hover,.pagination>.active>a:focus,.pagination>.active>span:focus {
+    z-index: 3;
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #000000;
+    cursor: default
+}
 
+.pagination>li>a,.pagination>li>span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    line-height: 1.42857143;
+    text-decoration: none;
+    color: black;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin-left: -1px
+}
+    </style>
+</head>
         <!-- Start Bradcaump area -->
 		<!-- change the site map path banner -->
         <div class="ht__bradcaump__area" >
@@ -99,7 +133,7 @@ if(isset($_GET['sort'])){
                 <?php if(count($get_product)>0){?>
                     <div class="col-lg-12  col-md-12  col-sm-12 col-xs-12">
                         <div class="htc__product">
-                            <div class="col-md-3">
+                            <!-- <div class="col-md-3">
                                 <div class="htc__grid__bottom">
                                 
                                 <div class="htc__select__option">
@@ -114,9 +148,9 @@ if(isset($_GET['sort'])){
                              
                                 
                             </div>
-                            </div>
+                            </div> -->
                             <!-- Start Product View -->
-                            <div class="col-md-9">
+                            <div class="col-md-12">
                             <div class="row">
                                 <div class="shop__grid__view__wrap">
                                     <div role="tabpanel" id="grid-view" class="single-grid-view tab-pane fade in active clearfix">
@@ -124,7 +158,7 @@ if(isset($_GET['sort'])){
                                         <?php 
 							foreach($get_product as $list){
 							?>
-                            <div class="col-md-4 col-lg-4 col-sm-3 col-xs-18">
+                             <div class="col-md-4 col-lg-4 col-sm-3 col-xs-18">
                             <div class="category" style="
     box-shadow: 0px 0px 2px rgb(0, 0, 0);
     width: 270px;
@@ -145,7 +179,7 @@ if(isset($_GET['sort'])){
                                         <h4><a href="product.php?id=<?php echo $list['id']?>"><?php echo $list['name']?></a></h4>
                                         <ul class="fr__pro__prize">
                                             <li class="old__prize"><i class="fa fa-inr"></i>
-                                            <li><?php echo $list['price']?></li>
+                                            <li><?php echo number_format($list['price'], 2, '.', ',') ?></li>
                                         </ul>
                                         <a href="product.php?id=<?php echo $list['id']?>" class="btn" style="border:solid 2px #777; background: none; color:#777; padding:5px 10px ; display: block; text-align: center; clear: both; width: 50%; margin-top: 7px; font-weight: 600; font-family=Maven+Pro; border-radius:0px;}
 ">Rent Now</a>
@@ -170,5 +204,29 @@ if(isset($_GET['sort'])){
                     </div>
                     </section>
         <!-- End Product Grid -->
+        <!-- Pagination -->
+        <div class="row" style="display: flex; justify-content: center; margin: 20px 0;    margin-bottom: 50px;
+    margin-top: -50px;">
+            <div class="col-xs-12">
+                <div class="pagination" style="text-align: center;">
+                    <?php if($total_pages > 1) { ?>
+                        <ul class="pagination" style="display: inline-flex; margin: 0 auto;">
+                            <?php if($page > 1) { ?>
+                                <li><a href="?id=<?php echo $cat_id?>&page=<?php echo $page-1?><?php echo $sub_categories ? '&sub_categories='.$sub_categories : ''?><?php echo isset($_GET['sort']) ? '&sort='.$_GET['sort'] : ''?>" style="padding: 8px 16px; margin: 0 4px;">Previous</a></li>
+                            <?php } ?>
+                            
+                            <?php for($i = 1; $i <= $total_pages; $i++) { ?>
+                                <li <?php echo $i == $page ? 'class="active"' : ''?>><a href="?id=<?php echo $cat_id?>&page=<?php echo $i?><?php echo $sub_categories ? '&sub_categories='.$sub_categories : ''?><?php echo isset($_GET['sort']) ? '&sort='.$_GET['sort'] : ''?>" style="padding: 8px 16px; margin: 0 4px; <?php echo $i == $page ? 'background-color: black; color: white;' : ''?>"><?php echo $i?></a></li>
+                            <?php } ?>
+                            
+                            <?php if($page < $total_pages) { ?>
+                                <li><a href="?id=<?php echo $cat_id?>&page=<?php echo $page+1?><?php echo $sub_categories ? '&sub_categories='.$sub_categories : ''?><?php echo isset($_GET['sort']) ? '&sort='.$_GET['sort'] : ''?>" style="padding: 8px 16px; margin: 0 4px;">Next</a></li>
+                            <?php } ?>
+                        </ul>
+                    <?php } ?>
+                </div>
+            </div>
+        </div>
+        <!-- End Pagination -->
        
 	<?php require('footer.php');?>

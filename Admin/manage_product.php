@@ -328,12 +328,12 @@ if(isset($_POST['submit'])){
 										<select class="form-control" name="color_id[]" id="color_id">
 										<option>color</option>
 										<?php
-											$res=mysqli_query($con,"select id,color from color_master order by order_by asc");
+											$res=mysqli_query($con,"select id,color_name from color_master order by order_by asc");
 											while($row=mysqli_fetch_assoc($res)){
 												if($list['color_id']==$row['id']){
-													echo "<option value=".$row['id']." selected>".$row['color']."</option>";
+													echo "<option value=".$row['id']." selected>".$row['color_name']."</option>";
 												}else{
-													echo "<option value=".$row['id']." >".$row['color']."</option>";	
+													echo "<option value=".$row['id']." >".$row['color_name']."</option>";	
 												}
 											}
 											?>

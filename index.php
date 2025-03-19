@@ -1,7 +1,7 @@
 <?php
 require('top.php');
-$cat_women = mysqli_query($con, "select * from categories where id=13");
-$cat_men = mysqli_query($con, "select * from categories where id=14");
+$cat_women = mysqli_query($con, "select * from categories where id=1");
+$cat_men = mysqli_query($con, "select * from categories where id=2");
 $cat_arr = array();
 while ($row = mysqli_fetch_assoc($cat_women)) {
     $cat_arr[] = $row;
@@ -17,6 +17,9 @@ while ($rows = mysqli_fetch_assoc($cat_men)) {
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
     <style>
+
+        
+
         li.cat_hover:hover {
 
             box-shadow: 0px 0px 5px #525252;

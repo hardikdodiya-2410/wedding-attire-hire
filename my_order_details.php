@@ -67,7 +67,7 @@ if($coupon_value==''){
 												<td class="product-name"><?php echo $row['qty']?></td>
 												<td class="product-name"><?php echo $row['price']?></td>
                                                 <td class="product-name"><?php echo $row['rental_days']?> days</td>
-												<td class="product-name"><?php echo $row['qty']*$row['price']*$row['rental_days']?></td>
+												<td class="product-name"><?php echo   number_format($row['qty'] * $row['price'] * $row['rental_days'], 2, '.', ',')?></td>
                                                 
                                             </tr>
                                             
@@ -86,7 +86,7 @@ if($coupon_value==''){
 												<td class="product-name">Total Price</td>
 												<td class="product-name">
 												<?php 
-												echo $total_price-$coupon_value;
+												echo   number_format($total_price - $coupon_value, 2, '.', ',');
 												?></td>
                                                 
                                             </tr>

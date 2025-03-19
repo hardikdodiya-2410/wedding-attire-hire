@@ -78,6 +78,7 @@ $resAttr=mysqli_query($con,"select product_attributes.*,color_master.color,size_
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <style>
+        
         .product-container {
             display: flex;
             gap: 20px;
@@ -368,7 +369,7 @@ option:checked {
 <!--                                                   <span>Rent</span> <br />-->
                                      <div class="product-price txt-xl text-right" style="line-height:20px">
                                        <i class="fa fa-inr" style="color:black;font-weight: 300;
-"></i><span class="border-tb p-tb-10" id="rent-amount-calculated-show">  <?php echo $get_product['0']['price']?>  </span>Rent <br>  <span style="font-size:12px; color:#999; padding-right:5px">Inclusive all taxes</span>
+"></i><span class="border-tb p-tb-10" id="rent-amount-calculated-show">  <?php echo  number_format($get_product['0']['price'], 2, '.', ',')?>  </span>Rent <br>  <span style="font-size:12px; color:#999; padding-right:5px">Inclusive all taxes</span>
                                       </div>
                                                  
                                                  <!--<span1>No Security Deposit

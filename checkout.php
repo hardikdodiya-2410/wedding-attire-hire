@@ -405,18 +405,18 @@ unset($_SESSION['cart']);
                                         <a href="#"><?php echo $pname?></a><br>
 										<label>Quantity:</label>
 										<a href="#"><?php echo $qty?></a><br>
-                                        <label>Price Per Day:</label>
-                                        <a href="#"><i class="fa fa-inr"></i><?php echo $price?></a><br>
+                                        <label>Per Day:</label>
+                                        <a href="#"><i class="fa fa-inr" ></i><?php echo number_format($price, 2, '.', ',')?></a><br>
 										<?php
 											if(isset($val1['rent_from']) && isset($val1['rent_to'])){
 												echo "	<label>From:</label> <a class='product-name'>".date('d M Y', strtotime($val1['rent_from']))."</a><br>";
 												echo "	<label>To:</label> <a class='product-name'>".date('d M Y', strtotime($val1['rent_to']))."</a><br>";
 												}
 										?>
-                                        <label>Total Days:</label>
+                                        <label> Days:</label>
                                         <a href="#"><?php echo $rental_days?></a><br>
-                                        <label>Total Amount:</label>
-                                        <a href="#"><i class="fa fa-inr"></i><?php echo $item_total?></a><br>
+                                        <label> Amounts:</label>
+                                        <a href="#"><i class="fa fa-inr"></i><?php echo  number_format($item_total, 2, '.', ',')?></a><br>
 										<label>Color:</label>
 										<?php
                                                     if(isset($resAttr['color']) && $resAttr['color']!=''){
@@ -446,7 +446,7 @@ unset($_SESSION['cart']);
                             </div>
                             <div class="ordre-details__total">
                                 <h5>Order total</h5>
-                                <span class="price" id="order_total_price"><?php echo $cart_total?></span>
+                                <span class="price" id="order_total_price"><?php echo  number_format($cart_total, 2, '.', ',') ?></span>
                             </div>
 							
 							<div class="ordre-details__total bilinfo">

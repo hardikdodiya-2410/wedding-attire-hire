@@ -88,15 +88,12 @@ if(!isset($_SESSION['USER_LOGIN'])){
                                                     }
                                                    ?>
 
-                                                    <ul  class="pro__prize">
-														<li class="old__prize"><i class="fa fa-inr"></i>
-														<li><?php echo $price?></li>
-													</ul>
+                                                    
 												</td>
                                           
                                                    
                                        
-												<td class="product-price"><i class="fa fa-inr"></i><span class="amount"><?php echo $price?></span></td>
+												<td class="product-price"><i class="fa fa-inr"></i><span class="amount"><?php echo number_format($price, 2, '.', ',')?></span></td>
 												<td class="product-quantity"><input type="number" min="1" id="<?php echo $key?>qty" value="<?php echo $qty?>" style="text-align:center;" />
                                                 <br>
 												<br/><a href="javascript:void(0)" onclick="manage_cart_update('<?php echo $key?>','update','<?php echo $resAttr['size_id']?>','<?php echo $resAttr['color_id']?>')" class="btn" style="padding: 5px; background: #f5efef; margin-top: 5px; color: rgb(33, 33, 33); box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26); text-transform: capitalize; font-family: 'Poppins', sans-serif;">update</a>
@@ -121,7 +118,7 @@ if(!isset($_SESSION['USER_LOGIN'])){
                                         <label>Total Days:</label>
                                         <a href="#"><?php echo $days?></a><br>
                                                 </td>
-                                                <td class="product-subtotal"><i class="fa fa-inr"></i><?php echo $qty*$price*$days?></td>
+                                                <td class="product-subtotal"><i class="fa fa-inr"></i><?php echo  number_format($qty * $price * $days, 2, '.', ',')?></td>
 												<td class="product-remove">
 													<a href="javascript:void(0)" onclick="manage_cart_update('<?php echo $key?>','remove','<?php echo $resAttr['size_id']?>','<?php echo $resAttr['color_id']?>')"><i class="icon-trash icons"></i></a>
 												</td>

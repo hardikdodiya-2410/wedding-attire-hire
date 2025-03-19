@@ -585,7 +585,7 @@ WHERE order_detail.order_id = '$order_id';");
 									<tr>
 									  <td class="attributes_item">
 										<span class="f-fallback">
-				  <strong>Amount Due:</strong> '.$user_order['total_price'].'.
+				  <strong>Amount Due:</strong> '.  number_format($user_order['total_price'], 2, '.', ',').'.
 				</span>
 									  </td>
 									</tr>
@@ -635,7 +635,7 @@ WHERE order_detail.order_id = '$order_id';");
 							
 										  </td>
 									
-										<td class="align-right" width="40%" class="purchase_item"><span class="f-fallback">'.$pp.'</span></td>
+										<td class="align-right" width="40%" class="purchase_item"><span class="f-fallback">'. number_format($pp, 2, '.', ',').'</span></td>
 										</tr>
 										<tr>
 								<td colspan="2">
@@ -669,7 +669,7 @@ WHERE order_detail.order_id = '$order_id';");
 										<p class="f-fallback purchase_total purchase_total--label">Total</p>
 									  </td>
 									  <td width="20%" class="purchase_footer" valign="middle">
-										<p class="f-fallback purchase_total">'.$total_price.'</p>
+										<p class="f-fallback purchase_total">'. number_format($total_price, 2, '.', ',').'</p>
 									  </td>
 									</tr>
 								  </table>

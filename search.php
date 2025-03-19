@@ -31,7 +31,7 @@ if($str!=''){
             <div class="container">
                 <div class="row">
                 <?php if(count($get_product)>0){?>
-                    <div class="col-lg-12  col-md-12  col-sm-12 col-xs-12">
+                      <div class="col-md-11">
                         <div class="htc__product">
                             <!-- Start Product View -->
                             <div class="row">
