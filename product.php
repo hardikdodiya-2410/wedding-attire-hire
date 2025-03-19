@@ -406,6 +406,7 @@ option:checked {
 										<ul class="pro__color">
 											<?php 
 											foreach($colorArr as $key=>$val){
+                                              
 												echo "<li style='background:".$val[0]." none repeat scroll 0 0'id='color_attr'><a href='javascript:void(0)'  onclick=loadAttr('".$key."','".$get_product['0']['id']."','color')>".$val[0]."</a></li>";
 											}
 											?>

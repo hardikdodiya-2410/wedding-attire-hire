@@ -43,11 +43,11 @@ function get_product($con,$limit='',$cat_id='',$product_id='',$search_str='',$so
 	if($search_str!=''){
 		if($search_str=='men')
 		{
-			$sql.=" and product.categories_id='14' ";
+			$sql.=" and product.categories_id='2' ";
 		}
 		elseif($search_str=='women')
 		{
-			$sql.=" and product.categories_id='13' ";
+			$sql.=" and product.categories_id='1' ";
 		}
 
 		else
@@ -111,6 +111,7 @@ function sentInvoice($con,$order_id){
        product.name, 
        product.image, 
        color_master.color, 
+	   color_master.color_name, 
        size_master.size
 FROM order_detail
 JOIN product_attributes ON order_detail.product_attr_id = product_attributes.id
@@ -626,7 +627,7 @@ WHERE order_detail.order_id = '$order_id';");
 										  <label class="f-fallback purchase_total purchase_total--label">Product-Name:</label>
 										  <span class="f-fallback">'.$row['name'].'</span><br>
 										  <label class="f-fallback purchase_total purchase_total--label">Color:</label>
-										  <span class="f-fallback" style="color:'.$row['color'].'">'.$row['color'].'</span><br>
+										  <span class="f-fallback">'.$row['color_name'].'</span><br>
 										  <label class="f-fallback purchase_total purchase_total--label">Size:</label>
 										  <span class="f-fallback">'.$row['size'].'</span><br>
 										  <label class="f-fallback purchase_total purchase_total--label">Quantity:</label>

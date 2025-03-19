@@ -370,7 +370,7 @@ unset($_SESSION['cart']);
                                 $cart_total=0; // Initialize cart_total
                                 foreach($_SESSION['cart'] as $key=>$val){
                                     foreach($val as $key1=>$val1){
-                                        $resAttr=mysqli_fetch_assoc(mysqli_query($con,"select product_attributes.*,color_master.color,size_master.size from product_attributes 
+                                        $resAttr=mysqli_fetch_assoc(mysqli_query($con,"select product_attributes.*,color_master.color,color_master.color_name,size_master.size from product_attributes 
                                             left join color_master on product_attributes.color_id=color_master.id and color_master.status=1 
                                             left join size_master on product_attributes.size_id=size_master.id and size_master.status=1
                                             where product_attributes.id='$key1'"));
@@ -421,7 +421,8 @@ unset($_SESSION['cart']);
 										<?php
                                                     if(isset($resAttr['color']) && $resAttr['color']!=''){
                                                        
-                                                        echo "<a href='#' style='font-weight:600;color:".$resAttr['color']."'class='product-name'>".$resAttr['color']."</a>";
+                                                        echo "<a href='#' style='font-weight:600;'class='product-name'>".$resAttr['color_name']."</a>";
+														
                                                     }
 													?><br>
 													<label>Size:</label>

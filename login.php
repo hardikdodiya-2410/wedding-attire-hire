@@ -250,7 +250,7 @@ function isValidMobile(mobile) {
 }
 
 function isValidPassword(password) {
-	if (password.length !== 8) {
+	if (password.length > 8) {
         return {
             isValid: false,
             errors: ["Password must be exactly 8 characters long"]

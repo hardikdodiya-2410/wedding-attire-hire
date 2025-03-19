@@ -16,7 +16,7 @@ $image='';
 $short_desc	='';
 $description	='';
 $meta_title	='';
-$meta_description	='';
+$meta_desc	='';
 $meta_keyword='';
 $best_seller='';
 $sub_categories_id='';
@@ -218,8 +218,14 @@ if(isset($_POST['submit'])){
 		/*Product Attributes End*/
 			
 		/*Product Attributes End*/
-		header('location:product.php');
-		die();
+		// header('location:product.php');
+
+		// die();
+		?>
+		<script>
+			window.location.href="product.php";
+		</script>
+		<?php
 	}
 }
 ?>

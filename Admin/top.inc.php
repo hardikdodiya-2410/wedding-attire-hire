@@ -56,6 +56,9 @@ if(isset($_SESSION['ADMIN_LOGIN']) && $_SESSION['ADMIN_LOGIN']!=''){
                      <a href="size.php" > size Master</a>
                   </li>
                    <li class="menu-item-has-children dropdown">
+                     <a href="color.php" > Color Master</a>
+                  </li>
+                   <li class="menu-item-has-children dropdown">
                      <a href="vendor_management.php" > vendor management</a>
                   </li>
                   <li class="menu-item-has-children dropdown">

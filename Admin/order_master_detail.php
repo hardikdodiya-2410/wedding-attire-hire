@@ -140,7 +140,7 @@ if(isset($_POST['update_order_status'])){
 							$order_status_arr=mysqli_fetch_assoc(mysqli_query($con,"select order_status.name,order_status.id as order_status from order_status,`order` where `order`.id='$order_id' and `order`.order_status=order_status.id"));
 							echo $order_status_arr['name'];
 							$order_status=$order_status_arr['order_status'];
-							if ($order_status != '5'){ 
+							if ($order_status != '5' && $order_status !='4'){ 
 								?>
 							<div>
 							
