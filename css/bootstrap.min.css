@@ -5093,13 +5093,6 @@ textarea.input-group-sm>.form-control,textarea.input-group-sm>.input-group-addon
     margin-left: -1px
 }
 
-.pagination>.active>a,.pagination>.active>span,.pagination>.active>a:hover,.pagination>.active>span:hover,.pagination>.active>a:focus,.pagination>.active>span:focus {
-    z-index: 3;
-    color: #fff;
-    background-color: #337ab7;
-    border-color: #000000;
-    cursor: default
-}
 
 
 

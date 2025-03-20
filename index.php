@@ -20,15 +20,39 @@ while ($rows = mysqli_fetch_assoc($cat_men)) {
 
         
 
-        li.cat_hover:hover {
-
-            box-shadow: 0px 0px 5px #525252;
-
+        li.cat_hover>a:hover {
+    color: #333;
+    text-decoration: none;
+    line-height: 45px;
+    border: solid 1px gray;
+    padding: 10px;
         }
 
-        li.cat_hover {
-            width: 200px;
+        li.cat_hover>a
+        {
+            padding: 10px;
         }
+        li
+        {
+            list-style: none;
+        }
+        .cat_btn
+        {
+     text-decoration: none;
+    list-style-type: none;
+    background: #333;
+    padding: 10px 10px 7px;
+    margin-left: 100px;
+    text-align: center;
+    font-size: 22px;
+    display: block;
+
+    width: 60%;
+    text-align: center;
+    border: 1px solid black;
+    
+        }
+
 
         .page-content {
             display: inline-block;
@@ -267,10 +291,8 @@ while ($rows = mysqli_fetch_assoc($cat_men)) {
                                             </ul>
                                         <?php } ?>
                                         </li>
-                                        <li
-                                            style="text-decoration: none;list-style-type: none;background: #333; padding: 5px 10px 7px;font-size: 22px;display: block;margin-left: 100px; width: 35%;text-align: center;border: 1px solid black;">
-                                            <a style="text-decoration: none; color: white;"
-                                                href="categories.php?id=<?php echo $list['id'] ?>"><?php echo $list['categories'] ?></a>
+                                        <li class="cat_btn">
+                                          <a style="color: white;" href="categories.php?id=<?php echo $list['id'] ?>"><?php echo $list['categories'] ?></a>
                                         </li>
                                         <?php
                                     }
@@ -318,9 +340,8 @@ while ($rows = mysqli_fetch_assoc($cat_men)) {
                                         </ul>
                                     <?php } ?>
                                     </li>
-                                    <li
-                                        style="text-decoration: none;list-style-type: none;background: #333; padding: 5px 10px 7px;font-size: 22px;display: block;margin-left: 100px; width: 35%;text-align: center;border: 1px solid black;">
-                                        <a style="text-decoration: none; color: white;"
+                                    <li class="cat_btn">
+                                <a style="text-decoration: none; color: white;"
                                             href="categories.php?id=<?php echo $list['id'] ?>"><?php echo $list['categories'] ?></a>
                                     </li>
                                     <?php

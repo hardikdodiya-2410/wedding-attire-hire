@@ -1,8 +1,8 @@
-<?php
+<?php 
 ob_start();
  require('top.php');
 
-// get
+// get 
 $product_id=mysqli_real_escape_string($con,$_GET['id']);
 $get_product=get_product($con,'','',$product_id);
 
@@ -14,7 +14,7 @@ $qty='';
   
   if(isset($_POST['add_to_cart']))
   {
-     echo" <script> alret('add') </script>";
+     echo" <script> alert('add') </script>";
   }
 
 //   $resMultipleImages=mysqli_query($con,"select product_images from product_images where product_id='$product_id'");
@@ -78,21 +78,36 @@ $resAttr=mysqli_query($con,"select product_attributes.*,color_master.color,size_
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <style>
-        
         .product-container {
             display: flex;
             gap: 20px;
         }
-        .main-image {
+        
+        .img-magnifier-container {
+            position: relative;
             width: 400px;
             height: 400px;
-            overflow: hidden;
-            position: relative;
         }
-        .main-image img {
+        
+        .img-magnifier-container img {
             width: 100%;
-            transition: transform 0.3s ease-in-out;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
+        
+        .magnifier-lens {
+            position: absolute;
+            width: 50%;
+            height: 40%;
+            border: 2px solid #000;
+            background: rgba(255, 255, 255, 0.8);
+            cursor: none;
+            display: none;
+            pointer-events: none;
+            background-repeat: no-repeat;
+        }
+
         .thumbnails {
             display: flex;
             flex-direction: column;
@@ -103,9 +118,13 @@ $resAttr=mysqli_query($con,"select product_attributes.*,color_master.color,size_
             height: 80px;
             cursor: pointer;
             border: 2px solid transparent;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            object-fit: cover;
         }
         .thumbnails img:hover, .thumbnails img.active {
             border: 2px solid #000;
+            transform: translateY(-2px);
         }
         /* General Styling */
 input[type="date"] {
@@ -146,44 +165,94 @@ input[type="date"][readonly] {
 }
 /* Style for the select dropdown */
 select {
-    width: 100px;
-    padding: 8px;
-    font-size: 16px;
-    border: 2px solid black;
-    border-radius: 5px;
-    background-color: #fff;
-    cursor: pointer;
-    outline: none;
-    transition: border-color 0.3s ease-in-out;
-}
-select.select__size {
-    border: 1px solid #000000;
-    color: #000000;
-    height: 20px;
-    margin-left: 10px;
-    width: 60px;
-    padding: 0 4px;
-    font-size: 15px;
-}
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            padding: 12px 40px 12px 20px;
+            font-size: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            background: #fff url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="%23333" viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg>') no-repeat;
+            background-position: calc(100% - 15px) center;
+            cursor: pointer;
+            min-width: 160px;
+            max-width: 100%;
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin: 5px 0;
+            font-weight: 500;
+            color: #333;
+        }
 
-/* Add hover effect */
+        select:hover {
+            border-color: #bdbdbd;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transform: translateY(-1px);
+        }
 
+        select:focus {
+            border-color: #2196F3;
+            outline: none;
+            box-shadow: 0 4px 12px rgba(33,150,243,0.15);
+            transform: translateY(-1px);
+        }
 
-/* Style for the select dropdown when focused */
+        select option {
+            padding: 15px 20px;
+            font-size: 15px;
+            background-color: #fff;
+            color: #333;
+            border-bottom: 1px solid #f5f5f5;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            font-weight: 400;
+        }
 
-/* Style for options inside the select dropdown */
-option {
-    font-size: 14px;
-    background-color: #fff;
-    padding: 10px;
-}
+        select option:first-child {
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+        }
 
-/* Style for selected option */
-option:checked {
-    background-color:rgb(0, 0, 0);
-    color: #fff;
-}
-/* Style for the color list container */
+        select option:last-child {
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+            border-bottom: none;
+        }
+
+        select option:hover,
+        select option:focus,
+        select option:active,
+        select option:checked {
+            background-color: #f5f5f5;
+            color: #2196F3;
+            padding-left: 25px;
+        }
+
+        /* Disabled state */
+        select:disabled {
+            background-color: #f8f9fa;
+            cursor: not-allowed;
+            opacity: 0.75;
+            box-shadow: none;
+        }
+
+        select:disabled option {
+            color: #9e9e9e;
+            background: #f8f9fa;
+            cursor: not-allowed;
+        }
+
+        /* Custom styles for specific select elements */
+        .select__size {
+            min-width: 120px;
+            margin-left: 10px;
+        }
+
+        .qty__select {
+            min-width: 100px;
+            text-align: center;
+        }
+        /* Style for the color list container */
 .pro__color {
     display: flex;
     gap: 10px;
@@ -268,7 +337,7 @@ option:checked {
 
     .main-image img {
         width: 100%;
-        height: auto;
+        height: 400px;
     }
 
     .thumbnails {
@@ -295,7 +364,17 @@ option:checked {
 .sin__desc {
     margin-left: 10px;
 }
-    
+   select.select__size {
+    /* border: 1px solid #000000; */
+    box-shadow: 1px 1px 3px black;
+    color: #000000;
+    /* height: 20px; */
+    margin-left: 10px;
+    width: 60px;
+    padding: 0 4px;
+    font-size: 15px;
+}
+ 
     </style>
    
 </head>
@@ -329,8 +408,10 @@ option:checked {
                                 <!-- Start Product Big Images -->
                                 <div class="product__big__images">
                                     <div class="portfolio-full-image tab-content" style="display: flex; gap: 10px;">
-                                    <div class="main-image">
-                                    <img id="mainImage" src="<?php echo PRODUCT_MULTIPLE_IMAGE_SITE_PATH.$get_product['0']['image']?>">
+                                    <div class="img-magnifier-container main-image">
+                                    <img id="mainImage" style="
+    height: 400px;
+" src="<?php echo PRODUCT_MULTIPLE_IMAGE_SITE_PATH.$get_product['0']['image']?>">
                                         </div>
 										
 										<div class="thumbnails">
@@ -381,8 +462,6 @@ option:checked {
                                  </div>
                                  <div class="clearfix"></div>
                            </div>
-                            <div class="ht__product__dtl">
-
                             <div class="ht__pro__desc">
 									<?php 
 									$cart_show='yes';
@@ -418,7 +497,7 @@ option:checked {
                                     <?php if($is_size>0){?>
                                   <div class="sin__desc align--left">
 										<p><span>size</span></p>
-										<select class="select__size" id="size_attr" onchange="showQty()">
+										<select class="select__size" style="width: 150px; height: 35px; padding: 5px;"id="size_attr" onchange="showQty()">
 											<option value="">Size</option>
 											<?php 
 											foreach($sizeArr as $key=>$val){
@@ -438,7 +517,7 @@ option:checked {
 									
 									<div class="sin__desc align--left <?php echo $isQtyHide?>" id="cart_qty">
                                         <p><span>Qty:</span> 
-										<select id="qty" class="select__size" onchange="showDatePicker()">
+										<select id="qty" class="select__size" style="width: 150px; height: 35px; padding: 5px;" onchange="showDatePicker()">
 
 											<?php
 											// Get the pending quantity
@@ -670,12 +749,12 @@ echo date('d M Y',$added_on);
 											<li><a href="javascript:void(0)" onclick="manage_cart('<?php echo $list['id']?>','add')"><i class="icon-handbag icons"></i></a></li>
 										</ul>
 									</div>
-                                    <div class="fr__product__inner"style="width: 270px;height: 108px;">
+                                  
+                                    <!-- <div class="fr__product__inner"style="width: 270px;height: 50px;">
                                         <h4><a href="product.php?id=<?php echo $list['id']?>"><?php echo $list['name']?></a></h4>
                                        <br>
-                                       <a href="product.php?id=<?php echo $list['id']?>" class="btn" style="border:solid 2px #777; background: none; color:#777; padding:5px 10px ; display: block; text-align: center; clear: both; width: 50%; margin-top: 7px; font-weight: 600; font-family=Maven+Pro; border-radius:0px;}
-">Rent Now</a>
-                                    </div>
+                                    
+                                    </div> -->
                                 </div>
                            	
 								</div>
@@ -705,28 +784,103 @@ echo date('d M Y',$added_on);
 			</script>
            -->
            <script>
-    function changeImage(src) {
-        $("#mainImage").attr("src", src);
-        $(".thumb").removeClass("active");
-        $(event.target).addClass("active");
+    function initMagnifier() {
+    const container = document.querySelector('.img-magnifier-container');
+    const img = container.querySelector('img');
+    let lens = container.querySelector('.magnifier-lens');
+    
+    if (!lens) {
+        lens = document.createElement('div');
+        lens.className = 'magnifier-lens';
+        container.appendChild(lens);
     }
-  
-    $("#mainImage").hover(
-        function () {
-            $(this).css("transform", "scale(1.5)");
-        },
-        function () {
-            $(this).css("transform", "scale(1)");
+    
+    const zoom = 2;
+    
+    container.addEventListener('mousemove', moveLens);
+    container.addEventListener('mouseenter', showLens);
+    container.addEventListener('mouseleave', hideLens);
+    
+    function showLens() {
+        lens.style.display = 'block';
+        updateLensBackground();
+    }
+    
+    function hideLens() {
+        lens.style.display = 'none';
+    }
+    
+    function moveLens(e) {
+        e.preventDefault();
+        const rect = container.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        let posX = x - lens.offsetWidth / 2;
+        let posY = y - lens.offsetHeight / 2;
+        
+        // Prevent lens from going outside the image
+        if (posX < 0) posX = 0;
+        if (posY < 0) posY = 0;
+        if (posX > container.offsetWidth - lens.offsetWidth) {
+            posX = container.offsetWidth - lens.offsetWidth;
         }
-    );
-			
+        if (posY > container.offsetHeight - lens.offsetHeight) {
+            posY = container.offsetHeight - lens.offsetHeight;
+        }
+        
+        lens.style.left = posX + 'px';
+        lens.style.top = posY + 'px';
+        
+        // Calculate background position
+        const bgX = -(posX * zoom);
+        const bgY = -(posY * zoom);
+        
+        lens.style.backgroundImage = `url(${img.src})`;
+        lens.style.backgroundSize = (container.offsetWidth * zoom) + 'px ' + 
+                                  (container.offsetHeight * zoom) + 'px';
+        lens.style.backgroundPosition = bgX + 'px ' + bgY + 'px';
+    }
+    
+    function updateLensBackground() {
+        lens.style.backgroundImage = `url(${img.src})`;
+        lens.style.backgroundSize = (container.offsetWidth * zoom) + 'px ' + 
+                                  (container.offsetHeight * zoom) + 'px';
+    }
+}
+
+function changeImage(src) {
+    const mainImage = document.getElementById('mainImage');
+    const thumbs = document.querySelectorAll('.thumb');
+    
+    // Change main image
+    mainImage.src = src;
+    
+    // Update active thumbnail
+    thumbs.forEach(thumb => {
+        if(thumb.src === src) {
+            thumb.classList.add('active');
+        } else {
+            thumb.classList.remove('active');
+        }
+    });
+    
+    // Reinitialize magnifier for new image
+    setTimeout(initMagnifier, 100);
+}
+
+// Initialize magnifier on page load
+window.addEventListener('load', function() {
+    initMagnifier();
+    
+    // Add active class to first thumbnail
+    const firstThumb = document.querySelector('.thumb');
+    if(firstThumb) {
+        firstThumb.classList.add('active');
+    }
+});
 </script>
-        <!-- End Product Description -->
-       
-	<?php require('footer.php');
-
-ob_flush();?>
-
+    
 <script>
 function checkCartMessage() {
     let cartMsg = document.getElementById("cart_attr_msg").innerHTML.trim();
@@ -867,3 +1021,6 @@ function manage_cart(pid, type, is_checkout) {
 }
 </script>
     
+<?php require('footer.php');
+
+ob_flush();?>
