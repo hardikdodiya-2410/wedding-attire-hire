@@ -1,26 +1,101 @@
 <?php
-	 require('top.php');
-	?>
+require('top.php');
+?>
 
+<head>
+    <style>
+        .category {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background: #fff;
+            margin-bottom: 20px;
+            padding: 15px;
+        }
+
+
+       .ht__cat__thumb img {
+            width: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            position: relative;
+                overflow: hidden;
+        }
+
+        .fr__product__inner {
+            text-align: center;
+            padding: 15px;
+        }
+
+        .btn {
+            border: 2px solid #333;
+            background: none;
+            color: #333;
+            padding: 8px 20px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #333;
+            color: #fff;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 991px) {
+            .col-md-4 {
+                width: 50%;
+                float: left;
+            }
+
+            .ht__cat__thumb {
+                height: 500px;
+                            position: relative;
+                overflow: hidden;
+
+            }
+        }
+
+        @media (max-width: 767px) {
+            .col-md-4 {
+                width: 100%;
+                float: none;
+            }
+
+            .ht__cat__thumb {
+                height: 450px;
+                            position: relative;
+                overflow: hidden;
+
+            }
+        }
+
+        @media (max-width: 480px) {
+            .ht__cat__thumb {
+                height: 450px;
+                            position: relative;
+                overflow: hidden;
+
+            }
+        }
+    </style>
+</head>
 <section class="htc__category__area ptb--100">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12">
+    <div class="container">
+                           <div class="col-xs-12">
                         <div class="section__title--2 text-center">
-                            <h2 class="title__line">New Arrivals</h2>
+                            <h2 class="title__line">NewArrival</h2>
                        
                 </div>
             </div>
-        </div>
         <div class="htc__product__container">
             <div class="row">
-                <div class="product__list clearfix mt--30">
-                    <?php
-                        $get_product = get_product($con, '6',);
-                        foreach ($get_product as $list) {
+                <?php
+                $get_product = get_product($con, '6');
+                foreach ($get_product as $list) {
                     ?>
-                    <div class="col-md-4 col-lg-4 col-sm-3 col-xs-18">
-                                <div class="category" style="box-shadow: 0 2px 4px rgba(0,0,0,0.1); width: 100%; margin-bottom: 30px;">
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="category" style="box-shadow: 0 2px 4px rgba(0,0,0,0.1); width: 100%; margin-bottom: 30px; text-align: left;">
                                     <div class="ht__cat__thumb" style="position: relative; overflow: hidden;">
                                         <a href="product.php?id=<?php echo $list['id']?>">
                                             <img src="../ecom/media/product_images/<?php echo $list['image']?>" alt="<?php echo htmlspecialchars($list['name'])?>" 
@@ -37,7 +112,7 @@
                                                 <i class="icon-handbag icons"></i></a></li>
                                         </ul>
                                     </div>
-                                    <div class="fr__product__inner" style="padding: 15px; background: white;">
+                                    <div class="fr__product__inner" style="padding: 15px; background: white; text-align: left">
                                         <h4 style="margin: 0 0 10px 0; font-size: 16px;">
                                             <a href="product.php?id=<?php echo $list['id']?>" style="color: #333; text-decoration: none;">
                                                 <?php echo htmlspecialchars($list['name'])?>
@@ -63,22 +138,14 @@
                                             RENT NOW
                                         </a>
                                     </div>
-                                </div>
-                            </div>
-                            <!-- End Single Category -->
-							<?php  }?>
-   <!-- End Single Product -->
-                             </div>
-                            </div>
+
                         </div>
                     </div>
-                            </div>
-			   </div>
-				
-                    </div>
-                    </section>
-        <!-- End Category Area -->
-        <!-- End Product Area -->
-            
-		<?php
-	 require('footer.php');?>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+</section>
+<?php
+require('footer.php');
+?>

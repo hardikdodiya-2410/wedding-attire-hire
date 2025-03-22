@@ -1,6 +1,7 @@
 <?php
-	 require('top.php');
-	?>
+require('top.php');
+?>
+
 <head>
     <style>
         .pagination {
@@ -9,196 +10,126 @@
             flex-wrap: wrap;
         }
 
-        .pagination>.active>a,
-        .pagination>.active>span,
-        .pagination>.active>a:hover,
-        .pagination>.active>span:hover,
-        .pagination>.active>a:focus,
-        .pagination>.active>span:focus {
-            z-index: 3;
-            color: #fff;
-            background-color: #337ab7;
-            border-color: #000000;
-            cursor: default
-        }
-
-        .pagination>li>a,
-        .pagination>li>span {
-            position: relative;
-            float: left;
-            padding: 6px 12px;
-            line-height: 1.42857143;
+        .pagination>li>a {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            margin: 4px;
             text-decoration: none;
             color: black;
             background-color: #fff;
-            border: 1px solid #ddd;
-            margin-left: -1px
         }
 
-        /* Responsive Styles */
+        .pagination>.active>a {
+            background-color: #000;
+            color: #fff;
+            cursor: default;
+        }
+
         .category {
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            width: 100%;
-            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             background: #fff;
-        }
-
-        .ht__cat__thumb {
-            position: relative;
-            overflow: hidden;
-            width: 100%;
+            margin-bottom: 20px;
+            padding: 15px;
         }
 
         .ht__cat__thumb img {
             width: 100%;
-            height: auto;
-            max-height: 500px;
+       
             object-fit: cover;
             transition: transform 0.3s ease;
+            position: relative;
+                overflow: hidden;
         }
 
         .fr__product__inner {
+            text-align: center;
             padding: 15px;
-            background: white;
         }
 
-        .section__title--2 {
-            margin-bottom: 30px;
+        .btn {
+            border: 2px solid #333;
+            background: none;
+            color: #333;
+            padding: 8px 20px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
         }
 
-        /* Tablet View */
+        .btn:hover {
+            background: #333;
+            color: #fff;
+        }
+
+        /* Responsive Styles */
         @media (max-width: 991px) {
-            .col-md-4.col-lg-4.col-sm-3.col-xs-18 {
+            .col-md-4 {
                 width: 50%;
                 float: left;
-                padding: 0 10px;
             }
-            
+
             .ht__cat__thumb img {
                 max-height: 400px;
             }
-            
-            .fr__product__inner h4 {
-                font-size: 14px;
-            }
-
-            .section__title--2 h2 {
-                font-size: 28px;
-            }
         }
 
-        /* Mobile View */
         @media (max-width: 767px) {
-            .container {
-                padding-left: 15px;
-                padding-right: 15px;
-            }
-
-            .col-md-4.col-lg-4.col-sm-3.col-xs-18 {
+            .col-md-4 {
                 width: 100%;
                 float: none;
-                padding: 0;
             }
-            
+
             .ht__cat__thumb img {
-                max-height: 350px;
+                max-height: 500px;
+                
             }
-            
-            .pagination {
-                padding: 0;
-                margin: 20px 0;
-            }
-            
-            .pagination > li > a {
-                padding: 4px 8px;
+
+            .pagination>li>a {
+                padding: 6px 10px;
                 font-size: 14px;
-                margin: 2px;
-            }
-            
-            .section__title--2 h2 {
-                font-size: 24px;
-                margin-bottom: 20px;
-            }
-            
-            .fr__product__inner {
-                text-align: center;
-                padding: 15px;
-            }
-            
-            .fr__hover__info {
-                display: none;
-            }
-
-            .category {
-                margin: 0 0 20px 0;
-            }
-
-            .product__list {
-                margin-top: 20px;
-            }
-
-            .fr__product__inner h4 {
-                margin-bottom: 10px;
-            }
-
-            .fr__product__inner ul.fr__pro__prize {
-                margin-bottom: 15px;
-            }
-
-            .ptb--100 {
-                padding: 50px 0;
             }
         }
 
         @media (max-width: 480px) {
             .ht__cat__thumb img {
-                max-height: 300px;
+                max-height: 400px;
             }
 
-            .section__title--2 h2 {
-                font-size: 20px;
-            }
-
-            .pagination > li > a {
-                padding: 3px 6px;
+            .pagination>li>a {
+                padding: 4px 8px;
                 font-size: 12px;
             }
         }
     </style>
 </head>
-
-       <section class="ftr__product__area ptb--100">
-            <div class="container">
-                <div class="row">
+<section class="ftr__product__area ptb--100">
+    <div class="container">
+                        <div class="row">
                     <div class="col-xs-12">
                         <div class="section__title--2 text-center">
-                            <h2 class="title__line">Best Seller</h2>
-                        </div>
-                    </div>
+                            <h2 class="title__line">BestSeller</h2>
+                       
                 </div>
-                <div class="row">
-                    <div class="product__list clearfix mt--30">
-							<?php
-							$items_per_page = 3;
-							$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-							$offset = ($page - 1) * $items_per_page;
-							
-							$get_product = get_product($con,'','','','','','yes');
-							$total_products = count($get_product);
-							$total_pages = ceil($total_products / $items_per_page);
-							
-							// Get products for current page
-							$current_products = array_slice($get_product, $offset, $items_per_page);
-							
-							foreach($current_products as $list){
-							?>
-                            <!-- Start Single Category -->
-                            <div class="col-md-4 col-lg-4 col-sm-3 col-xs-18">
-                                <div class="category" style="box-shadow: 0 2px 4px rgba(0,0,0,0.1); width: 100%; margin-bottom: 30px;">
+            </div>
+        </div>
+        <div class="row">
+            <?php
+            $items_per_page = 3;
+            $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+            $offset = ($page - 1) * $items_per_page;
+            $get_product = get_product($con, '', '', '', '', '', 'yes');
+            $total_products = count($get_product);
+            $total_pages = ceil($total_products / $items_per_page);
+            $current_products = array_slice($get_product, $offset, $items_per_page);
+            foreach ($current_products as $list) {
+                ?>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+<div class="category" style="box-shadow: 0 2px 4px rgba(0,0,0,0.1); width: 100%; margin-bottom: 30px; text-align: left;">
                                     <div class="ht__cat__thumb" style="position: relative; overflow: hidden;">
                                         <a href="product.php?id=<?php echo $list['id']?>">
                                             <img src="../ecom/media/product_images/<?php echo $list['image']?>" alt="<?php echo htmlspecialchars($list['name'])?>" 
-                                                style="width: 100%; height: auto; max-height: 500px; object-fit: cover; transition: transform 0.3s ease;">
+                                                style="width: 100%; height: 500px; object-fit: cover; transition: transform 0.3s ease;">
                                         </a>
                                     </div>
                                     <div class="fr__hover__info" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0; transition: opacity 0.3s ease;">
@@ -211,7 +142,7 @@
                                                 <i class="icon-handbag icons"></i></a></li>
                                         </ul>
                                     </div>
-                                    <div class="fr__product__inner" style="padding: 15px; background: white;">
+                                    <div class="fr__product__inner" style="padding: 15px; background: white; text-align: left">
                                         <h4 style="margin: 0 0 10px 0; font-size: 16px;">
                                             <a href="product.php?id=<?php echo $list['id']?>" style="color: #333; text-decoration: none;">
                                                 <?php echo htmlspecialchars($list['name'])?>
@@ -238,44 +169,28 @@
                                         </a>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- End Single Category -->
-							<?php } ?>
-                        </div>
-                        <!-- Pagination -->
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="pagination text-center" style="margin: 30px 0;">
-                                    <?php if($total_pages > 1) { ?>
-                                        <ul class="pagination" style="display: inline-block; padding-left: 0; margin: 20px 0; border-radius: 4px;">
-                                            <?php if($page > 1) { ?>
-                                                <li style="display: inline;">
-                                                    <a href="?page=<?php echo $page-1; ?>" style="float: left; padding: 8px 16px; text-decoration: none; border: 1px solid #ddd; margin: 0 4px;">Previous</a>
-                                                </li>
-                                            <?php } ?>
-                                            
-                                            <?php for($i = 1; $i <= $total_pages; $i++) { ?>
-                                                <li style="display: inline;">
-                                                    <a href="?page=<?php echo $i; ?>" style="float: left; padding: 8px 16px; text-decoration: none; border: 1px solid #ddd; margin: 0 4px; <?php echo ($i == $page) ? 'background-color:rgb(0, 0, 0); color: white;' : ''; ?>">
-                                                        <?php echo $i; ?>
-                                                    </a>
-                                                </li>
-                                            <?php } ?>
-                                            
-                                            <?php if($page < $total_pages) { ?>
-                                                <li style="display: inline;">
-                                                    <a href="?page=<?php echo $page+1; ?>" style="float: left; padding: 8px 16px; text-decoration: none; border: 1px solid #ddd; margin: 0 4px;">Next</a>
-                                                </li>
-                                            <?php } ?>
-                                        </ul>
-                                    <?php } ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
+            <?php } ?>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <ul class="pagination">
+                    <?php if ($page > 1) { ?>
+                        <li><a href="?page=<?php echo $page - 1; ?>">Previous</a></li>
+                    <?php } ?>
+                    <?php for ($i = 1; $i <= $total_pages; $i++) { ?>
+                        <li class="<?php echo ($i == $page) ? 'active' : ''; ?>">
+                            <a href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                        </li>
+                    <?php } ?>
+                    <?php if ($page < $total_pages) { ?>
+                        <li><a href="?page=<?php echo $page + 1; ?>">Next</a></li>
+                    <?php } ?>
+                </ul>
             </div>
-        </section>
-       
-		<?php
-	 require('footer.php');?>
+        </div>
+    </div>
+</section>
+<?php
+require('footer.php');
+?>

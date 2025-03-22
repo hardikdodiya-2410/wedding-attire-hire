@@ -33,13 +33,7 @@
 										</div>
 										<span class="field_error" id="email_error"></span>
 									</div>
-									<div class="single-contact-form">
-										<label class="password_label">Current Password</label>
-										<div class="contact-box name">
-											<input type="password" name="current_password" placeholder=" Enter Your Current Password" id="current_password" style="width:100%">
-										</div>
-										<span class="field_error" id="current_password_error"></span>
-									</div>
+									
 									<div class="single-contact-form">
 										<label class="password_label">New Password</label>
 										<div class="contact-box name">
@@ -54,7 +48,7 @@
 										</div>
 										<span class="field_error" id="confirm_new_password_error"></span>
 									</div>
-									
+									<span class="field_error" id="current_password_error"></span>
 									<div class="contact-btn">
 										<button type="button" class="fv-btn" onclick="forget_password()" id="btn_update_password">forget password</button>
 										
@@ -76,16 +70,13 @@
         <script>
             		function forget_password(){
 			jQuery('.field_error').html('');
-			var current_password=jQuery('#current_password').val();
+			// var current_password=jQuery('#current_password').val();
 			var new_password=jQuery('#new_password').val();
 			var confirm_new_password=jQuery('#confirm_new_password').val();
 			var email=jQuery('#email').val();
 			var is_error='';
             
-			if(current_password==''){
-				jQuery('#current_password_error').html('Please enter password');
-				is_error='yes';
-			}if(new_password==''){
+			if(new_password==''){
 				jQuery('#new_password_error').html('Please enter password');
 				is_error='yes';
 			}
@@ -109,7 +100,7 @@
 				jQuery.ajax({
 					url:'forget_update_password.php',
 					type:'post',
-					data:'&email='+email+'&current_password='+current_password+'&new_password='+new_password,
+					data:'&email='+email+'&new_password='+new_password,
 					success:function(result){
 						jQuery('#current_password_error').html(result);
 						jQuery('#btn_update_password').html('Update');

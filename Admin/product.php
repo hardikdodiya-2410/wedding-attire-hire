@@ -30,7 +30,13 @@ if(isset($_GET['type']) && $_GET['type']!=''){
 	}
 }
 
-$sql="select product.*,categories.categories from product,categories where product.categories_id=categories.id $condtion  order by product.id desc";
+$sql="SELECT product.*, categories.categories, sub_categories.sub_categories 
+FROM product
+JOIN categories ON product.categories_id = categories.id
+JOIN sub_categories ON product.sub_categories_id = sub_categories.id
+$condtion
+ORDER BY product.id DESC;
+";
 $res=mysqli_query($con,$sql);
 ?>
 <div class="content pb-0">
@@ -50,6 +56,7 @@ $res=mysqli_query($con,$sql);
 							   <th class="serial">#</th>
 							   <th>ID</th>
 							   <th>Categories</th>
+							   <th>Sub Categories</th>
 							   <th>Name</th>
 							   <th>Image</th>
 							   <!-- <th>MRP</th>
@@ -69,6 +76,7 @@ $res=mysqli_query($con,$sql);
 							   <td class="serial"><?php echo $i?></td>
 							   <td><?php echo $row['id']?></td>
 							   <td><?php echo $row['categories']?></td>
+							   <td> <?php echo $row['sub_categories']?></td>
 							   <td><?php echo $row['name']?></td>
 							   <td><img src="../media/product_images/<?php echo $row['image']?>"/></td>
 				

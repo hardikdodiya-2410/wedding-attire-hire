@@ -77,6 +77,7 @@ $resAttr=mysqli_query($con,"select product_attributes.*,color_master.color,size_
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style type="text/css">
         .product-container {
             display: flex;
@@ -114,6 +115,7 @@ $resAttr=mysqli_query($con,"select product_attributes.*,color_master.color,size_
             gap: 10px;
             flex-wrap: wrap;
             margin-top: 10px;
+                margin-left: 22px;
             justify-content: flex-start;
             align-items: center;
             position: relative;
@@ -226,7 +228,7 @@ select {
             min-width: 160px;
             max-width: 100%;
             transition: all 0.25s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 0px 1px rgb(0, 0, 0);
             margin: 5px 0;
             font-weight: 500;
             color: #333;
@@ -234,12 +236,12 @@ select {
 
         select:hover {
             border-color: #bdbdbd;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgb(0,0,0);
             transform: translateY(-1px);
         }
 
         select:focus {
-            border-color: #2196F3;
+            border-color:rgb(0, 0, 0);
             outline: none;
             box-shadow: 0 4px 12px rgba(33,150,243,0.15);
             transform: translateY(-1px);
@@ -272,7 +274,7 @@ select {
         select option:active,
         select option:checked {
             background-color: #f5f5f5;
-            color: #2196F3;
+            color:rgb(0, 0, 0);
             padding-left: 25px;
         }
 
@@ -285,7 +287,7 @@ select {
         }
 
         select:disabled option {
-            color: #9e9e9e;
+            color:rgb(0, 0, 0);
             background: #f8f9fa;
             cursor: not-allowed;
         }
@@ -413,14 +415,16 @@ select {
     }
 }
 .sin__desc {
-    margin: 10px;
+        background-color: #f5f5f5;
+
+    padding: 2px;
 
 }
    select.select__size {
-    /* border: 1px solid #000000; */
-    box-shadow: 1px 1px 3px black;
+    border: 1px solid #000000;
+    box-shadow: 0 0px 1px black;
     color: #000000;
-    /* height: 20px; */
+    background-color: #fff;
     margin-left: 10px;
     width: 60px;
     padding: 0 4px;
@@ -473,6 +477,17 @@ select {
                 object-fit: cover;
             }
         }
+        #social_share_box{
+	margin-top:20px;
+	width:150px;
+	margin-bottom: 20px;
+}
+
+
+#social_share_box img{
+	width:20%;
+	margin-left:10px;
+}
     </style>
    
 </head>
@@ -501,15 +516,18 @@ select {
             <div class="htc__product__details__top">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12 product-image-section">
+                        <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12 product-image-section" style="padding: 0px;">
                             <div class="htc__product__details__tab__content">
                                 <!-- Start Product Big Images -->
                                 <div class="product__big__images">
                                     <div class="portfolio-full-image tab-content" style="display: flex; gap: 10px;">
-                                    <div class="img-magnifier-container main-image">
-                                    <img id="mainImage" src="<?php echo PRODUCT_MULTIPLE_IMAGE_SITE_PATH.$get_product['0']['image']?>">
+                                        
+                                        <div class="img-magnifier-container main-image" style="position: relative;">
+                                            <img id="mainImage" src="<?php echo PRODUCT_MULTIPLE_IMAGE_SITE_PATH.$get_product['0']['image']?>">
                                         </div>
-										
+										  <div id="social_share_box" style="text-align:right; position: absolute; right: 0;">
+									        <a href="https://api.whatsapp.com/send?text=<?php echo $meta_url ?>"><img src="share.png"></a>
+                                        </div>
 										<div class="thumbnails">
         <?php foreach ($images as $img) { ?>
             <img class="thumb" src="<?php echo $img; ?>" onclick="changeImage('<?php echo $img; ?>')">
@@ -523,8 +541,8 @@ select {
                                 
                             </div>
                         </div>
-                        <br>
-                        <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12 product-content-section">
+                        
+                        <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12 product-content-section" style="padding:0px">
                            <form method="post">
                            <div class="product-det" style="background-color: #f5f5f5;
     padding: 20px;
@@ -553,6 +571,7 @@ select {
                                        </span> Rent <br>
                                        <span style="font-size:12px; color:#999; padding-right:5px">Inclusive all taxes</span>
                                      </div>
+                                   
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
@@ -633,7 +652,9 @@ select {
 
 <!-- Add date picker div -->
 <div id="date_picker_div" style="display:none; margin: 15px 0;">
-    <div class="sin__desc">
+    <div class="sin__desc" style="
+    margin: 0px 22px;
+">
         <div>
             <p style="margin: 0;"><span>Rental Period (Minimum 3 days):</span></p>
             <div>
@@ -652,7 +673,7 @@ select {
     <div id="cart_attr_msg"></div>
 </span>
 				
-                                    <div class="sin__desc align--left" style="    padding-left:15px;">
+                                    <div class="sin__desc align--left" >
                                         <p><span>Categories:</span></p>
                                         <ul class="pro__cat__list">
                                             <li><a href="#"><?php echo $get_product['0']['categories']?></a></li>
@@ -664,18 +685,15 @@ select {
                                         <!-- <a class="fr__btn" name="add_to_cart"href="javascript:void(0)" onclick="manage_cart('<?php echo $get_product['0']['id']?>','add')">Add to cart</a>
                                         -->
                 
-                                    <a class="fr__btn" name="add_to_cart"href="javascript:void(0)" onclick="manage_cart('<?php echo $get_product['0']['id']?>','add','yes')">Rent Now</a>
+                                    <a class="fr__btn"style="color: #fff;
+    background: #222;" name="add_to_cart"href="javascript:void(0)" onclick="manage_cart('<?php echo $get_product['0']['id']?>','add','yes')">Rent Now</a>
                               
                                 </div>
                       
                                     <p id="field_error" class="field_error"></p>
                                 </form> 
                                     </div>
-                                    <div id="social_share_box">
-									<a href="https://facebook.com/share.php?u=<?php echo $meta_url?>"><img src='images/icons/facebook.png'/></a>
-									<a href="https://twitter.com/share?text=&url=<?php echo $meta_url?>"><img src='images/icons/twitter.png'/></a>
-									<a href="https://api.whatsapp.com/send?text=<?php echo $meta_url?>"><img src='images/icons/whatsapp.png'/></a>
-								</div>
+                                    
                                 </div>
                             </div>
 </form>

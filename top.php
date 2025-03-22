@@ -316,5 +316,6 @@ if(isset($_SESSION['USER_ID'])){
             </div>
         </div>
 </body>
+
 </html>
     

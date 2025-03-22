@@ -2,7 +2,7 @@
 require('connection.inc.php');
 require('functions.inc.php');
 $email=get_safe_value($con,$_POST['email']);
-$current_password=get_safe_value($con,$_POST['current_password']);
+
 $new_password=get_safe_value($con,$_POST['new_password']);
 
 
@@ -17,9 +17,7 @@ $row=mysqli_fetch_assoc(mysqli_query($con,"select password from users where emai
 $check_user=mysqli_num_rows (mysqli_query ($con, "select * from users where email='$email' ") ) ;
 			if ($check_user>0) {
 	
-if($row['password']!=$current_password){
-	echo "Please enter your current valid password";
-}else{
+
 	mysqli_query($con,"update users set password='$new_password' where email='$email'");
 
 ?>
@@ -29,7 +27,7 @@ if($row['password']!=$current_password){
 	window.location.href="login.php";
 </script><?php
 }
-			}
+		
 			else
 			{
 				?>
