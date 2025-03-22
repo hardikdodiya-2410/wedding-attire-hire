@@ -6,6 +6,7 @@
         .pagination {
             display: flex;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         .pagination>.active>a,
@@ -32,6 +33,136 @@
             background-color: #fff;
             border: 1px solid #ddd;
             margin-left: -1px
+        }
+
+        /* Responsive Styles */
+        .category {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: 100%;
+            margin-bottom: 30px;
+            background: #fff;
+        }
+
+        .ht__cat__thumb {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .ht__cat__thumb img {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .fr__product__inner {
+            padding: 15px;
+            background: white;
+        }
+
+        .section__title--2 {
+            margin-bottom: 30px;
+        }
+
+        /* Tablet View */
+        @media (max-width: 991px) {
+            .col-md-4.col-lg-4.col-sm-3.col-xs-18 {
+                width: 50%;
+                float: left;
+                padding: 0 10px;
+            }
+            
+            .ht__cat__thumb img {
+                max-height: 400px;
+            }
+            
+            .fr__product__inner h4 {
+                font-size: 14px;
+            }
+
+            .section__title--2 h2 {
+                font-size: 28px;
+            }
+        }
+
+        /* Mobile View */
+        @media (max-width: 767px) {
+            .container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            .col-md-4.col-lg-4.col-sm-3.col-xs-18 {
+                width: 100%;
+                float: none;
+                padding: 0;
+            }
+            
+            .ht__cat__thumb img {
+                max-height: 350px;
+            }
+            
+            .pagination {
+                padding: 0;
+                margin: 20px 0;
+            }
+            
+            .pagination > li > a {
+                padding: 4px 8px;
+                font-size: 14px;
+                margin: 2px;
+            }
+            
+            .section__title--2 h2 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            
+            .fr__product__inner {
+                text-align: center;
+                padding: 15px;
+            }
+            
+            .fr__hover__info {
+                display: none;
+            }
+
+            .category {
+                margin: 0 0 20px 0;
+            }
+
+            .product__list {
+                margin-top: 20px;
+            }
+
+            .fr__product__inner h4 {
+                margin-bottom: 10px;
+            }
+
+            .fr__product__inner ul.fr__pro__prize {
+                margin-bottom: 15px;
+            }
+
+            .ptb--100 {
+                padding: 50px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .ht__cat__thumb img {
+                max-height: 300px;
+            }
+
+            .section__title--2 h2 {
+                font-size: 20px;
+            }
+
+            .pagination > li > a {
+                padding: 3px 6px;
+                font-size: 12px;
+            }
         }
     </style>
 </head>
@@ -67,7 +198,7 @@
                                     <div class="ht__cat__thumb" style="position: relative; overflow: hidden;">
                                         <a href="product.php?id=<?php echo $list['id']?>">
                                             <img src="../ecom/media/product_images/<?php echo $list['image']?>" alt="<?php echo htmlspecialchars($list['name'])?>" 
-                                                style="width: 100%; height: 500px; object-fit: cover; transition: transform 0.3s ease;">
+                                                style="width: 100%; height: auto; max-height: 500px; object-fit: cover; transition: transform 0.3s ease;">
                                         </a>
                                     </div>
                                     <div class="fr__hover__info" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0; transition: opacity 0.3s ease;">

@@ -71,6 +71,15 @@ justify-content: center;
 
     </style>
 </head>
+
+
+
+
+
+
+
+
+
         <!-- Start Bradcaump area -->
 		<!-- change the site map path banner -->
         <div class="ht__bradcaump__area" >
@@ -106,7 +115,7 @@ justify-content: center;
 							?>
                              <div class="col-md-4 col-lg-4 col-sm-3 col-xs-18">
                                 <div class="category" style="box-shadow: 0 2px 4px rgba(0,0,0,0.1); width: 100%; margin-bottom: 30px;">
-                                    <div class="ht__cat__thumb" style="position: relative; overflow: hidden;">
+                                    <div class="ht__cat__thumb" style="position: relative;overflow: hidden;height: 500px;">
                                         <a href="product.php?id=<?php echo $list['id']?>">
                                             <img src="../ecom/media/product_images/<?php echo $list['image']?>" alt="<?php echo htmlspecialchars($list['name'])?>" 
                                                 style="width: 100%; height: 500px; object-fit: cover; transition: transform 0.3s ease;">

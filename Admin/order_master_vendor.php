@@ -28,7 +28,7 @@ require('top.inc.php');
 								while($row=mysqli_fetch_assoc($res)){
 								?>
 								<tr>
-									<td class="product-add-to-cart"><?php echo $row['id']?><br/>
+								<td class="product-add-to-cart"><a href="order_master_detail.php?id=<?php echo $row['id'] ?>"> <?php echo $row['id'] ?></a><br/>
 									</td>
 									<td class="product-name">
 									<?php echo $row['name']?><br/>

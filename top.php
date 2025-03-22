@@ -70,11 +70,15 @@ if($mypage=='cart.php'){
     <meta charset="utf-8">
     
     <title style="color: red;" ><?php echo $meta_title?> </title>
+   <link rel="icon" type="image/x-icon" href="favicon (2).ico">
     <meta name="description" content="<?php echo $meta_desc?> ">
     <meta name="keywords" content="<?php echo $meta_keyword?> ">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	
+	<style>
+    /* Applies styles to the favicon (may not work in all browsers) */
+    
+</style>
 	<meta property="og:title" stycontent="<?php echo $meta_title?>"/>
 	<meta property="og:image" content="<?php echo $meta_image?>"/>
 	<meta property="og:url" content="<?php echo $meta_url?>"/>
@@ -104,7 +108,12 @@ if($mypage=='cart.php'){
     
     <!-- Modernizr JS -->
     <script src="js/vendor/modernizr-3.5.0.min.js"></script>
+    
     <style>
+        link[rel="icon"] {
+        border-radius: 50%;
+        overflow: hidden;
+    }
         .htc__shopping__cart a span.htc__wishlist {
     background: black;
     border-radius: 100%;

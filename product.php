@@ -77,7 +77,7 @@ $resAttr=mysqli_query($con,"select product_attributes.*,color_master.color,size_
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <style>
+    <style type="text/css">
         .product-container {
             display: flex;
             gap: 20px;
@@ -110,22 +110,70 @@ $resAttr=mysqli_query($con,"select product_attributes.*,color_master.color,size_
 
         .thumbnails {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            justify-content: flex-start;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
         }
-        .thumbnails img {
+        
+        .thumb {
+            position: relative;
+            overflow: hidden;
             width: 80px;
             height: 80px;
             cursor: pointer;
             border: 2px solid transparent;
-            border-radius: 4px;
             transition: all 0.3s ease;
+        }
+        
+        .thumb img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
         }
-        .thumbnails img:hover, .thumbnails img.active {
-            border: 2px solid #000;
-            transform: translateY(-2px);
+        
+        .thumb:hover {
+            border-color: #333;
+            transform: scale(1.05);
         }
+
+        @media (max-width: 767px) {
+            .portfolio-full-image {
+                flex-direction: column;
+            }
+            
+            .img-magnifier-container.main-image {
+                margin-bottom: 15px;
+            }
+            
+            #mainImage {
+                max-height: 400px;
+            }
+            
+            .thumbnails {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
+                justify-content: center;
+                padding: 10px;
+                background: #fff;
+            }
+            
+            .thumb {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .thumbnails {
+                gap: 5px;
+                justify-content: center;
+            }
+        }
+
         /* General Styling */
 input[type="date"] {
     width: 160px;
@@ -293,76 +341,80 @@ select {
 
 /* Default styles for large screens (laptop/desktop) */
 .product-det {
-    background: #f9f9f9;
-    padding: 10px 15px;
-    margin-bottom: 10px;
+    background-color: #f5f5f5;
+    padding: 20px;
+    margin-bottom: 20px;
+    margin-top: 0;
     position: relative;
-}
-.main-image img {
-    width: 100%;
     height: auto;
-}
-.thumbnails img {
-    width: 70px;
-    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* Tablet (medium screens) */
-@media (max-width:991px) {
-    .col-md-3, .col-md-6, .col-md-9 {
+/* Media query for screens between 768px and 1024px */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    .product-det {
+        padding: 15px;
+    }
+    .product-det .col-md-9,
+    .product-det .col-md-3 {
         width: 100%;
-        padding: 0 5px;
+        float: none;
     }
-    .main-image img {
-        width: 100%;
-        height: auto;
+    .product-det h2 {
+        font-size: 20px !important;
+        line-height: 22px !important;
     }
-    .thumbnails img {
-        width: 60px;
+    .product-price {
+        text-align: left !important;
+        margin-top: 15px;
     }
-    
+    .ht__pro__desc {
+        margin-top: 15px;
+    }
+    /* Image and content layout for tablet */
+    .product-image-section {
+        width: 33.33% !important; /* 4 columns */
+        float: left !important;
+    }
+    .product-content-section {
+        width: 66.67% !important; /* 8 columns */
+        float: left !important;
+    }
 }
 
-/* Mobile (small screens) */
-@media (max-width: 991px) {
-    .htc__product__details__top .row {
-        display: flex;
-        flex-direction: column;
-    }
-   
+/* Media query for screens below 768px */
+@media screen and (max-width: 767px) {
     .product-det {
         padding: 10px;
+    }
+    .product-det .col-md-9,
+    .product-det .col-md-3 {
         width: 100%;
+        float: none;
+        padding: 5px;
     }
-
-    .main-image img {
-        width: 100%;
-        height: 400px;
+    .product-det h2 {
+        font-size: 18px !important;
+        line-height: 20px !important;
     }
-
-    .thumbnails {
-        display: flex;
-        gap: 5px;
-        overflow-x: auto;
-    }
-
     .product-price {
-        text-align: left;
-        font-size: 20px;
-    }
-
-    .fr__btn {
-        width: 100%;
-        text-align: center;
+        text-align: left !important;
         margin-top: 10px;
     }
-
-    #date_picker_div input[type="date"] {
-        width: 100%;
+    .ht__pro__desc {
+        margin-top: 10px;
+    }
+    /* Stack image and content for mobile */
+    .product-image-section,
+    .product-content-section {
+        width: 100% !important;
+        float: none !important;
     }
 }
 .sin__desc {
-    margin-left: 10px;
+    margin: 10px;
+
 }
    select.select__size {
     /* border: 1px solid #000000; */
@@ -376,12 +428,58 @@ select {
 }
  
     </style>
+    <style type="text/css">
+        /* Main Product Image Styles */
+        .img-magnifier-container.main-image {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        #mainImage {
+            width: 100%;
+            height: auto;
+            max-height: 550px;
+            object-fit: contain;
+        }
+
+        .portfolio-full-image {
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 767px) {
+            .portfolio-full-image {
+                flex-direction: column;
+            }
+            
+            .img-magnifier-container.main-image {
+                margin-bottom: 15px;
+            }
+            
+            #mainImage {
+                max-height: 450px;
+            }
+            
+            .thumbnails {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
+                justify-content: center;
+            }
+            
+            .thumb {
+                width: 60px;
+                height: 60px;
+                object-fit: cover;
+            }
+        }
+    </style>
    
 </head>
 <body>
         <div class="ht__bradcaump__area">
          
-                <div class="container" style="widht:100%; padding:20px;background-color:#f5f5f5;margin-bottom:20px;margin-top:20px;">
+                <div class="container" style="widht:100%; padding:20px;background-color:#f5f5f5;margin-bottom:20px;margin-top:20px; ">
                   
                     <div class="col-xs-12 col-xs-15">
                                  <nav class="bradcaump-inner" style="float:left">
@@ -403,15 +501,13 @@ select {
             <div class="htc__product__details__top">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-3 col-lg-4 col-sm-12 col-xs-12">
+                        <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12 product-image-section">
                             <div class="htc__product__details__tab__content">
                                 <!-- Start Product Big Images -->
                                 <div class="product__big__images">
                                     <div class="portfolio-full-image tab-content" style="display: flex; gap: 10px;">
                                     <div class="img-magnifier-container main-image">
-                                    <img id="mainImage" style="
-    height: 400px;
-" src="<?php echo PRODUCT_MULTIPLE_IMAGE_SITE_PATH.$get_product['0']['image']?>">
+                                    <img id="mainImage" src="<?php echo PRODUCT_MULTIPLE_IMAGE_SITE_PATH.$get_product['0']['image']?>">
                                         </div>
 										
 										<div class="thumbnails">
@@ -427,40 +523,39 @@ select {
                                 
                             </div>
                         </div>
-                        <div class="col-md-6 col-lg-8 col-sm-18 col-xs-18 smt-40 xmt-40">
+                        <br>
+                        <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12 product-content-section">
                            <form method="post">
-                           <div class="product-det"style=" background: #f9f9f9;
-    padding: 10px 15px 10px;
-    max-height: 100px!important;
-    margin-bottom: 10px;
-    position: relative;">
-                                <div class="col-md-9" style="padding:0 10px">
-                                    <h2 style="    font-size: 24px;
+                           <div class="product-det" style="background-color: #f5f5f5;
+    padding: 20px;
+    margin-bottom: 20px;
+    margin-top: 0;
+    position: relative;
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;">
+                                <div class="col-md-9 col-sm-12 col-xs-12" style="padding:0 10px">
+                                    <h2 style="font-size: 24px;
     color: #333;
     margin: 0;
     letter-spacing: 0;
     line-height: 25px;
-}"><?php echo $get_product['0']['name']?><br>
-                                        <span style="  font-size:12px;"><?php echo $get_product['0']['short_desc']?></span>
+    padding-bottom: 10px;"><?php echo $get_product['0']['name']?><br>
+                                        <span style="font-size:12px;"><?php echo $get_product['0']['short_desc']?></span>
                                     </h2>
-                                            					               	</div>
-                                 <div class="col-md-3" style="padding:0 10px">
-                                 	<div class="price">
-<!--                                                  <span  style="font-size: 25px"><?//php echo number_format($price,2)?></span>-->
-<!--                                                   <span>Rent</span> <br />-->
+                                </div>
+                                <div class="col-md-3 col-sm-12 col-xs-12" style="padding:0 10px">
+                                    <div class="price">
                                      <div class="product-price txt-xl text-right" style="line-height:20px">
-                                       <i class="fa fa-inr" style="color:black;font-weight: 300;
-"></i><span class="border-tb p-tb-10" id="rent-amount-calculated-show">  <?php echo  number_format($get_product['0']['price'], 2, '.', ',')?>  </span>Rent <br>  <span style="font-size:12px; color:#999; padding-right:5px">Inclusive all taxes</span>
-                                      </div>
-                                                 
-                                                 <!--<span1>No Security Deposit
-                                                 <a id="c-fiiting" href="#" data-toggle="modal" data-target="#image">
-                                                 <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                                              </a>-->
-                                              
-                                   </div>
-                                 </div>
-                                 <div class="clearfix"></div>
+                                       <i class="fa fa-inr" style="color:black;font-weight: 300;"></i>
+                                       <span class="border-tb p-tb-10" id="rent-amount-calculated-show">
+                                         <?php echo number_format($get_product['0']['price'], 2, '.', ',')?>
+                                       </span> Rent <br>
+                                       <span style="font-size:12px; color:#999; padding-right:5px">Inclusive all taxes</span>
+                                     </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
                            </div>
                             <div class="ht__pro__desc">
 									<?php 
@@ -538,7 +633,7 @@ select {
 
 <!-- Add date picker div -->
 <div id="date_picker_div" style="display:none; margin: 15px 0;">
-    <div class="sin__desc align--left">
+    <div class="sin__desc">
         <div>
             <p style="margin: 0;"><span>Rental Period (Minimum 3 days):</span></p>
             <div>
@@ -594,6 +689,7 @@ select {
 		<input type="hidden" id="sid"/>
         <!-- End Product Details Area -->
 		 <!-- Start Product Description -->
+          <br>
          <section class="htc__produc__decription bg__white">
             <div class="container">
                 <div class="row">
@@ -703,7 +799,7 @@ echo date('d M Y',$added_on);
 				$arrRecentView=array_slice($arrRecentView,$countStartRecentView,4);
 			}
 			$recentViewId=implode(",",$arrRecentView);
-			$res=mysqli_query($con,"select product.*from product  where id IN ($recentViewId) and product.status=1 limit 4");
+			$res=mysqli_query($con,"select * from product where id IN ($recentViewId) and status=1 limit 4");
 			
 		?>
 		<section class="htc__produc__decription bg__white">
@@ -732,15 +828,11 @@ echo date('d M Y',$added_on);
                         <div class="ht__pro__details__content">
                             <div class="row">
                             <?php while($list=mysqli_fetch_assoc($res)){?>
-								<div class="col-xs-3">
-                                <div class="category" style="
-    box-shadow: 0px 0px 2px rgb(0, 0, 0);
-    width: 270px;
-   
-    ">
+								<div class="col-xs-12 col-sm-6 col-md-3">
+                                <div class="category product-card">
                                     <div class="ht__cat__thumb">
                                         <a href="product.php?id=<?php echo $list['id']?>">
-                                            <img src="../ecom/media/product_images/<?php echo $list['image']?>" alt="product images" style=" width: 270px;height: 400px;border: 1px solid gray;border-bottom: none;">
+                                            <img src="../ecom/media/product_images/<?php echo $list['image']?>" alt="product images" class="img-responsive"style="position: relative;overflow: hidden;:400px width:450px">
                                         </a>
                                     </div>
                                     <div class="fr__hover__info">
@@ -1021,6 +1113,45 @@ function manage_cart(pid, type, is_checkout) {
 }
 </script>
     
+<style type="text/css">
+/* Product Card Styles */
+.product-card {
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    height: 100%;
+    background: #fff;
+}
+
+.product-card .ht__cat__thumb {
+    position: relative;
+    overflow: hidden;
+    display: block;
+}
+
+.product-card .ht__cat__thumb img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    aspect-ratio: 2/3;
+    transition: transform 0.3s ease;
+    display: block;
+}
+
+.product-card .ht__cat__thumb:hover img {
+    transform: scale(1.05);
+}
+
+@media (max-width: 767px) {
+    .product-card {
+        margin: 0 auto 20px;
+        max-width: 300px;
+    }
+    
+    .col-xs-12 {
+        float: none;
+    }
+}
+</style>
 <?php require('footer.php');
 
 ob_flush();?>

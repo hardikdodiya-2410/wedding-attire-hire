@@ -250,12 +250,12 @@ function isValidMobile(mobile) {
 }
 
 function isValidPassword(password) {
-	if (password.length > 8) {
-        return {
-            isValid: false,
-            errors: ["Password must be exactly 8 characters long"]
-        };
-    }
+	// if (password.length >= 8) {
+    //     return {
+    //         isValid: false,
+    //         errors: ["Password must be exactly 8 characters long"]
+    //     };
+    // }
     var hasUpperCase = /[A-Z]/.test(password);
     var hasLowerCase = /[a-z]/.test(password);
     var hasNumbers = /\d/.test(password);
