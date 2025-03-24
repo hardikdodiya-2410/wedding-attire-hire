@@ -577,13 +577,7 @@ select {
                                 <div class="clearfix"></div>
                            </div>
                             <div class="ht__pro__desc">
-									<?php 
-									$cart_show='yes';
-									$is_cart_box_show="hide";
-									if($is_color==0 && $is_size==0){
-										$is_cart_box_show="";
-									}
-									?>
+								
                                     <div class="sin__desc">
                                         <?php
                                        $getProductAttr=getProductAttr($con,$get_product['0']['id']);
@@ -679,6 +673,13 @@ select {
                                             <li><a href="#"><?php echo $get_product['0']['categories']?></a></li>
                                         </ul>
                                     </div>
+                                    	<?php
+                                        $cart_show = 'yes';
+                                        $is_cart_box_show = "hide";
+                                        if ($is_color == 0 && $is_size == 0) {
+                                            $is_cart_box_show = "";
+                                        }
+                                        ?>
                                     <div id="is_cart_box_show" class="<?php echo $is_cart_box_show?>">
                                     <div class="contact-btn"style="margin-top: 15px;     padding: 10px 15px 10px;">
                                
@@ -1064,7 +1065,7 @@ function calculateRentalPrice() {
     if (fromDate && toDate && !isNaN(fromDate) && !isNaN(toDate)) {
         let days = Math.floor((toDate - fromDate) / (1000 * 60 * 60 * 24)) + 1;
         let basePrice = <?php echo $get_product['0']['price'] ?>;
-        let totalPrice = basePrice * days;
+        let totalPrice = basePrice * (days-2);
         
         if (days > 0) {
             $('#rent-amount-calculated-show').text(totalPrice);
@@ -1072,63 +1073,7 @@ function calculateRentalPrice() {
     }
 }
 
-       
-// Update manage_cart function to include dates
-function manage_cart(pid, type, is_checkout) {
-    let qty = jQuery('#qty').val();
-    let rent_from = jQuery('#rent_from_date').val();
-    let rent_to = jQuery('#rent_to_date').val();
-       
-        if(!rent_from || !rent_to) {
-                document.getElementById('cart_attr_msg').innerHTML = 'Please select rental dates';
-                return;
-        }
-    
-   
-
-    // Validate minimum rental period
-    if (!validateDates()) {
-        return;
-    }
-
-    // Calculate number of days
-    let fromDate = new Date(rent_from);
-    let toDate = new Date(rent_to);
-    let diffTime = Math.abs(toDate - fromDate);
-    let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-
-    // Validate dates
-    if (fromDate > toDate) {
-        alert('Return date must be after rental date');
-        return;
-    }
-
-    jQuery.ajax({
-        url: 'manage_cart.php',
-        type: 'post',
-        data: {
-            pid: pid,
-            qty: qty,
-            type: type,
-            rent_from: rent_from,
-            rent_to: rent_to,
-            rental_days: diffDays,
-            cid: jQuery('#cid').val(),
-            sid: jQuery('#sid').val()
-        },
-        success: function(result) {
-            if (result.status == 'not_available') {
-                alert('Quantity not available');
-            } else {
-                jQuery('#cart_count').html(result);
-                window.location.href = 'cart.php';
-                if (is_checkout) {
-                    window.location.href = 'checkout.php';
-                }
-            }
-        }
-    });
-}
+ 
 </script>
     
 <style type="text/css">

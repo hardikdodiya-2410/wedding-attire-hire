@@ -452,7 +452,16 @@ function manage_cart(pid,type,is_checkout){
     let sid=jQuery('#sid').val();
     let rent_from = jQuery('#rent_from_date').val();
     let rent_to = jQuery('#rent_to_date').val();
-    
+    let fromDate = new Date(rent_from);
+    let toDate = new Date(rent_to);
+    let diffTime = Math.abs(toDate - fromDate);
+    let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+    // Validate dates
+    if (fromDate > toDate) {
+        alert('Return date must be after rental date');
+        return;
+    }
     if(type=='add')
     {
         if(is_color!=0 && cid==''){
@@ -480,7 +489,7 @@ function manage_cart(pid,type,is_checkout){
                     alert('Qty not available');	
                 } else if(result.status=='max_qty_reached'){
                     alert('Maximum quantity reached');
-                } else {
+                }else {
                     jQuery('.htc__qua').html(result);
                 
                     if(is_checkout=='yes'){
