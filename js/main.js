@@ -456,7 +456,6 @@ function manage_cart(pid,type,is_checkout){
     let toDate = new Date(rent_to);
     let diffTime = Math.abs(toDate - fromDate);
     let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-
     // Validate dates
     if (fromDate > toDate) {
         alert('Return date must be after rental date');
@@ -471,6 +470,10 @@ function manage_cart(pid,type,is_checkout){
         if(is_size!=0 && sid=='' && is_error==''){
             jQuery('#cart_attr_msg').html('Please select size');
             is_error='yes';
+        }
+        if (qty == 0) {
+            is_error = "yes";
+            return;
         }
         if(qty > 0 && (!rent_from || !rent_to)){
             jQuery('#cart_attr_msg').html('Please select rental period');
@@ -489,15 +492,26 @@ function manage_cart(pid,type,is_checkout){
                     alert('Qty not available');	
                 } else if(result.status=='max_qty_reached'){
                     alert('Maximum quantity reached');
-                }else {
-                    jQuery('.htc__qua').html(result);
+                } else if (result.status == "duplicate") {
                 
-                    if(is_checkout=='yes'){
-                        window.location.href='checkout.php';
-                    }
-                    else if(type=='add') {
-                        window.location.href='cart.php';
-                    }
+                   Swal.fire({
+                     title: " ",
+                     text: "You must add only one item in cart at a time",
+                     icon: "warning",
+                     timer: 5000,
+                     showConfirmButton: false,
+                   }).then(() => {
+                     window.location.href = "cart.php";
+                   });
+                  
+                } else {
+                  jQuery(".htc__qua").html(result);
+
+                  if (is_checkout == "yes") {
+                    window.location.href = "checkout.php";
+                  } else if (type == "add") {
+                    window.location.href = "cart.php";
+                  }
                 }
             }   
         }); 
@@ -591,9 +605,13 @@ function wishlist_manage(pid,type){
 	});	
 }
 
-function showDatePicker() {
+function showDatePicker(e) {
     jQuery('#date_picker_div').show();
-    
+    if(e.value == 0){
+        jQuery("#cart_attr_msg").html("Please select quanity");
+    }else{
+        jQuery("#cart_attr_msg").html("");
+    }
     jQuery('#rent_dates').daterangepicker({
         minDate: moment().add(1, 'days'),
         startDate: moment().add(1, 'days'),

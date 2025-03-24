@@ -11,7 +11,9 @@ if(isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN']=='yes'){
 <!-- Start Bradcaump area -->
  <html>
 	<head>
-		
+		<!-- Load jQuery -->
+
+
 	</head>
 <div class="ht__bradcaump__area" >
     <div class="container" style="widht:100%; padding:20px;background-color:#f5f5f5;margin-bottom:20px;margin-top:20px;">
@@ -230,8 +232,16 @@ function user_register(){
 					jQuery('#email_error').html('Email id not verified');
 				}
 				if(result.insert){
-					alert('Thank you for registeration');
-					window.location.reload();
+					  Swal.fire({
+                        title: 'Register Successful!',
+                        text: 'You are Register in successfully.',
+                        icon: 'success',
+                        timer: 3000,
+                        showConfirmButton: false
+                    }).then(() => {
+                      window.location.reload();
+                    });
+					
 				}
 			}	
 		});
@@ -305,12 +315,20 @@ function user_login(){
 				if(result=='wrong'){
 					jQuery('.login_msg p').html('Please enter valid login details');
 				}
-				if(result=='valid'){
-					window.location.href='index.php';
-				}
-			}	
-		});
-	}	
+				 if(result == 'valid'){
+                    Swal.fire({
+                        title: 'Login Successful!',
+                        text: 'You are logged in successfully.',
+                        icon: 'success',
+                        timer: 3000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = 'index.php';
+                    });
+                }
+            }
+        });
+    }    
 }
 
 		function email_sent_otp(){

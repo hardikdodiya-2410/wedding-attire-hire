@@ -49,8 +49,15 @@ if($qty > $pending_qty && $type != 'remove'){
 $obj=new add_to_cart();
 
 if($type=='add'){
-	// Pass rental dates to addProduct method
+	if($obj->totalProduct() >= 1){
+		// echo json_encode(["success" => false, "message"=> "You must add only one item in cart at a time"]);
+		echo json_encode(['status' => 'duplicate']);
+		die();
+	}
+	else
+	{
 	$obj->addProduct($pid, $qty, $attr_id, $rent_from, $rent_to);
+	}
 }
 
 if($type=='remove'){

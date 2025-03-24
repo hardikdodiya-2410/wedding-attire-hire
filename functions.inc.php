@@ -641,10 +641,11 @@ WHERE order_detail.order_id = '$order_id';");
 								<td colspan="2">
 									<label class="f-fallback purchase_total purchase_total--label">Rental Dates</label>
 									<br>
-									<span class="f-fallback">From:</span>
+									<span class="f-fallback">
+Delivery Date:</span>
 									<span class="f-fallback">'.$row['rent_from'].'</span>
 									<br>
-									<span class="f-fallback">To:</span>
+									<span class="f-fallback">Return Date:</span>
 									<span class="f-fallback">'.$row['rent_to'].'</span>
 									<br>
 									<span class="f-fallback">Total Rental Days:</span>

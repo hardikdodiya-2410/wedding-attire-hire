@@ -1919,6 +1919,7 @@ select.ht__select {
     display: flex;
     margin-top: 21px;
     margin-left: 20px;
+    gap:15px;
 }
 .pro__color li a {
     /* background: #000 none repeat scroll 0 0; */

@@ -3,7 +3,51 @@ require('connection.inc.php');
 require('functions.inc.php');
 header('Content-type: application/json');
 
+
+
 $coupon_str = get_safe_value($con, $_POST['coupon_str']);
+$user_id = $_SESSION['USER_ID']; // Assuming user ID is stored in session
+// Initialize cart total to avoid undefined variable error
+$cart_total = 0;
+
+// Calculate cart total before checking coupon usage
+if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
+    foreach ($_SESSION['cart'] as $key => $val) {
+        foreach ($val as $key1 => $val1) {
+            $resAttr = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM product_attributes WHERE id='$key1'"));
+            $price = $resAttr['price'];
+            $qty = $val1['qty'];
+
+            // Calculate rental days
+            $rental_days = 1; // Default to 1 day
+            if (isset($val1['rent_from']) && isset($val1['rent_to'])) {
+                $date1 = new DateTime($val1['rent_from']);
+                $date2 = new DateTime($val1['rent_to']);
+                $interval = $date1->diff($date2);
+                $rental_days = max(1, $interval->days + 1 - 2); // Ensure at least 1 day
+            }
+
+            // Calculate item total
+            $item_total = $price * $qty * $rental_days;
+            $cart_total += $item_total;
+        }
+    }
+}
+$cart_total = round($cart_total); // Ensure a whole number
+
+// Check if the coupon was already used by the user
+$check_used = mysqli_query($con, "SELECT * FROM `order` 
+WHERE `user_id`=$user_id
+AND `coupon_code` IN (SELECT `coupon_code` FROM `coupon_master` WHERE `coupon_code` LIKE '$coupon_str');");
+
+if (mysqli_num_rows($check_used) > 0) {
+    echo json_encode([
+        'is_error' => 'yes',
+        'result' => $cart_total,
+        'dd' => 'This coupon has already been used and cannot be applied again.'
+    ]);
+    exit;
+}
 $res = mysqli_query($con, "SELECT * FROM coupon_master WHERE coupon_code='$coupon_str' AND status='1'");
 $count = mysqli_num_rows($res);
 $jsonArr = array();

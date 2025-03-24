@@ -78,7 +78,7 @@ $res=mysqli_query($con,$sql);
 							   <td><?php echo $row['categories']?></td>
 							   <td> <?php echo $row['sub_categories']?></td>
 							   <td><?php echo $row['name']?></td>
-							   <td><img src="../media/product_images/<?php echo $row['image']?>"/></td>
+							   <td><img src="<?php echo PRODUCT_MULTIPLE_IMAGE_SITE_PATH . $row['image'] ?>"/></td>
 				
 						
 							<!-- <?php

@@ -152,7 +152,60 @@ while ($rows = mysqli_fetch_assoc($cat_men)) {
                 .slick-dots {
                     bottom: 20px;
                 }
+                  .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+
+        /* Popup Content */
+        .popup-content {
+            position: relative;
+            background: transparent;
+            width: 500px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        /* Close Button */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: black;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .close-btn:hover {
+            background: white;
+            color: black;
+        }
+        .timer {
+            font-size: 18px;
+            color: white;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 5px 15px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 10px;
+        }
     </style>
+    
 </head>
 
 <body>
@@ -354,7 +407,36 @@ while ($rows = mysqli_fetch_assoc($cat_men)) {
                 </div>
 
             </div>
+        </div><!-- Popup Image Container -->
+<!-- Popup Image Container -->
+ <div class="popup" id="popup">
+        <div class="popup-content">
+            <button class="close-btn" onclick="closePopup()">X</button>
+            <img src="c.png" alt="Popup Image" width="100%">
+
+    
         </div>
+    </div>
+
+    <script>
+        // Show Popup on Page Load
+        window.onload = function() {
+            document.getElementById("popup").style.visibility = "visible";
+            document.getElementById("popup").style.opacity = "1";
+
+            // Auto Close Popup after 5 Seconds
+            setTimeout(closePopup, 5000);
+        };
+
+        // Close Popup Function
+        function closePopup() {
+            document.getElementById("popup").style.opacity = "0";
+            setTimeout(() => {
+                document.getElementById("popup").style.visibility = "hidden";
+            }, 300);
+        }
+        </script>
+
     </section>
     <!-- End Category Area -->
     <!-- End Product Area -->

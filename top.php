@@ -84,7 +84,10 @@ if($mypage=='cart.php'){
 	<meta property="og:url" content="<?php echo $meta_url?>"/>
 	<meta property="og:site_name" content="<?php echo SITE_PATH?>"/>
 	
-    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Load SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- All css files are included here. -->
 
 

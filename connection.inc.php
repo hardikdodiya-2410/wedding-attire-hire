@@ -1,7 +1,7 @@
 <?php
 session_start();
 $con = mysqli_connect("localhost", "root", "", "ecom");
-define('SERVER_PATH', $_SERVER['DOCUMENT_ROOT'] . '/ecom');
+define('SERVER_PATH', $_SERVER['DOCUMENT_ROOT'] . '/WAH');
 
 $local_ip = '127.0.0.1'; // Default to localhost
 
