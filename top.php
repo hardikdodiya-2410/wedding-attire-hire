@@ -164,7 +164,7 @@ if($mypage=='cart.php'){
                                     <ul class="main__menu">
                                         <li class="drop">
                                         <li><a href="NewArrivals.php">#New Arrivals</a></li>
-                                        <li><a href="BestSeller.php">#Best Seller</a></li>
+                                        <li><a href="BestSeller.php">#Best Rental</a></li>
                                         <?php
 										foreach($cat_arr as $list){
 											?>

@@ -108,9 +108,10 @@ require('top.php');
                         <div class="row">
                     <div class="col-xs-12">
                         <div class="section__title--2 text-center">
-                            <h2 class="title__line">BestSeller</h2>
-                       
-                </div>
+                            <h2 class="title__line">Best Rental</h2>
+                       <p>Best Rentals offers top-quality, affordable, and reliable rental services for a seamless experience.</p>
+                <br>
+                    </div>
             </div>
         </div>
         <div class="row">
@@ -128,7 +129,7 @@ require('top.php');
 <div class="category" style="box-shadow: 0 2px 4px rgba(0,0,0,0.1); width: 100%; margin-bottom: 30px; text-align: left;">
                                     <div class="ht__cat__thumb" style="position: relative; overflow: hidden;">
                                         <a href="product.php?id=<?php echo $list['id']?>">
-                                            <img src="../ecom/media/product_images/<?php echo $list['image']?>" alt="<?php echo htmlspecialchars($list['name'])?>" 
+                                            <img src="<?php echo PRODUCT_MULTIPLE_IMAGE_SITE_PATH . $list['image'] ?>" alt="<?php echo htmlspecialchars($list['name'])?>" 
                                                 style="width: 100%; height: 500px; object-fit: cover; transition: transform 0.3s ease;">
                                         </a>
                                     </div>

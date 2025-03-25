@@ -41,7 +41,8 @@ $res=mysqli_query($con,$sql);
 							<tr>
 							   <th class="serial">#</th>
 							   <th>ID</th>
-							   <th>Color</th>
+							   <th>Color COde</th>
+							   <th>COlor Name</th>
 							   <th></th>
 							</tr>
 						 </thead>
@@ -53,6 +54,7 @@ $res=mysqli_query($con,$sql);
 							   <td class="serial"><?php echo $i?></td>
 							   <td><?php echo $row['id']?></td>
 							   <td><?php echo $row['color']?></td>
+							   <td><?php echo $row['color_name']?></td>
 							   <td>
 								<?php
 								if($row['status']==1){

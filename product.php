@@ -126,7 +126,7 @@ $is_color = count(array_filter($colorArr1));
             position: relative;
             overflow: hidden;
             width: 80px;
-            height: 80px;
+            height: 100px;
             cursor: pointer;
             border: 2px solid transparent;
             transition: all 0.3s ease;
@@ -571,12 +571,9 @@ $is_color = count(array_filter($colorArr1));
 
                                 <div class="img-magnifier-container main-image" style="position: relative;">
                                     <img id="mainImage"
-                                        src="<?php echo PRODUCT_MULTIPLE_IMAGE_SITE_PATH . $get_product['0']['image'] ?>">
+                                        src="<?php echo PRODUCT_MULTIPLE_IMAGE_SITE_PATH . $get_product['0']['image'] ?>" style="width:90%;">
                                 </div>
-                                <div id="social_share_box" style="text-align:right; position: absolute; right: 0;">
-                                    <a href="https://api.whatsapp.com/send?text=<?php echo $meta_url ?>"><img
-                                            src="share.png"></a>
-                                </div>
+                               
                                 <div class="thumbnails">
                                     <?php foreach ($images as $img) { ?>
                                         <img class="thumb" src="<?php echo $img; ?>"
@@ -618,10 +615,14 @@ $is_color = count(array_filter($colorArr1));
                                         <i class="fa fa-inr" style="color:black;font-weight: 300;"></i>
                                         <span class="border-tb p-tb-10" id="rent-amount-calculated-show">
                                             <?php echo number_format($get_product['0']['price'], 2, '.', ',') ?>
-                                        </span> Rent <br>
+                                        </span> Rent 
+                                        <div id="social_share_box" style="text-align:right; position: absolute; right: 0;">
+                                    <a href="https://api.whatsapp.com/send?text=<?php echo $meta_url ?>"><img src="share.png"></a>
+                                        </div>
                                         <span style="font-size:12px; color:#999; padding-right:5px">Inclusive all
                                             taxes</span>
                                     </div>
+                                     
 
                                 </div>
                             </div>
@@ -646,7 +647,7 @@ $is_color = count(array_filter($colorArr1));
                                             <?php
                                             foreach ($colorArr as $key => $val) {
                                                 echo "<input type='radio' name='color' id='color_$key' value='$key' onclick=loadAttr('$key','" . $get_product['0']['id'] . "','color')>
-            <label for='color_$key' style='background: $val[0]; margin-bottom:0px'></label>";
+            <label for='color_$key' style='background: $val[0]; margin-bottom:0px; border:1px solid black;'></label>";
                                             }
                                             ?>
                                         </div>
