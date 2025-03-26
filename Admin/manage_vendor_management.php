@@ -24,8 +24,14 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
         $mobile = $row['mobile'];
         $password = $row['password'];
     } else {
-        header('location:vendor_management.php');
-        die();
+        ?>
+        
+        <script>
+            window.location.href = "vendor_management.php";
+        </script>
+        <?php
+        // header('location:vendor_management.php');
+        // die();
     }
 }
 
@@ -73,8 +79,12 @@ if (isset($_POST['submit'])) {
         } else {
             mysqli_query($con, "INSERT INTO admin_users (username, password, email, mobile, role, status) VALUES ('$username', '$password', '$email', '$mobile', 1, 1)");
         }
-        header('location:vendor_management.php');
-        die();
+        ?>
+        
+        <script>
+            window.location.href = "vendor_management.php";
+        </script>
+        <?php
     } else {
         $msg = implode('<br>', $errors); // Show all error messages
     }

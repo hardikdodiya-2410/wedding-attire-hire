@@ -7,8 +7,12 @@ if(isset($_POST['id'])){
 	if(isset($_SESSION['ADMIN_LOGIN']) && $_SESSION['ADMIN_LOGIN']!=''){
 
 	}else{
-		header('location:login.php');
-		die();
+		?>
+		
+		<script>
+			window.location.href = "login.php";
+		</script>
+		<?php
 	}
 
 	$id=get_safe_value($con,$_POST['id']);

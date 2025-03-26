@@ -13,14 +13,24 @@ if(isset($_GET['type']) && $_GET['type']!=''){
 		}
 		$update_status_sql="update categories set status='$status' where id='$id'";
 		mysqli_query($con,$update_status_sql);
-		header("location:categories.php");
+		// header("location:categories.php");
+		?>
+		<script>
+			window.location.href="categories.php";
+		</script>
+		<?php
 	}
 	
 	if($type=='delete'){
 		$id=get_safe_value($con,$_GET['id']);
 		$delete_sql="delete from categories where id='$id'";
 		mysqli_query($con,$delete_sql);
-		header("location:categories.php");
+		// header("location:categories.php");
+		?>
+		<script>
+			window.location.href="categories.php";
+		</script>
+		<?php
 	}
 }
 

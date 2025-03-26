@@ -87,8 +87,14 @@ if(isset($_GET['id']) && $_GET['id']!=''){
 		
 
 	}else{
-		header('location:product.php');
-		die();
+		?>
+		
+		<script>
+			window.location.href = "product.php";
+		</script>
+		<?php
+		// header('location:product.php');
+		// die();
 	}
 }
 

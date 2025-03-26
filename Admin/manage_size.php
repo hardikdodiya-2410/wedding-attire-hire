@@ -13,7 +13,13 @@ if(isset($_GET['id']) && $_GET['id']!=''){
 		$size=$row['size'];
 		$order_by=$row['order_by'];
 	}else{
-		redirect('size.php');
+		// redirect('size.php');
+		?>
+		
+		<script>
+			window.location.href="size.php";
+		</script>
+		<?php
 	}
 }
 
@@ -41,7 +47,12 @@ if(isset($_POST['submit'])){
 		}else{
 			mysqli_query($con,"insert into size_master(size,order_by,status) values('$size','$order_by','1')");
 		}
-		redirect('size.php');
+	?>
+		
+		<script>
+			window.location.href="size.php";
+		</script>
+		<?php
 	}
 }
 ?>

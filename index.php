@@ -355,7 +355,7 @@ while ($rows = mysqli_fetch_assoc($cat_men)) {
                         </div>
                         <div class="col-lg-10 col-sm-6 col-xs-12 col-md-6">
                             <div class="slide__thumb">
-                                <img src="../ecom/media/product_images/women.png" alt="slider images"
+                                <img src="../WAH/media/product_images/women.png" alt="slider images"
                                     style="height:400px; width:700px">
                             </div>
                         </div>
@@ -365,7 +365,7 @@ while ($rows = mysqli_fetch_assoc($cat_men)) {
                 <div class="row align-items__center">
                     <div class="col-lg-10 col-sm-6 col-xs-12 col-md-6">
                         <div class="slide__thumb">
-                            <img src="../ecom/media/product_images/men.png" alt="slider images"
+                            <img src="../WAH/media/product_images/men.png" alt="slider images"
                                 style="height:400px; width:700px">
                         </div>
                     </div>

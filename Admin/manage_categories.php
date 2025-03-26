@@ -11,8 +11,11 @@ if(isset($_GET['id']) && $_GET['id']!=''){
 		$row=mysqli_fetch_assoc($res);
 		$categories=$row['categories'];
 	}else{
-		header('location:categories.php');
-		die();
+		?>
+		<script>
+			window.location.href="categories.php";
+		</script>
+		<?php
 	}
 }
 
@@ -39,8 +42,11 @@ if(isset($_POST['submit'])){
 		}else{
 			mysqli_query($con,"insert into categories(categories,status) values('$categories','1')");
 		}
-		header('location:categories.php');
-		die();
+		?>
+		<script>
+			window.location.href = "categories.php";
+		</script>
+		<?php
 	}
 }
 ?>

@@ -49,7 +49,7 @@ if($str!=''){
     ">
                                     <div class="ht__cat__thumb">
                                         <a href="product.php?id=<?php echo $list['id']?>">
-                                            <img src="../ecom/media/product_images/<?php echo $list['image']?>" alt="product images" style=" width: 270px;height: 400px;border: 1px solid gray;border-bottom: none;">
+                                            <img src="../WAH/media/product_images/<?php echo $list['image']?>" alt="product images" style=" width: 270px;height: 400px;border: 1px solid gray;border-bottom: none;">
                                         </a>
                                     </div>
                                     <div class="fr__hover__info">

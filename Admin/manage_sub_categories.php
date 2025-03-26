@@ -13,8 +13,15 @@ if(isset($_GET['id']) && $_GET['id']!=''){
 		$sub_categories=$row['sub_categories'];
 		$categories=$row['categories_id'];
 	}else{
-		header('location:sub_categories.php');
-		die();
+		?>
+		
+		<script>
+			window.location.href = "sub_categories.php";
+		</script>
+		<?php
+		// header('location:sub_categories.php');
+		// die();
+		
 	}
 }
 
@@ -43,8 +50,12 @@ if(isset($_POST['submit'])){
 			
 			mysqli_query($con,"insert into sub_categories(categories_id,sub_categories,status) values('$categories','$sub_categories','1')");
 		}
-		header('location:sub_categories.php');
-		die();
+	?>
+		
+		<script>
+			window.location.href = "sub_categories.php";
+		</script>
+		<?php
 	}
 }
 ?>

@@ -19,14 +19,25 @@ if(isset($_GET['type']) && $_GET['type']!=''){
 		}
 		$update_status_sql="update product set status='$status' $condtion1 where id='$id'";
 		mysqli_query($con,$update_status_sql);
-		header("location:product.php");
+		// header("location:product.php");
+		?>
+		
+		<script>
+			window.location.href = "product.php";
+		</script>
+		<?php
 	}
 	
 	if($type=='delete'){
 		$id=get_safe_value($con,$_GET['id']);
 		$delete_sql="delete from product where id='$id' $condtion1";
 		mysqli_query($con,$delete_sql);
-		header("location:product.php");
+		?>
+		
+		<script>
+			window.location.href = "product.php";
+		</script>
+		<?php
 	}
 }
 

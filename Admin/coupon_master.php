@@ -13,12 +13,22 @@ if(isset($_GET['type']) && $_GET['type']!=''){
 		}
 		$update_status_sql="update coupon_master set status='$status' where id='$id'";
 		mysqli_query($con,$update_status_sql);
+		?>
+		<script>
+			window.location.href="coupon_master.php";
+		</script>
+		<?php
 	}
 	
 	if($type=='delete'){
 		$id=get_safe_value($con,$_GET['id']);
 		$delete_sql="delete from coupon_master where id='$id'";
 		mysqli_query($con,$delete_sql);
+		?>
+		<script>
+			window.location.href = "coupon_master.php";
+		</script>
+		<?php
 	}
 }
 

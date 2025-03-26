@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 25, 2025 at 07:28 AM
+-- Generation Time: Mar 25, 2025 at 03:37 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -219,7 +219,8 @@ INSERT INTO `order` (`id`, `user_id`, `address`, `city`, `pincode`, `payment_typ
 (31, 5, '32/A BALA JABBAR NI WADI TALAJA Talaja (M)', 'Bhavnagar', 364140, 'COD', 80991, 'success', 1, 0, 0, 0, 0, '026e01b463b54199a229', '', 0, 0, '', '2025-03-24 11:40:30', 0, '', 0),
 (32, 1, '32/A BALA JABBAR NI WADI TALAJA Talaja (M)', 'Bhavnagar', 364140, 'COD', 107988, 'success', 1, 0, 0, 0, 0, 'ce657978d1125b96ee6c', '', 0, 0, '', '2025-03-24 11:41:29', 0, '', 0),
 (33, 1, '32/A BALA JABBAR NI WADI TALAJA Talaja (M)', 'Bhavnagar', 364140, 'COD', 51294, 'success', 1, 0, 0, 0, 0, '50a7d62e93b256731adf', '', 0, 0, '', '2025-03-24 11:42:59', 1, 'First%5', 2700),
-(34, 6, 'Bhavnagar-364001', 'Bhavnagar', 364001, 'COD', 51294, 'success', 1, 0, 0, 0, 0, '34b777942f2f39f22e09', '', 0, 0, '', '2025-03-25 10:06:41', 1, 'First%5', 2700);
+(34, 6, 'Bhavnagar-364001', 'Bhavnagar', 364001, 'COD', 51294, 'success', 1, 0, 0, 0, 0, '34b777942f2f39f22e09', '', 0, 0, '', '2025-03-25 10:06:41', 1, 'First%5', 2700),
+(35, 7, 'Shivomnagar', '??????', 364001, 'COD', 63333, 'Success', 5, 10, 10, 10, 10, '9cac64da0438cd8f4799', '', 786841244, 783289626, '', '2025-03-25 02:05:04', 1, 'FIRST%5', 3333);
 
 -- --------------------------------------------------------
 
@@ -272,7 +273,8 @@ INSERT INTO `order_detail` (`id`, `order_id`, `product_id`, `product_attr_id`, `
 (26, 31, 17, 33, 3, '2025-03-25', '2025-03-29', 3, 8999),
 (27, 32, 17, 33, 4, '2025-03-25', '2025-03-29', 3, 8999),
 (28, 33, 17, 33, 2, '2025-03-25', '2025-03-29', 3, 8999),
-(29, 34, 17, 33, 3, '2025-03-26', '2025-03-29', 2, 8999);
+(29, 34, 17, 33, 3, '2025-03-26', '2025-03-29', 2, 8999),
+(30, 35, 19, 36, 2, '2025-03-26', '2025-03-30', 3, 11111);
 
 -- --------------------------------------------------------
 
@@ -583,7 +585,7 @@ CREATE TABLE `shiprocket_token` (
 --
 
 INSERT INTO `shiprocket_token` (`id`, `token`, `added_on`) VALUES
-(1, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjU4NTg5NTMsInNvdXJjZSI6InNyLWF1dGgtaW50IiwiZXhwIjoxNzQzNDAyNTgzLCJqdGkiOiJuVXU3dEp5QmpSV21jVERjIiwiaWF0IjoxNzQyNTM4NTgzLCJpc3MiOiJodHRwczovL3NyLWF1dGguc2hpcHJvY2tldC5pbi9hdXRob3JpemUvdXNlciIsIm5iZiI6MTc0MjUzODU4MywiY2lkIjo1NjQ4NTM1LCJ0YyI6MzYwLCJ2ZXJib3NlIjpmYWxzZSwidmVuZG9yX2lkIjowLCJ2ZW5kb3JfY29kZSI6IiJ9.gcIwxEaaioykvhyLFGntGaZQ5jP3pR9bZT-RITcetdk', '2025-03-21 06:29:43');
+(1, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjU4NTg5NTMsInNvdXJjZSI6InNyLWF1dGgtaW50IiwiZXhwIjoxNzQzNzU1ODEyLCJqdGkiOiJqaDlwcVk5T3c5NVNuQzdnIiwiaWF0IjoxNzQyODkxODEyLCJpc3MiOiJodHRwczovL3NyLWF1dGguc2hpcHJvY2tldC5pbi9hdXRob3JpemUvdXNlciIsIm5iZiI6MTc0Mjg5MTgxMiwiY2lkIjo1NjQ4NTM1LCJ0YyI6MzYwLCJ2ZXJib3NlIjpmYWxzZSwidmVuZG9yX2lkIjowLCJ2ZW5kb3JfY29kZSI6IiJ9.0OgNt45PA0N0MXuSwzN6FahUBr97GIaI-H-ZlKJ9FXM', '2025-03-24 20:36:53');
 
 -- --------------------------------------------------------
 
@@ -655,7 +657,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `password`, `email`, `mobile`, `added_on`) VALUES
 (1, 'HARDIK', 'Hardik@123', 'hardikdodiya2410@gmail.com', '7285008403', '2025-03-24 05:17:42'),
 (2, 'Jay', 'Jay@2022', 'jay709604@gmail.com', '9537413107', '2025-03-21 11:58:09'),
-(6, 'Vinay', 'Vinay@123', 'vinaydodiya22@gmail.com', '9537413104', '2025-03-25 10:05:30');
+(6, 'Vinay', 'Vinay@123', 'vinaydodiya22@gmail.com', '9537413104', '2025-03-25 10:05:30'),
+(7, 'JEEL KE', '@Jh123', 'jeelkevadiya2710@gmail.com', '9510878181', '2025-03-25 02:02:09');
 
 -- --------------------------------------------------------
 
@@ -669,6 +672,13 @@ CREATE TABLE `wishlist` (
   `product_id` int(11) NOT NULL,
   `added_on` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `wishlist`
+--
+
+INSERT INTO `wishlist` (`id`, `user_id`, `product_id`, `added_on`) VALUES
+(4, 7, 21, '2025-03-25 09:33:00');
 
 --
 -- Indexes for dumped tables
@@ -808,13 +818,13 @@ ALTER TABLE `coupon_master`
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `order_detail`
 --
 ALTER TABLE `order_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -862,13 +872,13 @@ ALTER TABLE `sub_categories`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `wishlist`
 --
 ALTER TABLE `wishlist`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -7,7 +7,12 @@ if(isset($_GET['type']) && $_GET['type']!=''){
 		$id=get_safe_value($con,$_GET['id']);
 		$delete_sql="delete from contact_us where id='$id'";
 		mysqli_query($con,$delete_sql);
-		header("location:contact_us.php");
+		// header("location:contact_us.php");
+		?>
+		<script>
+			window.location.href = "contact_us.php";
+		</script>
+		<?php
 	}
 }
 

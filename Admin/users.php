@@ -7,7 +7,13 @@ if(isset($_GET['type']) && $_GET['type']!=''){
 		$id=get_safe_value($con,$_GET['id']);
 		$delete_sql="delete from users where id='$id'";
 		mysqli_query($con,$delete_sql);
-		header("location:users.php");
+		// header("location:users.php");
+		?>
+		
+		<script>
+			window.location.href = "users.php";
+		</script>
+		<?php
 	}
 }
 

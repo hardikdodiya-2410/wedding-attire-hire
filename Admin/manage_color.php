@@ -13,7 +13,11 @@ if(isset($_GET['id']) && $_GET['id']!=''){
 		$row=mysqli_fetch_assoc($res);
 		$color=$row['color'];
 	}else{
-		redirect('color.php');
+		?>
+		<script>
+			window.location.href="color.php";
+		</script>
+		<?php
 	}
 }
 
@@ -42,7 +46,11 @@ if(isset($_POST['submit'])){
 			
 			mysqli_query($con, "INSERT INTO `color_master` (`id`, `color`, `color_name`, `order_by`, `status`) VALUES (NULL, '$color_code', '$color_name', '$order_by', '1');");
 		}
-		redirect('color.php');
+		?>
+		<script>
+			window.location.href="color.php";
+		</script>
+		<?php
 	}
 }
 ?>

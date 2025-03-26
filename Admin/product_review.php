@@ -13,11 +13,23 @@ if(isset($_GET['type']) && $_GET['type']!=''){
 		}
 		$update_status_sql="update product_review set status='$status' where id='$id'";
 		mysqli_query($con,$update_status_sql);
+		?>
+		
+		<script>
+			window.location.href = "product_review.php";
+		</script>
+		<?php
 	}
 	if($type=='delete'){
 		$id=get_safe_value($con,$_GET['id']);
 		$delete_sql="delete from product_review where id='$id'";
 		mysqli_query($con,$delete_sql);
+		?>
+		
+		<script>
+			window.location.href = "product_review.php";
+		</script>
+		<?php
 	}
 }
 
