@@ -114,8 +114,9 @@ $is_color = count(array_filter($colorArr1));
             flex-direction: row;
             gap: 10px;
             flex-wrap: wrap;
-            margin-top: 10px;
-            margin-left: 22px;
+       
+            margin-bottom: 10px;
+            /* margin-left: 22px; */
             justify-content: flex-start;
             align-items: center;
             position: relative;
@@ -125,8 +126,8 @@ $is_color = count(array_filter($colorArr1));
         .thumb {
             position: relative;
             overflow: hidden;
-            width: 80px;
-            height: 100px;
+            width: 60px;
+            height: 80px;
             cursor: pointer;
             border: 2px solid transparent;
             transition: all 0.3s ease;
@@ -567,9 +568,7 @@ $is_color = count(array_filter($colorArr1));
                     <div class="htc__product__details__tab__content">
                         <!-- Start Product Big Images -->
                         <div class="product__big__images">
-                            <div class="portfolio-full-image tab-content" style="display: flex; gap: 10px;">
-
-                                <div class="img-magnifier-container main-image" style="position: relative;">
+                            <div class="portfolio-full-image tab-content" style="display: flex;">                              <div class="img-magnifier-container main-image" style="position: relative;">
                                     <img id="mainImage"
                                         src="<?php echo PRODUCT_MULTIPLE_IMAGE_SITE_PATH . $get_product['0']['image'] ?>" style="width:90%;">
                                 </div>
@@ -588,7 +587,6 @@ $is_color = count(array_filter($colorArr1));
 
                     </div>
                 </div>
-
                 <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12 product-content-section" style="padding:0px">
                     <form method="post">
                         <div class="product-det" style="background-color: #f5f5f5;
@@ -609,19 +607,23 @@ $is_color = count(array_filter($colorArr1));
                                     <span style="font-size:12px;"><?php echo $get_product['0']['short_desc'] ?></span>
                                 </h2>
                             </div>
+                            
                             <div class="col-md-3 col-sm-12 col-xs-12" style="padding:0 10px">
                                 <div class="price">
                                     <div class="product-price txt-xl text-right" style="line-height:20px">
                                         <i class="fa fa-inr" style="color:black;font-weight: 300;"></i>
+                                        
                                         <span class="border-tb p-tb-10" id="rent-amount-calculated-show">
                                             <?php echo number_format($get_product['0']['price'], 2, '.', ',') ?>
                                         </span> Rent 
-                                        <div id="social_share_box" style="text-align:right; position: absolute; right: 0;">
-                                    <a href="https://api.whatsapp.com/send?text=<?php echo $meta_url ?>"><img src="share.png"></a>
-                                        </div>
+                                        
                                         <span style="font-size:12px; color:#999; padding-right:5px">Inclusive all
                                             taxes</span>
+                                            <div id="social_share_box" style="text-align:right; position: absolute; right: 0;">
+                                    <a href="https://api.whatsapp.com/send?text=<?php echo $meta_url ?>"><img src="share.png"></a>
+                                            </div>
                                     </div>
+
                                      
 
                                 </div>
