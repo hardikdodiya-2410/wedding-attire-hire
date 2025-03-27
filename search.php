@@ -41,46 +41,57 @@ if($str!=''){
                                         <?php 
 							foreach($get_product as $list){
 							?>
-                            <div class="col-md-4 col-lg-4 col-sm-3 col-xs-18">
-                            <div class="category" style="
-    box-shadow: 0px 0px 2px rgb(0, 0, 0);
-    width: 270px;
-   
-    ">
-                                    <div class="ht__cat__thumb">
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="category" style="box-shadow: 0 2px 4px rgba(0,0,0,0.1); width: 100%; margin-bottom: 30px; text-align: left;">
+                                    <div class="ht__cat__thumb" style="position: relative; overflow: hidden;">
                                         <a href="product.php?id=<?php echo $list['id']?>">
-                                            <img src="../WAH/media/product_images/<?php echo $list['image']?>" alt="product images" style=" width: 270px;height: 400px;border: 1px solid gray;border-bottom: none;">
+                                            <img src="<?php echo PRODUCT_MULTIPLE_IMAGE_SITE_PATH . $list['image'] ?>" alt="<?php echo htmlspecialchars($list['name'])?>" 
+                                                style="width: 100%; height: 500px; object-fit: cover; transition: transform 0.3s ease;">
                                         </a>
                                     </div>
-                                    <div class="fr__hover__info">
-										<ul class="product__action">
-										<li><a href="javascript:void(0)" onclick="wishlist_manage('<?php echo $list['id']?>','add')"><i class="icon-heart icons"></i></a></li>
-											<li><a href="product.php?id=<?php echo $list['id']?>"><i class="icon-handbag icons"></i></a></li>
-										</ul>
-									</div>
-                                    <div class="fr__product__inner"style="width: 270px;height: 108px;">
-                                        <h4><a href="product.php?id=<?php echo $list['id']?>"><?php echo $list['name']?></a></h4>
-                                        <ul class="fr__pro__prize">
-                                            <li class="old__prize"><i class="fa fa-inr"></i>
-                                            <li><?php echo $list['price']?></li>
+                                    <div class="fr__hover__info" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0; transition: opacity 0.3s ease;">
+                                        <ul class="product__action" style="list-style: none; padding: 0;">
+                                            <li><a href="javascript:void(0)" onclick="wishlist_manage('<?php echo $list['id']?>','add')" 
+                                                style="background: white; padding: 10px; border-radius: 50%; margin: 5px;">
+                                                <i class="icon-heart icons"></i></a></li>
+                                            <li><a href="product.php?id=<?php echo $list['id']?>" 
+                                                style="background: white; padding: 10px; border-radius: 50%; margin: 5px;">
+                                                <i class="icon-handbag icons"></i></a></li>
                                         </ul>
-                                        <a href="product.php?id=<?php echo $list['id']?>" class="btn" style="border:solid 2px #777; background: none; color:#777; padding:5px 10px ; display: block; text-align: center; clear: both; width: 50%; margin-top: 7px; font-weight: 600; font-family=Maven+Pro; border-radius:0px;}
-">Rent Now</a>
                                     </div>
-                                </div>
-                            </div>
-                            <!-- End Single Category -->
-							<?php  }?>
-   <!-- End Single Product -->
-                             </div>
-                            </div>
+                                    <div class="fr__product__inner" style="padding: 15px; background: white; text-align: left">
+                                        <h4 style="margin: 0 0 10px 0; font-size: 16px;">
+                                            <a href="product.php?id=<?php echo $list['id']?>" style="color: #333; text-decoration: none;">
+                                                <?php echo htmlspecialchars($list['name'])?>
+                                            </a>
+                                        </h4>
+                                        <ul class="fr__pro__prize" style="list-style: none; padding: 0; margin-bottom: 15px;">
+                                            <li style="font-size: 18px; color: #333;">
+                                                <i class="fa fa-inr"></i> <?php echo number_format($list['price'], 2, '.', ',') ?>
+                                            </li>
+                                        </ul>
+                                        <a href="product.php?id=<?php echo $list['id']?>" 
+                                            class="btn" 
+                                            style="border: 2px solid #333; 
+                                                background: none; 
+                                                color: #333; 
+                                                padding: 8px 20px; 
+                                                display: inline-block; 
+                                                text-align: center; 
+                                                text-decoration: none;
+                                                font-weight: 600; 
+                                                transition: all 0.3s ease;
+                                                width: auto;">
+                                            RENT NOW
+                                        </a>
+                                    </div>
+
                         </div>
                     </div>
-			   </div>
-					<?php }
+                <?php }}
 					 else
 					 {
-						 echo "data not found";
+						 echo "<img src='download.jpeg' style='width:300px;height:300px;'>";
 					 }?>
             </div>
                     </div>

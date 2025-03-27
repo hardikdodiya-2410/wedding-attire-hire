@@ -616,12 +616,12 @@ $is_color = count(array_filter($colorArr1));
                                         <span class="border-tb p-tb-10" id="rent-amount-calculated-show">
                                             <?php echo number_format($get_product['0']['price'], 2, '.', ',') ?>
                                         </span> Rent 
-                                        
-                                        <span style="font-size:12px; color:#999; padding-right:5px">Inclusive all
-                                            taxes</span>
-                                            <div id="social_share_box" style="text-align:right; position: absolute; right: 0;">
+                                        <div id="social_share_box" style="text-align:right; position: absolute; right: 0;">
                                     <a href="https://api.whatsapp.com/send?text=<?php echo $meta_url ?>"><img src="share.png"></a>
                                             </div>
+                                        <span style="font-size:12px; color:#999; padding-right:5px">Inclusive all
+                                            taxes</span>
+                                            
                                     </div>
 
                                      

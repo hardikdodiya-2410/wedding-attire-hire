@@ -171,7 +171,7 @@ justify-content: center;
 					<?php }
 					 else
 					 {
-						 echo "data not found";
+						 echo "<img src='download.jpeg' style='width:300px;height:300px>";
 					 }?>
             </div>
                     </div>
