@@ -2,6 +2,9 @@
 require('connection.inc.php');
 require('functions.inc.php');
 require('add_to_cart.inc.php');
+if (!isInternetAvailable()) {
+    showOfflinePopup();
+}
 $cat_res=mysqli_query($con,"select * from categories where status=1 order by categories desc");
 $cat_arr=array();
 while($row=mysqli_fetch_assoc($cat_res)){
