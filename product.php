@@ -522,7 +522,7 @@ $is_color = count(array_filter($colorArr1));
         }
 
         #social_share_box {
-            margin-top: 20px;
+            padding-bottom: 10px;
             width: 150px;
             margin-bottom: 20px;
         }
@@ -568,9 +568,10 @@ $is_color = count(array_filter($colorArr1));
                     <div class="htc__product__details__tab__content">
                         <!-- Start Product Big Images -->
                         <div class="product__big__images">
-                            <div class="portfolio-full-image tab-content" style="display: flex;">                              <div class="img-magnifier-container main-image" style="position: relative;">
-                                    <img id="mainImage"
-                                        src="<?php echo PRODUCT_MULTIPLE_IMAGE_SITE_PATH . $get_product['0']['image'] ?>" style="width:90%;">
+                            <div class="portfolio-full-image tab-content" style="display: flex;">                              
+                                <div class="img-magnifier-container main-image" style="position: relative;">
+                                    <img id="mainImage" src="<?php echo PRODUCT_MULTIPLE_IMAGE_SITE_PATH . $get_product['0']['image'] ?>" style="width:90%;">
+                                            
                                 </div>
                                
                                 <div class="thumbnails">
@@ -616,12 +617,34 @@ $is_color = count(array_filter($colorArr1));
                                         <span class="border-tb p-tb-10" id="rent-amount-calculated-show">
                                             <?php echo number_format($get_product['0']['price'], 2, '.', ',') ?>
                                         </span> Rent 
-                                        <div id="social_share_box" style="text-align:right; position: absolute; right: 0;">
-                                    <a href="https://api.whatsapp.com/send?text=<?php echo $meta_url ?>"><img src="share.png"></a>
-                                            </div>
+                                       
+
                                         <span style="font-size:12px; color:#999; padding-right:5px">Inclusive all
                                             taxes</span>
+                                            <div id="social_share_box" style="text-align: right; position: absolute; right: -70px; display: flex; gap: 10px; align-items: center;">
+    <!-- WhatsApp Share Button -->
+    <a href="https://api.whatsapp.com/send?text=<?php echo $meta_url ?>">
+                                                    <img src="share.png" style="width: 24px; height: 24px;">
+                                                </a>
                                             
+                                                <!-- Wishlist Heart Icon -->
+                                               <a href="javascript:void(0)" onclick="wishlist_manage('<?php echo $get_product[0]['id']; ?>','add')"
+                                                style="display: inline-block;">
+                                                <?php
+                                                $sub = mysqli_query($con, "SELECT * FROM wishlist WHERE product_id = '" . $get_product[0]['id'] . "' AND user_id = '" . $_SESSION['USER_ID'] . "'");
+                                                $sub_row = mysqli_fetch_assoc($sub);
+
+                                                if ($sub_row && isset($sub_row['id']) && $sub_row['id'] > 0) {
+                                                    // In wishlist: red heart
+                                                    echo '<i class="fa fa-heart" style="border-radius: 50%; margin-top: 0; font-size: 20px; color: red;"></i>';
+                                                } else {
+                                                    // Not in wishlist or query returned no row
+                                                    echo '<i class="fa fa-heart-o" style="border-radius: 50%; margin-top: 0; font-size: 20px; color: black;"></i>';
+                                                }
+                                                ?>
+                                            </a>
+
+                                            </div>
                                     </div>
 
                                      

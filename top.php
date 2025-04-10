@@ -82,6 +82,7 @@ if($mypage=='cart.php'){
     /* Applies styles to the favicon (may not work in all browsers) */
     
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<meta property="og:title" stycontent="<?php echo $meta_title?>"/>
 	<meta property="og:image" content="<?php echo $meta_image?>"/>
 	<meta property="og:url" content="<?php echo $meta_url?>"/>

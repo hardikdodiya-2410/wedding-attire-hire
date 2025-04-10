@@ -1,5 +1,6 @@
 <?php
 require('top.php');
+
 $cat_women = mysqli_query($con, "select * from categories where id=1");
 $cat_men = mysqli_query($con, "select * from categories where id=2");
 $cat_arr = array();

@@ -720,4 +720,5 @@ include('smtp/PHPMailerAutoload.php');
 		echo "Mailer Error: " . $mail->ErrorInfo;
 	}
 }
+
 ?>

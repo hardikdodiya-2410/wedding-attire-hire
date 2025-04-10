@@ -10,11 +10,16 @@ if(!isset($_SESSION['USER_LOGIN'])){
 }
 $uid=$_SESSION['USER_ID'];
 
-if(isset($_GET['id']))
-{
-    $wid=$_GET['id'];
-    mysqli_query($con,"delete from wishlist where id='$wid' and user_id='$uid'");
+if (isset($_GET['id'])) {
+    $wid = $_GET['id'];
+    mysqli_query($con, "delete from wishlist where id='$wid' and user_id='$uid'");
+    ?>
+        <script>
+            window.location.href = 'wishlist.php';
+        </script>
+        <?php
 }
+
 
 $res=mysqli_query($con,"select product.name,product.image,product.id as pid,wishlist.id from product,wishlist where wishlist.product_id=product.id and wishlist.user_id='$uid'");
 ?>
@@ -37,7 +42,7 @@ $res=mysqli_query($con,"select product.name,product.image,product.id as pid,wish
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
-                        <form action="#">               
+                        <form method="post">               
                             <div class="table-content table-responsive">
                                 <table>
                                     <thead>
@@ -54,7 +59,7 @@ $res=mysqli_query($con,"select product.name,product.image,product.id as pid,wish
                                             
 										?>
 											<tr>
-												<td class="product-thumbnail"><a href="#"><img src="<?php echo PRODUCT_MULTIPLE_IMAGE_SITE_PATH.$row['image']?>"style="
+												<td class="product-thumbnail"><a href="product.php?id=<?php echo $row['pid']?>"><img src="<?php echo PRODUCT_MULTIPLE_IMAGE_SITE_PATH.$row['image']?>"style="
     height: 220px;
     width: 220px;
 "  /></a></td>
@@ -67,8 +72,10 @@ $res=mysqli_query($con,"select product.name,product.image,product.id as pid,wish
 											<?php  $p_id=$row['pid'];?>
                                          
                                            <?php $res_id=mysqli_query($con,"SELECT product_id FROM `wishlist`where product_id= $p_id");?>
+                                         
+
                                            
-                                                <td class="product-remove"><a href="wishlist.php?w_id=<?php echo $row['id']?>"><i class="icon-trash icons"></i></a></td>
+                                                <td class="product-remove">  <a href="wishlist.php?w_id=<?php echo $row['id'] ?>"><i class="icon-trash icons"></i></a></td>
 
 
 											</tr>
