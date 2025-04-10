@@ -3,7 +3,6 @@ require('top.inc.php');
 
 $order_id=get_safe_value($con,$_GET['id']);
 
-
 if(isset($_POST['update_order_status'])){
     // Get current order status
     $current_status = mysqli_fetch_assoc(mysqli_query($con, "SELECT order_status FROM `order` WHERE id='$order_id'"));
@@ -62,19 +61,64 @@ if(isset($_POST['update_order_status'])){
 		}
 	}
 	
-	if($update_order_status==4){
-		
-		
-		$ship_order=mysqli_fetch_assoc(mysqli_query($con,"select ship_order_id from `order` where id='$order_id'"));
-		if($ship_order['ship_order_id']>0){
-			$token=validShipRocketToken($con);
-			cancelShipRocketOrder($token,$ship_order['ship_order_id']);
-		}
-		
-	}
+	if ($update_order_status == 4) {
+    $ship_order = mysqli_fetch_assoc(mysqli_query($con, "SELECT ship_order_id, user_id, id FROM `order` WHERE id='$order_id'"));
 
-	
-}?>
+    if ($ship_order['ship_order_id'] > 0) {
+        $token = validShipRocketToken($con);
+        cancelShipRocketOrder($token, $ship_order['ship_order_id']);
+    }
+
+    // Now get user info (outside of if-block so it always runs)
+   $order_sql = "SELECT id, ship_order_id, user_id, id FROM `order` WHERE id='$order_id'";
+	$order_result = mysqli_query($con, $order_sql);
+
+		$ship_order = mysqli_fetch_assoc($order_result);
+
+		$user_info = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM users WHERE id='" . $ship_order['user_id'] . "'"));
+
+		$order_number = $ship_order['id']; // or $ship_order['id'] if you prefer internal ID
+		$name = $user_info['name'];
+		$email = $user_info['email'];
+		$mobile = $user_info['mobile'];
+		$comment = "Order Cancelled";
+		$added_on = date("d-m-Y h:i:s");
+
+
+    // Prepare email content
+    $subject = "Your Order #$order_number Has Been Cancelled";
+
+    $message = "
+    <html>
+    <head>
+        <title>Order Cancelled</title>
+    </head>
+    <body style='font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;'>
+        <div style='max-width: 600px; margin: auto; background: #ffffff; padding: 20px; border-radius: 8px;'>
+            <h2 style='color: #e74c3c;'>Hello $name,</h2>
+            <p>We regret to inform you that your order <strong>#$order_number</strong> has been <strong>cancelled</strong>.</p>
+            <p><strong>Mobile:</strong> $mobile</p>
+            <p><strong>Status:</strong> $comment</p>
+            <p><strong>Date:</strong> $added_on</p>
+            <p>If you believe this was an error or need support, please contact our team.</p>
+            <br>
+            <p>Best regards,<br><strong>Wedding Attire Hire Team</strong></p>
+        </div>
+    </body>
+    </html>
+    ";
+
+    // Set headers
+    $headers = "MIME-Version: 1.0" . "\r\n";
+    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+		$headers .= "From: Wedding Attire Hire <weddingattirehire@gmail.com>" . "\r\n";
+
+
+		// Send the email
+    mail($email, $subject, $message, $headers);
+}
+}
+?>
 <div class="content pb-0">
 	<div class="orders">
 	   <div class="row">
